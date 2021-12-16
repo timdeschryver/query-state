@@ -1,6 +1,48 @@
 {
   "version": 1,
   "projects": {
+    "component-data": {
+      "projectType": "library",
+      "root": "libs/component-data",
+      "sourceRoot": "libs/component-data/src",
+      "prefix": "component-data",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/component-data"],
+          "options": {
+            "project": "libs/component-data/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/component-data/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/component-data/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/component-data"],
+          "options": {
+            "jestConfig": "libs/component-data/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/component-data/src/**/*.ts",
+              "libs/component-data/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "example-app": {
       "projectType": "application",
       "root": "apps/example-app",
