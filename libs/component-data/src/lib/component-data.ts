@@ -4,6 +4,7 @@ import {
   catchError,
   combineLatest,
   debounceTime,
+  distinctUntilKeyChanged,
   isObservable,
   map,
   Observable,
@@ -56,13 +57,13 @@ export class ComponentData<
     skip(this.config.disableInitialLoad ? 1 : 0),
     switchMap(([params, queryParams]): Observable<ComponentDataState<Data>> => {
       // not a RxJS filter because we want to emit a value when query params reset
-      if (this.config.filter?.(params, queryParams)) {
+      if (this.config.ignore?.({ params, queryParams })) {
         return of({ state: 'idle' } as ComponentDataState<Data>);
       }
 
       const paramsKey = JSON.stringify([params, queryParams]);
       const cachedEntry = this.cache.getCacheEntry(this.config.name, paramsKey);
-      return this.service.query(params, queryParams).pipe(
+      return this.service.query({ params, queryParams }).pipe(
         tap((data) => {
           this.cache.setCacheEntry(this.config.name, paramsKey, data);
         }),
@@ -80,7 +81,8 @@ export class ComponentData<
         )
       );
     }),
-    startWith({ state: 'idle' } as ComponentDataState<Data>)
+    startWith({ state: 'idle' } as ComponentDataState<Data>),
+    distinctUntilKeyChanged('state')
   );
 
   constructor(

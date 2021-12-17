@@ -1,7 +1,7 @@
 {
   "npmScope": "component-data",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "cli": {
     "defaultCollection": "@nrwl/angular",

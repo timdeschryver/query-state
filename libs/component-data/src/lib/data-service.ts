@@ -10,5 +10,13 @@ export interface ComponentDataService<
   DataParams extends Record<string, unknown> = Record<string, unknown>,
   DataQueryParams extends Record<string, unknown> = Record<string, unknown>
 > {
-  query(query: DataParams, queryParams: DataQueryParams): Observable<Data>;
+  query(params: QueryParams<DataParams, DataQueryParams>): Observable<Data>;
+}
+
+export interface QueryParams<
+  DataParams extends Record<string, unknown> = Record<string, unknown>,
+  DataQueryParams extends Record<string, unknown> = Record<string, unknown>
+> {
+  params: DataParams;
+  queryParams: DataQueryParams;
 }

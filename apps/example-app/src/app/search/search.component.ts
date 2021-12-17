@@ -18,7 +18,7 @@ import { GitHubService } from './github.service';
     name: SearchComponent.name,
     disableInitialLoad: true,
     // only execute when username is not empty
-    filter: (_, queryParams) => queryParams['username'] === '',
+    ignore: ({ queryParams }) => queryParams['username'] === '',
   }),
 })
 export class SearchComponent implements AfterViewInit {

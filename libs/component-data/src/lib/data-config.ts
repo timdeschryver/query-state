@@ -19,14 +19,15 @@ export interface ComponentDataConfig {
   /**
    * A decider function that decides whether to invoke the query
    * By default all changes are sent to the query
+   * If the function returns `true`, the changes are ignored and the query isn't invoked
    */
-  filter?: <
+  ignore?: <
     DataParams extends Record<string, unknown> = Record<string, unknown>,
     DataQueryParams extends Record<string, unknown> = Record<string, unknown>
-  >(
-    params: DataParams,
-    queryParams: DataQueryParams
-  ) => boolean;
+  >(params: {
+    params: DataParams;
+    queryParams: DataQueryParams;
+  }) => boolean;
 
   triggerConfig?: {
     focusTrigger?: boolean;
