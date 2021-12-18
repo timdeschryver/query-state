@@ -1,5 +1,4 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   catchError,
   combineLatest,
@@ -16,6 +15,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { ComponentRoute } from './component-route';
 import { ComponentDataCache } from './data-cache';
 import {
   COMPONENT_DATA_CONFIG,
@@ -36,8 +36,8 @@ export class ComponentData<
   private subscriptions = new Subscription();
   private refreshTrigger = new Subject<void>();
 
-  params = this.activatedRoute.snapshot.params as DataParams;
-  queryParams = this.activatedRoute.snapshot.queryParams as DataQueryParams;
+  params = this.componentRoute.params as DataParams;
+  queryParams = this.componentRoute.queryParams as DataQueryParams;
 
   private get triggerConfig(): TriggerConfig {
     return {
@@ -48,9 +48,10 @@ export class ComponentData<
           : [this.refreshTrigger],
     };
   }
+
   data$ = combineLatest([
-    this.activatedRoute.params as Observable<DataParams>,
-    this.activatedRoute.queryParams as Observable<DataQueryParams>,
+    this.componentRoute.params$,
+    this.componentRoute.queryParams$,
   ]).pipe(
     debounceTime(0),
     echo(this.triggerConfig),
@@ -86,8 +87,10 @@ export class ComponentData<
   );
 
   constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router,
+    private readonly componentRoute: ComponentRoute<
+      DataParams,
+      DataQueryParams
+    >,
     private readonly cache: ComponentDataCache,
     @Inject(COMPONENT_DATA_SERVICE)
     private readonly service: ComponentDataService<
@@ -100,23 +103,17 @@ export class ComponentData<
     private readonly config: ComponentDataConfig
   ) {}
 
-  update(queryParamsOrObservable: Params | Observable<Params>): void {
-    const navigate = (queryParams: Params) => {
-      this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams: queryParams,
-        queryParamsHandling: 'merge',
-      });
-    };
-
+  update(
+    queryParamsOrObservable: DataQueryParams | Observable<DataQueryParams>
+  ): void {
     if (isObservable(queryParamsOrObservable)) {
       this.subscriptions.add(
         queryParamsOrObservable.subscribe((queryParams) => {
-          navigate(queryParams);
+          this.componentRoute.navigate(queryParams);
         })
       );
     } else {
-      navigate(queryParamsOrObservable);
+      this.componentRoute.navigate(queryParamsOrObservable);
     }
   }
 

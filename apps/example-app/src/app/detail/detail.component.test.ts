@@ -5,7 +5,11 @@ import { render, screen } from '@testing-library/angular';
 import { DetailComponent } from './detail.component';
 import { PokemonService } from './pokemon.service';
 import { ActivatedRoute } from '@angular/router';
-import { QueryParams } from 'component-data';
+import {
+  ComponentRoute,
+  MockComponentRoute,
+  QueryParams,
+} from 'component-data';
 
 it('search and render detail with ActivatedRoute', async () => {
   await render(DetailComponent, {
@@ -52,4 +56,29 @@ it('search and render detail without activated route', async () => {
 
   expect(await screen.findByText(/"state": "success"/i)).toBeVisible();
   expect(await screen.findByText(/"id": 3/i)).toBeVisible();
+});
+
+it('search and render detail with MockComponentRoute', async () => {
+  await render(DetailComponent, {
+    imports: [FormsModule],
+    componentProviders: [
+      {
+        provide: ComponentRoute,
+        useValue: new MockComponentRoute({ params: { id: 1000 } }),
+      },
+    ],
+    providers: [
+      {
+        provide: PokemonService,
+        useValue: {
+          query: ({ params }: QueryParams) => {
+            return of({ id: params.id });
+          },
+        },
+      },
+    ],
+  });
+
+  expect(await screen.findByText(/"state": "success"/i)).toBeVisible();
+  expect(await screen.findByText(/"id": 100/i)).toBeVisible();
 });

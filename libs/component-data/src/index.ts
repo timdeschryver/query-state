@@ -1,6 +1,15 @@
-export * from './lib/component-data';
-export * from './lib/data-cache';
-export * from './lib/data-config';
-export * from './lib/data-provider';
-export * from './lib/data-service';
-export * from './lib/data-state';
+export { ComponentData } from './lib/component-data';
+export { ComponentRoute, MockComponentRoute } from './lib/component-route';
+export { ComponentDataCache } from './lib/data-cache';
+export {
+  COMPONENT_DATA_CONFIG,
+  ComponentDataConfig,
+  TriggerConfig,
+} from './lib/data-config';
+export { provideComponentData } from './lib/data-provider';
+export {
+  COMPONENT_DATA_SERVICE,
+  ComponentDataService,
+  QueryParams,
+} from './lib/data-service';
+export { ComponentDataState } from './lib/data-state';

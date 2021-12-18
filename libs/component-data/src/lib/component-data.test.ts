@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 import { ComponentData } from './component-data';
+import { ComponentRoute } from './component-route';
 import { ComponentDataCache } from './data-cache';
 import { ComponentDataConfig } from './data-config';
 import { ComponentDataService } from './data-service';
@@ -19,8 +20,7 @@ function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
   const cache = new ComponentDataCache();
 
   const componentData = new ComponentData(
-    route as unknown as ActivatedRoute,
-    router,
+    new ComponentRoute(route as unknown as ActivatedRoute, router),
     cache,
     service,
     config as ComponentDataConfig
@@ -195,7 +195,7 @@ it('update as stream navigates with queryParams', () => {
   const { componentData, router } = setup();
   jest.advanceTimersByTime(1);
 
-  const subject = new Subject();
+  const subject = new Subject<Record<string, unknown>>();
   componentData.update(subject);
 
   subject.next({ id: '2' });
