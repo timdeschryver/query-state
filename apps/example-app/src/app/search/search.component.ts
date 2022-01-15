@@ -12,7 +12,7 @@ import { GitHubService } from './github.service';
       <input type="text" name="username" [ngModel]="username" required />
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
-    <pre>{{ data.data$ | async | json }}</pre>
+    <pre>{{ data.data | json }}</pre>
   `,
   providers: provideComponentData(GitHubService, {
     name: SearchComponent.name,

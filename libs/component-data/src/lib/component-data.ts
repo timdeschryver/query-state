@@ -1,5 +1,6 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import {
+  BehaviorSubject,
   catchError,
   combineLatest,
   debounceTime,
@@ -8,6 +9,7 @@ import {
   map,
   Observable,
   of,
+  share,
   skip,
   startWith,
   Subject,
@@ -35,6 +37,9 @@ export class ComponentData<
 {
   private subscriptions = new Subscription();
   private refreshTrigger = new Subject<void>();
+  private dataSubject = new BehaviorSubject<ComponentDataState<Data>>(
+    undefined as unknown as ComponentDataState<Data>
+  );
 
   params = this.componentRoute.params as DataParams;
   queryParams = this.componentRoute.queryParams as DataQueryParams;
@@ -49,42 +54,8 @@ export class ComponentData<
     };
   }
 
-  data$ = combineLatest([
-    this.componentRoute.params$,
-    this.componentRoute.queryParams$,
-  ]).pipe(
-    debounceTime(0),
-    echo(this.triggerConfig),
-    skip(this.config.disableInitialLoad ? 1 : 0),
-    switchMap(([params, queryParams]): Observable<ComponentDataState<Data>> => {
-      // not a RxJS filter because we want to emit a value when query params reset
-      if (this.config.ignore?.({ params, queryParams })) {
-        return of({ state: 'idle' } as ComponentDataState<Data>);
-      }
-
-      const paramsKey = JSON.stringify([params, queryParams]);
-      const cachedEntry = this.cache.getCacheEntry(this.config.name, paramsKey);
-      return this.service.query({ params, queryParams }).pipe(
-        tap((data) => {
-          this.cache.setCacheEntry(this.config.name, paramsKey, data);
-        }),
-        map((data): ComponentDataState<Data> => ({ state: 'success', data })),
-        startWith({
-          state: cachedEntry ? 'revalidate' : 'loading',
-          data: cachedEntry,
-        } as ComponentDataState<Data>),
-        catchError(
-          (error: unknown): Observable<ComponentDataState<Data>> =>
-            of({
-              state: 'error',
-              error,
-            })
-        )
-      );
-    }),
-    startWith({ state: 'idle' } as ComponentDataState<Data>),
-    distinctUntilKeyChanged('state')
-  );
+  data?: ComponentDataState<Data>;
+  data$ = this.dataSubject.asObservable();
 
   constructor(
     private readonly componentRoute: ComponentRoute<
@@ -101,7 +72,61 @@ export class ComponentData<
 
     @Inject(COMPONENT_DATA_CONFIG)
     private readonly config: ComponentDataConfig
-  ) {}
+  ) {
+    this.subscriptions.add(
+      combineLatest([
+        this.componentRoute.params$,
+        this.componentRoute.queryParams$,
+      ])
+        .pipe(
+          debounceTime(0),
+          echo(this.triggerConfig),
+          skip(this.config.disableInitialLoad ? 1 : 0),
+          switchMap(
+            ([params, queryParams]): Observable<ComponentDataState<Data>> => {
+              // not a RxJS filter because we want to emit a value when query params reset
+              if (this.config.ignore?.({ params, queryParams })) {
+                return of({ state: 'idle' } as ComponentDataState<Data>);
+              }
+
+              const paramsKey = JSON.stringify([params, queryParams]);
+              const cachedEntry = this.cache.getCacheEntry(
+                this.config.name,
+                paramsKey
+              );
+              return this.service.query({ params, queryParams }).pipe(
+                tap((data) => {
+                  this.cache.setCacheEntry(this.config.name, paramsKey, data);
+                }),
+                map(
+                  (data): ComponentDataState<Data> => ({
+                    state: 'success',
+                    data,
+                  })
+                ),
+                startWith({
+                  state: cachedEntry ? 'revalidate' : 'loading',
+                  data: cachedEntry,
+                } as ComponentDataState<Data>),
+                catchError(
+                  (error: unknown): Observable<ComponentDataState<Data>> =>
+                    of({
+                      state: 'error',
+                      error,
+                    })
+                )
+              );
+            }
+          ),
+          startWith({ state: 'idle' } as ComponentDataState<Data>),
+          distinctUntilKeyChanged('state')
+        )
+        .subscribe((data) => {
+          this.data = data;
+          this.dataSubject.next(data);
+        })
+    );
+  }
 
   update(
     queryParamsOrObservable: DataQueryParams | Observable<DataQueryParams>
@@ -130,6 +155,7 @@ export class ComponentData<
   }
 
   ngOnDestroy(): void {
+    this.dataSubject.complete();
     this.subscriptions.unsubscribe();
     this.refreshTrigger.complete();
   }
