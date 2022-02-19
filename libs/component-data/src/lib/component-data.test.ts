@@ -1,10 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
-import { ComponentData } from './component-data';
-import { ComponentRoute } from './component-route';
-import { ComponentDataCache } from './data-cache';
-import { ComponentDataConfig } from './data-config';
-import { ComponentDataService } from './data-service';
+import {
+  ComponentData,
+  ComponentDataCache,
+  ComponentDataConfig,
+  ComponentDataService,
+  ComponentRoute,
+} from '../';
 
 function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
   jest.useFakeTimers();

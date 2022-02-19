@@ -34,8 +34,7 @@
     "@nrwl/angular:application": {
       "style": "css",
       "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
+      "unitTestRunner": "jest"
     },
     "@nrwl/angular:library": {
       "style": "css",

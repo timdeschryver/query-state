@@ -2,16 +2,47 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {
+  REQUEST_STATE_ERROR_COMPONENT,
+  REQUEST_STATE_LOADING_COMPONENT,
+} from 'request-state';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchComponent } from './search/search.component';
-import { DetailComponent } from './detail/detail.component';
+import { SearchComponentModule } from './search/search.component';
+import { DetailComponentModule } from './detail/detail.component';
+import {
+  CustomLoadingComponent,
+  CustomLoadingComponentModule,
+} from './defaults/custom-loading.component';
+import {
+  CustomErrorComponent,
+  CustomErrorComponentModule,
+} from './defaults/custom-error.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchComponent, DetailComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
-  providers: [],
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+
+    CustomLoadingComponentModule,
+    CustomErrorComponentModule,
+
+    SearchComponentModule,
+    DetailComponentModule,
+  ],
+  providers: [
+    {
+      provide: REQUEST_STATE_LOADING_COMPONENT,
+      useValue: CustomLoadingComponent,
+    },
+    {
+      provide: REQUEST_STATE_ERROR_COMPONENT,
+      useValue: CustomErrorComponent,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

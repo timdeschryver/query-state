@@ -9,7 +9,6 @@ import {
   map,
   Observable,
   of,
-  share,
   skip,
   startWith,
   Subject,
@@ -25,8 +24,8 @@ import {
   TriggerConfig,
 } from './data-config';
 import { COMPONENT_DATA_SERVICE, ComponentDataService } from './data-service';
-import { ComponentDataState } from './data-state';
 import { echo } from './operators';
+import { RequestStateData } from 'request-state-contracts';
 
 @Injectable()
 export class ComponentData<
@@ -37,8 +36,8 @@ export class ComponentData<
 {
   private subscriptions = new Subscription();
   private refreshTrigger = new Subject<void>();
-  private dataSubject = new BehaviorSubject<ComponentDataState<Data>>(
-    undefined as unknown as ComponentDataState<Data>
+  private dataSubject = new BehaviorSubject<RequestStateData<Data>>(
+    undefined as unknown as RequestStateData<Data>
   );
 
   params = this.componentRoute.params as DataParams;
@@ -54,7 +53,7 @@ export class ComponentData<
     };
   }
 
-  data?: ComponentDataState<Data>;
+  data?: RequestStateData<Data>;
   data$ = this.dataSubject.asObservable();
 
   constructor(
@@ -83,23 +82,26 @@ export class ComponentData<
           echo(this.triggerConfig),
           skip(this.config.disableInitialLoad ? 1 : 0),
           switchMap(
-            ([params, queryParams]): Observable<ComponentDataState<Data>> => {
+            ([params, queryParams]): Observable<RequestStateData<Data>> => {
               // not a RxJS filter because we want to emit a value when query params reset
               if (this.config.ignore?.({ params, queryParams })) {
-                return of({ state: 'idle' } as ComponentDataState<Data>);
+                return of({ state: 'idle' } as RequestStateData<Data>);
               }
 
-              const paramsKey = JSON.stringify([params, queryParams]);
+              const paramsKey =
+                this.config.cacheKey?.({ params, queryParams }) ??
+                JSON.stringify([params, queryParams]);
               const cachedEntry = this.cache.getCacheEntry(
                 this.config.name,
                 paramsKey
               );
+
               return this.service.query({ params, queryParams }).pipe(
                 tap((data) => {
                   this.cache.setCacheEntry(this.config.name, paramsKey, data);
                 }),
                 map(
-                  (data): ComponentDataState<Data> => ({
+                  (data): RequestStateData<Data> => ({
                     state: 'success',
                     data,
                   })
@@ -107,9 +109,9 @@ export class ComponentData<
                 startWith({
                   state: cachedEntry ? 'revalidate' : 'loading',
                   data: cachedEntry,
-                } as ComponentDataState<Data>),
+                } as RequestStateData<Data>),
                 catchError(
-                  (error: unknown): Observable<ComponentDataState<Data>> =>
+                  (error: unknown): Observable<RequestStateData<Data>> =>
                     of({
                       state: 'error',
                       error,
@@ -118,7 +120,7 @@ export class ComponentData<
               );
             }
           ),
-          startWith({ state: 'idle' } as ComponentDataState<Data>),
+          startWith({ state: 'idle' } as RequestStateData<Data>),
           distinctUntilKeyChanged('state')
         )
         .subscribe((data) => {

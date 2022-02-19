@@ -28,6 +28,13 @@ export interface ComponentDataConfig {
     params: DataParams;
     queryParams: DataQueryParams;
   }) => boolean;
+  /**
+   * Creates a key based on params to check the cache
+   */
+  cacheKey?: (params: {
+    params: Record<string, unknown>;
+    queryParams: Record<string, unknown>;
+  }) => string;
 
   triggerConfig?: {
     focusTrigger?: boolean;

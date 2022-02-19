@@ -43,6 +43,90 @@
       },
       "tags": []
     },
+    "request-state": {
+      "projectType": "library",
+      "root": "libs/request-state",
+      "sourceRoot": "libs/request-state/src",
+      "prefix": "request-state",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/request-state"],
+          "options": {
+            "project": "libs/request-state/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/request-state/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/request-state/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/request-state"],
+          "options": {
+            "jestConfig": "libs/request-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/request-state/src/**/*.ts",
+              "libs/request-state/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "request-state-contracts": {
+      "projectType": "library",
+      "root": "libs/request-state-contracts",
+      "sourceRoot": "libs/request-state-contracts/src",
+      "prefix": "request-state-contracts",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/request-state-contracts"],
+          "options": {
+            "project": "libs/request-state-contracts/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/request-state-contracts/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/request-state-contracts/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/request-state-contracts"],
+          "options": {
+            "jestConfig": "libs/request-state-contracts/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/request-state-contracts/src/**/*.ts",
+              "libs/request-state-contracts/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "example-app": {
       "projectType": "application",
       "root": "apps/example-app",
@@ -135,34 +219,6 @@
         }
       },
       "tags": []
-    },
-    "example-app-e2e": {
-      "root": "apps/example-app-e2e",
-      "sourceRoot": "apps/example-app-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/example-app-e2e/cypress.json",
-            "devServerTarget": "example-app:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "example-app:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/example-app-e2e/**/*.{js,ts}"]
-          }
-        }
-      },
-      "tags": [],
-      "implicitDependencies": ["example-app"]
     }
   }
 }

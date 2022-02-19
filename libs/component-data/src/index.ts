@@ -12,4 +12,3 @@ export {
   ComponentDataService,
   QueryParams,
 } from './lib/data-service';
-export { ComponentDataState } from './lib/data-state';

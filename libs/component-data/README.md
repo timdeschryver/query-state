@@ -1,7 +1,5 @@
 # component-data
 
-This library was generated with [Nx](https://nx.dev).
+## Enhancements
 
-## Running unit tests
-
-Run `nx test component-data` to execute the unit tests.
+- clear cache after: X entries, time, destroy

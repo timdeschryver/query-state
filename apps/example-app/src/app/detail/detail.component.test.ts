@@ -1,19 +1,19 @@
-import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
-import { render, screen } from '@testing-library/angular';
-import { DetailComponent } from './detail.component';
-import { PokemonService } from './pokemon.service';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, of } from 'rxjs';
+import { render, screen } from '@testing-library/angular';
 import {
   ComponentRoute,
   MockComponentRoute,
   QueryParams,
 } from 'component-data';
+import { DetailComponent, DetailComponentModule } from './detail.component';
+import { PokemonService } from './pokemon.service';
 
 it('search and render detail with ActivatedRoute', async () => {
   await render(DetailComponent, {
-    imports: [FormsModule, RouterTestingModule.withRoutes([])],
+    excludeComponentDeclaration: true,
+    imports: [DetailComponentModule, RouterTestingModule.withRoutes([])],
     providers: [
       {
         provide: ActivatedRoute,
@@ -34,13 +34,13 @@ it('search and render detail with ActivatedRoute', async () => {
     ],
   });
 
-  expect(await screen.findByText(/"state": "success"/i)).toBeVisible();
   expect(await screen.findByText(/"id": 100/i)).toBeVisible();
 });
 
 it('search and render detail without activated route', async () => {
   await render(DetailComponent, {
-    imports: [FormsModule, RouterTestingModule.withRoutes([])],
+    excludeComponentDeclaration: true,
+    imports: [DetailComponentModule, RouterTestingModule.withRoutes([])],
     providers: [
       {
         provide: PokemonService,
@@ -54,13 +54,13 @@ it('search and render detail without activated route', async () => {
     ],
   });
 
-  expect(await screen.findByText(/"state": "success"/i)).toBeVisible();
   expect(await screen.findByText(/"id": 3/i)).toBeVisible();
 });
 
 it('search and render detail with MockComponentRoute', async () => {
   await render(DetailComponent, {
-    imports: [FormsModule],
+    excludeComponentDeclaration: true,
+    imports: [DetailComponentModule, RouterTestingModule.withRoutes([])],
     componentProviders: [
       {
         provide: ComponentRoute,
@@ -79,6 +79,5 @@ it('search and render detail with MockComponentRoute', async () => {
     ],
   });
 
-  expect(await screen.findByText(/"state": "success"/i)).toBeVisible();
   expect(await screen.findByText(/"id": 100/i)).toBeVisible();
 });
