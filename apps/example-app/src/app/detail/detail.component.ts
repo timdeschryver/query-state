@@ -6,7 +6,7 @@ import { PokemonService } from './pokemon.service';
 
 @Component({
   selector: 'component-data-nx-detail',
-  template: ` <request-state-template [requestState]="data.data$ | async">
+  template: ` <request-state-template [requestState]="data.data$">
     <ng-template [rsIdleRequestState]="data.data" let-data let-revalidating="revalidating">
       <pre>{{ data | json }}</pre>
     </ng-template>

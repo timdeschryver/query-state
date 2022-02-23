@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, Input, NgModule } from '@angular/core';
+import { Component, ContentChild, Input, NgModule, OnDestroy } from '@angular/core';
 import { RequestStateData } from 'request-state-contracts';
+import { isObservable, Observable, Subscription } from 'rxjs';
 import { DefaultErrorDirectiveModule } from './default-error-template.directive';
 import { DefaultLoadingDirectiveModule } from './default-loading-template.directive';
 import {
@@ -19,8 +20,8 @@ import {
 @Component({
   selector: 'request-state-template',
   template: `
-    <ng-container *ngIf="requestState">
-      <ng-container [ngSwitch]="requestState.state">
+    <ng-container *ngIf="rsState as rs">
+      <ng-container [ngSwitch]="rs.state">
         <ng-container *ngSwitchCase="'loading'">
           <ng-container *ngIf="loadingTemplate; else defaultLoading">
             <ng-container
@@ -39,15 +40,15 @@ import {
               *ngTemplateOutlet="
                 errorTemplate.templateRef;
                 context: {
-                  $implicit: requestState.error,
-                  error: requestState.error
+                  $implicit: rs.error,
+                  error: rs.error
                 }
               "
             ></ng-container>
           </ng-container>
 
           <ng-template #defaultError>
-            <ng-template [rsDefaultError]="requestState.error"></ng-template>
+            <ng-template [rsDefaultError]="rs.error"></ng-template>
           </ng-template>
         </ng-container>
 
@@ -57,9 +58,9 @@ import {
               *ngTemplateOutlet="
                 idleTemplate.templateRef;
                 context: {
-                  $implicit: requestState.data,
-                  state: requestState.data,
-                  revalidating: requestState.state === 'revalidate'
+                  $implicit: rs.data,
+                  state: rs.data,
+                  revalidating: rs.state === 'revalidate'
                 }
               "
             >
@@ -70,8 +71,26 @@ import {
     </ng-container>
   `,
 })
-export class RequestStateTemplateComponent<T> {
-  @Input() requestState?: RequestStateData<T> | null;
+export class RequestStateTemplateComponent<T> implements OnDestroy {
+  rsState?: RequestStateData<T> | null;
+  subscription?: Subscription;
+
+  @Input() set requestState(
+    value:
+      | RequestStateData<T>
+      | Observable<RequestStateData<T>>
+      | null
+      | undefined
+  ) {
+    if (isObservable(value)) {
+      this.subscription?.unsubscribe();
+      this.subscription = value.subscribe((val) => {
+        this.rsState = val;
+      });
+    } else {
+      this.rsState = value;
+    }
+  }
 
   @ContentChild(LoadingRequestStateTemplateDirective)
   loadingTemplate?: LoadingRequestStateTemplateDirective;
@@ -81,6 +100,10 @@ export class RequestStateTemplateComponent<T> {
 
   @ContentChild(IdleRequestStateTemplateDirective)
   idleTemplate?: IdleRequestStateTemplateDirective<T>;
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }
 
 @NgModule({
