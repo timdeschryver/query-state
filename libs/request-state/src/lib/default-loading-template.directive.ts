@@ -12,13 +12,13 @@ import {
 @Directive({
   selector: '[rsDefaultLoading]',
 })
-export class DefaultLoadingDirective implements OnInit {
+export class DefaultLoadingTemplateDirective implements OnInit {
   constructor(
     private viewContainerRef: ViewContainerRef,
 
     @Optional()
     @Inject(REQUEST_STATE_LOADING_COMPONENT)
-    private loadingComponent?: Type<LoadingComponent>
+    private loadingComponent?: Type<LoadingTemplateComponent>
   ) {}
 
   ngOnInit() {
@@ -30,14 +30,14 @@ export class DefaultLoadingDirective implements OnInit {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LoadingComponent {}
+export interface LoadingTemplateComponent {}
 
 @NgModule({
-  declarations: [DefaultLoadingDirective],
-  exports: [DefaultLoadingDirective],
+  declarations: [DefaultLoadingTemplateDirective],
+  exports: [DefaultLoadingTemplateDirective],
 })
 export class DefaultLoadingDirectiveModule {}
 
 export const REQUEST_STATE_LOADING_COMPONENT = new InjectionToken<
-  Type<LoadingComponent>
+  Type<LoadingTemplateComponent>
 >('Request State Loading Component');

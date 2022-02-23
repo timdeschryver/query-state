@@ -14,15 +14,16 @@ import { GitHubService } from './github.service';
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
     <request-state-template [requestState]="data.data">
-      <ng-template rsRequestState="loading">
+      <ng-template rsLoadingRequestState>
         🔎 Searching for GitHub users...
       </ng-template>
 
-      <ng-template
-        rsRequestState="idle"
-        let-data
-        let-revalidating="revalidating"
-      >
+      <ng-template rsErrorRequestState let-error>
+        👀 Something is broken - call for help
+        <pre>{{ error | json }}</pre>
+      </ng-template>
+
+      <ng-template [rsIdleRequestState]="data.data" let-data let-revalidating="revalidating">
         <div [hidden]="!revalidating">
           Refreshing results in the background...
         </div>

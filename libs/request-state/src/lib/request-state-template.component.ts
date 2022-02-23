@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterContentInit,
-  Component,
-  ContentChildren,
-  Input,
-  NgModule,
-  QueryList,
-  TemplateRef,
-} from '@angular/core';
+import { Component, ContentChild, Input, NgModule } from '@angular/core';
 import { RequestStateData } from 'request-state-contracts';
-import { DefaultErrorDirectiveModule } from './default-error.directive';
-import { DefaultLoadingDirectiveModule } from './default-loading.directive';
+import { DefaultErrorDirectiveModule } from './default-error-template.directive';
+import { DefaultLoadingDirectiveModule } from './default-loading-template.directive';
 import {
-  RequestStateTemplateDirective,
-  RequestStateTemplateDirectiveModule,
-} from './request-state-template.directive';
+  ErrorRequestStateTemplateDirective,
+  ErrorRequestStateTemplateDirectiveModule,
+} from './request-state-error-template.directive';
+import {
+  IdleRequestStateTemplateDirective,
+  IdleRequestStateTemplateDirectiveModule,
+} from './request-state-idle-template.directive';
+import {
+  LoadingRequestStateTemplateDirective,
+  LoadingRequestStateTemplateDirectiveModule,
+} from './request-state-loading-template.directive';
 
 @Component({
   selector: 'request-state-template',
@@ -23,7 +23,9 @@ import {
       <ng-container [ngSwitch]="requestState.state">
         <ng-container *ngSwitchCase="'loading'">
           <ng-container *ngIf="loadingTemplate; else defaultLoading">
-            <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="loadingTemplate.templateRef"
+            ></ng-container>
           </ng-container>
 
           <ng-template #defaultLoading>
@@ -35,7 +37,7 @@ import {
           <ng-container *ngIf="errorTemplate; else defaultError">
             <ng-container
               *ngTemplateOutlet="
-                errorTemplate;
+                errorTemplate.templateRef;
                 context: {
                   $implicit: requestState.error,
                   error: requestState.error
@@ -53,7 +55,7 @@ import {
           <ng-container *ngIf="idleTemplate">
             <ng-container
               *ngTemplateOutlet="
-                idleTemplate;
+                idleTemplate.templateRef;
                 context: {
                   $implicit: requestState.data,
                   state: requestState.data,
@@ -68,41 +70,34 @@ import {
     </ng-container>
   `,
 })
-export class RequestStateTemplateComponent implements AfterContentInit {
-  @ContentChildren(RequestStateTemplateDirective)
-  templates!: QueryList<RequestStateTemplateDirective>;
+export class RequestStateTemplateComponent<T> {
+  @Input() requestState?: RequestStateData<T> | null;
 
-  @Input() requestState?: RequestStateData<unknown> | null;
+  @ContentChild(LoadingRequestStateTemplateDirective)
+  loadingTemplate?: LoadingRequestStateTemplateDirective;
 
-  loadingTemplate?: TemplateRef<unknown>;
-  errorTemplate?: TemplateRef<unknown>;
-  idleTemplate?: TemplateRef<unknown>;
+  @ContentChild(ErrorRequestStateTemplateDirective)
+  errorTemplate?: ErrorRequestStateTemplateDirective;
 
-  ngAfterContentInit(): void {
-    this.templates.forEach((item) => {
-      switch (item.rsRequestState) {
-        case 'loading':
-          this.loadingTemplate = item.templateRef;
-          break;
-        case 'error':
-          this.errorTemplate = item.templateRef;
-          break;
-        case 'idle':
-          this.idleTemplate = item.templateRef;
-          break;
-      }
-    });
-  }
+  @ContentChild(IdleRequestStateTemplateDirective)
+  idleTemplate?: IdleRequestStateTemplateDirective<T>;
 }
 
 @NgModule({
   imports: [
     CommonModule,
-    RequestStateTemplateDirectiveModule,
+    LoadingRequestStateTemplateDirectiveModule,
+    ErrorRequestStateTemplateDirectiveModule,
+    IdleRequestStateTemplateDirectiveModule,
     DefaultLoadingDirectiveModule,
     DefaultErrorDirectiveModule,
   ],
   declarations: [RequestStateTemplateComponent],
-  exports: [RequestStateTemplateComponent, RequestStateTemplateDirective],
+  exports: [
+    RequestStateTemplateComponent,
+    IdleRequestStateTemplateDirective,
+    ErrorRequestStateTemplateDirective,
+    LoadingRequestStateTemplateDirective,
+  ],
 })
 export class RequestStateTemplateModule {}

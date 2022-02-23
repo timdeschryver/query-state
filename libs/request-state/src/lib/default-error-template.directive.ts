@@ -13,7 +13,7 @@ import {
 @Directive({
   selector: '[rsDefaultError]',
 })
-export class DefaultErrorDirective implements OnInit {
+export class DefaultErrorTemplateDirective implements OnInit {
   @Input() rsDefaultError: unknown;
 
   constructor(
@@ -21,7 +21,7 @@ export class DefaultErrorDirective implements OnInit {
 
     @Optional()
     @Inject(REQUEST_STATE_ERROR_COMPONENT)
-    private errorComponent?: Type<ErrorComponent>
+    private errorComponent?: Type<ErrorTemplateComponent>
   ) {}
 
   ngOnInit() {
@@ -33,17 +33,16 @@ export class DefaultErrorDirective implements OnInit {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ErrorComponent {
+export interface ErrorTemplateComponent {
   error: unknown;
 }
 
 @NgModule({
-  declarations: [DefaultErrorDirective],
-  exports: [DefaultErrorDirective],
+  declarations: [DefaultErrorTemplateDirective],
+  exports: [DefaultErrorTemplateDirective],
 })
 export class DefaultErrorDirectiveModule {}
 
 export const REQUEST_STATE_ERROR_COMPONENT = new InjectionToken<
-  Type<ErrorComponent>
+  Type<ErrorTemplateComponent>
 >('Request State Error Component');
