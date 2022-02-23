@@ -17,7 +17,8 @@
     "paths": {
       "component-data": ["libs/component-data/src/index.ts"],
       "request-state": ["libs/request-state/src/index.ts"],
-      "request-state-contracts": ["libs/request-state-contracts/src/index.ts"]
+      "request-state-contracts": ["libs/request-state-contracts/src/index.ts"],
+      "request-component-store": ["libs/request-component-store/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
