@@ -5,7 +5,7 @@ import { Directive, NgModule, TemplateRef } from '@angular/core';
   selector: 'ng-template[rsErrorRequestState]',
 })
 export class ErrorRequestStateTemplateDirective {
-  static ngTemplateContextGuar(
+  static ngTemplateContextGuard(
     _dir: ErrorRequestStateTemplateDirective,
     ctx: unknown
   ): ctx is { $implicit: unknown; error: unknown } {
