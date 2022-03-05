@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataParams } from './data-models';
 
 export const COMPONENT_DATA_CONFIG = new InjectionToken<ComponentDataConfig>(
   'COMPONENT_DATA_CONFIG'
@@ -21,19 +22,13 @@ export interface ComponentDataConfig {
    * By default all changes are sent to the query
    * If the function returns `true`, the changes are ignored and the query isn't invoked
    */
-  ignore?: <
-    DataParams extends Record<string, unknown> = Record<string, unknown>,
-    DataQueryParams extends Record<string, unknown> = Record<string, unknown>
-  >(params: {
-    params: DataParams;
-    queryParams: DataQueryParams;
-  }) => boolean;
+  ignore?: (params: { params: DataParams; queryParams: DataParams }) => boolean;
   /**
    * Creates a key based on params to check the cache
    */
   cacheKey?: (params: {
-    params: Record<string, unknown>;
-    queryParams: Record<string, unknown>;
+    params: DataParams;
+    queryParams: DataParams;
   }) => string;
 
   triggerConfig?: {

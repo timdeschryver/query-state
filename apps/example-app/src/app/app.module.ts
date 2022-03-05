@@ -18,6 +18,8 @@ import {
   CustomErrorComponent,
   CustomErrorComponentModule,
 } from './defaults/custom-error.component';
+import { ParentComponentModule } from './crud/parent.component';
+import { ChildComponentModule } from './crud/child.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +34,9 @@ import {
 
     SearchComponentModule,
     DetailComponentModule,
+
+    ParentComponentModule,
+    ChildComponentModule,
   ],
   providers: [
     {

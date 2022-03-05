@@ -6,9 +6,11 @@ export {
   ComponentDataConfig,
   TriggerConfig,
 } from './lib/data-config';
+export { DataParams } from './lib/data-models';
 export { provideComponentData } from './lib/data-provider';
 export {
   COMPONENT_DATA_SERVICE,
   ComponentDataService,
   QueryParams,
 } from './lib/data-service';
+export * from './lib/operators';

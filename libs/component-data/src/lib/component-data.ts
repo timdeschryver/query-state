@@ -24,16 +24,12 @@ import {
   TriggerConfig,
 } from './data-config';
 import { COMPONENT_DATA_SERVICE, ComponentDataService } from './data-service';
-import { echo } from './operators';
+import { echo } from './operators/echo.operator';
 import { RequestStateData } from 'request-state-contracts';
+import { DataParams } from './data-models';
 
 @Injectable()
-export class ComponentData<
-  Data,
-  DataParams extends Record<string, unknown> = Record<string, unknown>,
-  DataQueryParams extends Record<string, unknown> = Record<string, unknown>
-> implements OnDestroy
-{
+export class ComponentData<Data, Service = unknown> implements OnDestroy {
   private subscriptions = new Subscription();
   private refreshTrigger = new Subject<void>();
   private dataSubject = new BehaviorSubject<RequestStateData<Data>>(
@@ -41,7 +37,14 @@ export class ComponentData<
   );
 
   params = this.componentRoute.params as DataParams;
-  queryParams = this.componentRoute.queryParams as DataQueryParams;
+  queryParams = this.componentRoute.queryParams as DataParams;
+
+  data?: RequestStateData<Data>;
+  data$ = this.dataSubject.asObservable();
+
+  get service(): Service {
+    return this.dataService as Service;
+  }
 
   private get triggerConfig(): TriggerConfig {
     return {
@@ -53,21 +56,11 @@ export class ComponentData<
     };
   }
 
-  data?: RequestStateData<Data>;
-  data$ = this.dataSubject.asObservable();
-
   constructor(
-    private readonly componentRoute: ComponentRoute<
-      DataParams,
-      DataQueryParams
-    >,
+    private readonly componentRoute: ComponentRoute,
     private readonly cache: ComponentDataCache,
     @Inject(COMPONENT_DATA_SERVICE)
-    private readonly service: ComponentDataService<
-      Data,
-      DataParams,
-      DataQueryParams
-    >,
+    private readonly dataService: Service & ComponentDataService<Data>,
 
     @Inject(COMPONENT_DATA_CONFIG)
     private readonly config: ComponentDataConfig
@@ -96,7 +89,7 @@ export class ComponentData<
                 paramsKey
               );
 
-              return this.service.query({ params, queryParams }).pipe(
+              return this.dataService.query({ params, queryParams }).pipe(
                 tap((data) => {
                   this.cache.setCacheEntry(this.config.name, paramsKey, data);
                 }),
@@ -130,9 +123,7 @@ export class ComponentData<
     );
   }
 
-  update(
-    queryParamsOrObservable: DataQueryParams | Observable<DataQueryParams>
-  ): void {
+  update(queryParamsOrObservable: DataParams | Observable<DataParams>): void {
     if (isObservable(queryParamsOrObservable)) {
       this.subscriptions.add(
         queryParamsOrObservable.subscribe((queryParams) => {

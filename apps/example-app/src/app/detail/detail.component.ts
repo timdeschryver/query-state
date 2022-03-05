@@ -9,10 +9,10 @@ import { PokemonService } from './pokemon.service';
   template: ` <request-state-template [requestState]="data.data$">
     <ng-template
       [rsIdleRequestState]="data.data"
-      let-data
+      let-detail
       let-revalidating="revalidating"
     >
-      <pre>{{ data | json }}</pre>
+      <pre>{{ detail | json }}</pre>
     </ng-template>
   </request-state-template>`,
   providers: provideComponentData(PokemonService, {

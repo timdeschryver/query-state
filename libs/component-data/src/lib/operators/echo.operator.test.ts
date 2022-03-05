@@ -1,5 +1,5 @@
 import { TestScheduler } from 'rxjs/testing';
-import { echo } from './operators';
+import { echo } from './echo.operator';
 
 const testScheduler = () =>
   new TestScheduler((actual, expected) => {

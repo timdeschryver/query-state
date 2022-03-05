@@ -12,7 +12,7 @@ import {
   takeUntil,
   timer,
 } from 'rxjs';
-import { TriggerConfig } from './data-config';
+import { TriggerConfig } from '../data-config';
 
 /**
  * Re-emit the last emitted value

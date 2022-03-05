@@ -23,11 +23,15 @@ import { GitHubService } from './github.service';
         <pre>{{ error | json }}</pre>
       </ng-template>
 
-      <ng-template [rsIdleRequestState]="data.data" let-data let-revalidating="revalidating">
+      <ng-template
+        [rsIdleRequestState]="data.data"
+        let-user
+        let-revalidating="revalidating"
+      >
         <div [hidden]="!revalidating">
           Refreshing results in the background...
         </div>
-        <pre>{{ data | json }}</pre>
+        <pre>{{ user | json }}</pre>
       </ng-template>
     </request-state-template>
   `,

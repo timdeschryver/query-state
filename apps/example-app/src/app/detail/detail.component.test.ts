@@ -64,7 +64,7 @@ it('search and render detail with MockComponentRoute', async () => {
     componentProviders: [
       {
         provide: ComponentRoute,
-        useValue: new MockComponentRoute({ params: { id: 1000 } }),
+        useValue: new MockComponentRoute({ params: { id: '1000' } }),
       },
     ],
     providers: [
@@ -79,5 +79,5 @@ it('search and render detail with MockComponentRoute', async () => {
     ],
   });
 
-  expect(await screen.findByText(/"id": 100/i)).toBeVisible();
+  expect(await screen.findByText(/"id": "1000"/i)).toBeVisible();
 });

@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
     <a routerLink="/detail/2">Detail 2</a> |
     <a routerLink="/detail/3">Detail 3</a> |
     <a routerLink="/detail/4">Detail 4</a> |
+    <a routerLink="/parent">Parent - Detail</a> |
 
     <router-outlet></router-outlet>
   `,

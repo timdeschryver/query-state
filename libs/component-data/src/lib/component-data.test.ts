@@ -6,14 +6,15 @@ import {
   ComponentDataConfig,
   ComponentDataService,
   ComponentRoute,
+  DataParams,
 } from '../';
 
 function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
   jest.useFakeTimers();
   const router = { navigate: jest.fn() } as unknown as Router;
   const route = {
-    params: new Subject<Record<string, unknown>>(),
-    queryParams: new Subject<Record<string, unknown>>(),
+    params: new Subject<DataParams>(),
+    queryParams: new Subject<DataParams>(),
     snapshot: {},
   };
   const service = {
@@ -197,7 +198,7 @@ it('update as stream navigates with queryParams', () => {
   const { componentData, router } = setup();
   jest.advanceTimersByTime(1);
 
-  const subject = new Subject<Record<string, unknown>>();
+  const subject = new Subject<DataParams>();
   componentData.update(subject);
 
   subject.next({ id: '2' });

@@ -1,22 +1,16 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataParams } from './data-models';
 
 export const COMPONENT_DATA_SERVICE = new InjectionToken<
   ComponentDataService<unknown>
 >('COMPONENT_DATA_SERVICE');
 
-export interface ComponentDataService<
-  Data,
-  DataParams extends Record<string, unknown> = Record<string, unknown>,
-  DataQueryParams extends Record<string, unknown> = Record<string, unknown>
-> {
-  query(params: QueryParams<DataParams, DataQueryParams>): Observable<Data>;
+export interface ComponentDataService<Data> {
+  query(params: QueryParams): Observable<Data>;
 }
 
-export interface QueryParams<
-  DataParams extends Record<string, unknown> = Record<string, unknown>,
-  DataQueryParams extends Record<string, unknown> = Record<string, unknown>
-> {
+export interface QueryParams {
   params: DataParams;
-  queryParams: DataQueryParams;
+  queryParams: DataParams;
 }
