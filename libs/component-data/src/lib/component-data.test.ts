@@ -32,8 +32,8 @@ function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
   const emits: unknown[] = [];
   componentData.data$.subscribe((value) => emits.push(value));
 
-  route.params.next({ id: '1' });
-  route.queryParams.next({ id: '1' });
+  route.params.next({ id: 'a' });
+  route.queryParams.next({ id: 'a' });
 
   return {
     componentData,
@@ -52,12 +52,12 @@ afterEach(() => {
 
 it('executes the query on param navigation', () => {
   const { service, route, emits } = setup();
-  route.params.next({ id: '2' });
+  route.params.next({ id: 'b' });
   jest.advanceTimersByTime(1);
 
   expect(service.query).toHaveBeenCalledWith({
-    params: { id: '2' },
-    queryParams: { id: '1' },
+    params: { id: 'b' },
+    queryParams: { id: 'a' },
   });
   expect(emits).toEqual([
     { state: 'idle' },
@@ -68,12 +68,12 @@ it('executes the query on param navigation', () => {
 
 it('executes the query on query param navigation', () => {
   const { service, route, emits } = setup();
-  route.queryParams.next({ id: '2' });
+  route.queryParams.next({ id: 'b' });
   jest.advanceTimersByTime(1);
 
   expect(service.query).toHaveBeenCalledWith({
-    params: { id: '1' },
-    queryParams: { id: '2' },
+    params: { id: 'a' },
+    queryParams: { id: 'b' },
   });
   expect(emits).toEqual([
     { state: 'idle' },
@@ -88,8 +88,8 @@ it('ends up in the error state on failure', () => {
   jest.advanceTimersByTime(1);
 
   expect(service.query).toHaveBeenCalledWith({
-    params: { id: '1' },
-    queryParams: { id: '1' },
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
   });
   expect(emits).toEqual([
     { state: 'idle' },
@@ -102,10 +102,10 @@ it('builds and uses the cache on route re-enter', () => {
   const { route, emits } = setup();
   jest.advanceTimersByTime(1);
 
-  route.params.next({ id: '2' });
+  route.params.next({ id: 'b' });
   jest.advanceTimersByTime(1);
 
-  route.params.next({ id: '1' });
+  route.params.next({ id: 'a' });
   jest.advanceTimersByTime(1);
 
   expect(emits).toEqual([
@@ -122,19 +122,40 @@ it('builds and uses the cache on route re-enter', () => {
   ]);
 });
 
-it('does not refresh when params are the same', () => {
+it('does not refresh when params dont change', () => {
   const { route, emits } = setup();
   jest.advanceTimersByTime(1);
 
-  route.params.next({ id: '1' });
+  route.params.next({ id: 'a' });
   jest.advanceTimersByTime(1);
 
-  route.queryParams.next({ id: '1' });
+  route.queryParams.next({ id: 'a' });
   jest.advanceTimersByTime(1);
 
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'success', data: { data: 'response' } },
+  ]);
+});
+
+it('does not refresh but revalidate when params are equal for cacheKey', () => {
+  const { route, emits } = setup({
+    cacheKey: (params) => params.params.id.toLowerCase(),
+  });
+  jest.advanceTimersByTime(1);
+
+  route.params.next({ id: 'a' });
+  jest.advanceTimersByTime(1);
+
+  route.params.next({ id: 'A' });
+  jest.advanceTimersByTime(1);
+
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'success', data: { data: 'response' } },
+    { state: 'revalidate', data: { data: 'response' } },
     { state: 'success', data: { data: 'response' } },
   ]);
 });
@@ -183,13 +204,13 @@ it('update navigates with queryParams', () => {
   const { componentData, router } = setup();
   jest.advanceTimersByTime(1);
 
-  componentData.update({ id: '2' });
+  componentData.update({ id: 'b' });
   jest.advanceTimersByTime(1);
 
   expect(router.navigate).toHaveBeenCalledWith(
     [],
     expect.objectContaining({
-      queryParams: { id: '2' },
+      queryParams: { id: 'b' },
     })
   );
 });
@@ -201,13 +222,13 @@ it('update as stream navigates with queryParams', () => {
   const subject = new Subject<DataParams>();
   componentData.update(subject);
 
-  subject.next({ id: '2' });
+  subject.next({ id: 'b' });
   jest.advanceTimersByTime(1);
 
   expect(router.navigate).toHaveBeenCalledWith(
     [],
     expect.objectContaining({
-      queryParams: { id: '2' },
+      queryParams: { id: 'b' },
     })
   );
 });
@@ -222,19 +243,19 @@ it('disables initial query when set', () => {
 
 it('ignores emits when set', () => {
   const { route, service, emits } = setup({
-    ignore: ({ params }) => params.id === '1',
+    ignore: ({ params }) => params.id === 'a',
   });
   jest.advanceTimersByTime(1);
 
   expect(service.query).not.toHaveBeenCalled();
   expect(emits).toEqual([{ state: 'idle' }]);
 
-  route.params.next({ id: '2' });
+  route.params.next({ id: 'b' });
   jest.advanceTimersByTime(1);
 
   expect(service.query).toHaveBeenCalledWith({
-    params: { id: '2' },
-    queryParams: { id: '1' },
+    params: { id: 'b' },
+    queryParams: { id: 'a' },
   });
   expect(emits).toEqual([
     { state: 'idle' },

@@ -10,6 +10,7 @@ import {
   startWith,
   switchMap,
   takeUntil,
+  tap,
   timer,
 } from 'rxjs';
 import { TriggerConfig } from '../data-config';
@@ -33,9 +34,11 @@ export function echo<Data>({
       switchMap((value) => {
         return merge(...triggers$, ...triggers(value)).pipe(
           startWith(value),
-          switchMap(() =>
-            timer(0, timerTrigger === false ? Infinity : timerTrigger)
-          ),
+          timerTrigger === false
+            ? tap()
+            : switchMap(() => {
+                return timer(0, timerTrigger);
+              }),
           mapTo(value),
           takeUntil(
             source.pipe(

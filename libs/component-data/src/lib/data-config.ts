@@ -18,6 +18,10 @@ export interface ComponentDataConfig {
    */
   disableInitialLoad?: boolean;
   /**
+   * Disable that results are cached
+   */
+  disableCache?: boolean;
+  /**
    * A decider function that decides whether to invoke the query
    * By default all changes are sent to the query
    * If the function returns `true`, the changes are ignored and the query isn't invoked
@@ -30,13 +34,15 @@ export interface ComponentDataConfig {
     params: DataParams;
     queryParams: DataParams;
   }) => string;
-
-  triggerConfig?: {
-    focusTrigger?: boolean;
-    onlineTrigger?: boolean;
-    timerTrigger?: false | number;
-    triggers?: <Data>(data: Data) => Observable<unknown>[];
-  };
+  /**
+   * Triggers to refresh the current data
+   */
+  revalidateTriggers?: false | TriggerConfig;
 }
 
-export type TriggerConfig = ComponentDataConfig['triggerConfig'];
+export type TriggerConfig = {
+  focusTrigger?: boolean;
+  onlineTrigger?: boolean;
+  timerTrigger?: false | number;
+  triggers?: <Data>(data: Data) => Observable<unknown>[];
+};

@@ -40,6 +40,8 @@ import { Person } from './models';
   `,
   providers: provideComponentData(DataService, {
     name: ChildComponent.name,
+    disableCache: true,
+    revalidateTriggers: false,
   }),
 })
 export class ChildComponent implements OnDestroy {

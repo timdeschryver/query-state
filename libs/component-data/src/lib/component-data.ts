@@ -47,11 +47,21 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
   }
 
   private get triggerConfig(): TriggerConfig {
+    if (this.config.revalidateTriggers === false) {
+      return {
+        focusTrigger: false,
+        onlineTrigger: false,
+        timerTrigger: false,
+        triggers: (_data) => [this.refreshTrigger],
+      };
+    }
+
+    const triggers = this.config.revalidateTriggers;
     return {
-      ...(this.config.triggerConfig || {}),
+      ...(triggers || {}),
       triggers: (data) =>
-        this.config.triggerConfig?.triggers
-          ? this.config.triggerConfig.triggers(data).concat(this.refreshTrigger)
+        triggers?.triggers
+          ? triggers.triggers(data).concat(this.refreshTrigger)
           : [this.refreshTrigger],
     };
   }
@@ -84,14 +94,15 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
               const paramsKey =
                 this.config.cacheKey?.({ params, queryParams }) ??
                 JSON.stringify([params, queryParams]);
-              const cachedEntry = this.cache.getCacheEntry(
-                this.config.name,
-                paramsKey
-              );
+              const cachedEntry = this.config.disableCache
+                ? undefined
+                : this.cache.getCacheEntry(this.config.name, paramsKey);
 
               return this.dataService.query({ params, queryParams }).pipe(
                 tap((data) => {
-                  this.cache.setCacheEntry(this.config.name, paramsKey, data);
+                  if (!this.config.disableCache) {
+                    this.cache.setCacheEntry(this.config.name, paramsKey, data);
+                  }
                 }),
                 map(
                   (data): RequestStateData<Data> => ({
