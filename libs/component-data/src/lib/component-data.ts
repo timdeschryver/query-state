@@ -158,6 +158,18 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
     }
   }
 
+  effect(
+    sourceOrSourceFactory:
+      | Observable<unknown>
+      | ((data: Observable<RequestStateData<Data>>) => Observable<unknown>)
+  ): void {
+    if (typeof sourceOrSourceFactory === 'function') {
+      this.subscriptions.add(sourceOrSourceFactory(this.data$).subscribe());
+    } else {
+      this.subscriptions.add(sourceOrSourceFactory.subscribe());
+    }
+  }
+
   ngOnDestroy(): void {
     this.dataSubject.complete();
     this.subscriptions.unsubscribe();

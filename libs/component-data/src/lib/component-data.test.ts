@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, Subject, throwError } from 'rxjs';
+import { of, Subject, tap, throwError } from 'rxjs';
 import {
   ComponentData,
   ComponentDataCache,
@@ -262,4 +262,33 @@ it('ignores emits when set', () => {
     { state: 'loading' },
     { state: 'success', data: { data: 'response' } },
   ]);
+});
+
+it('effect subscribes to source', () => {
+  const { componentData } = setup();
+  const input = 7;
+  const result: unknown[] = [];
+  componentData.effect(
+    of(input).pipe(
+      tap({
+        next: (value) => result.push(value),
+      })
+    )
+  );
+  expect(result).toEqual([input]);
+});
+
+it('effect subscribes to data$', () => {
+  const { componentData } = setup();
+  const result: unknown[] = [];
+  jest.advanceTimersToNextTimer();
+
+  componentData.effect((data) =>
+    data.pipe(
+      tap({
+        next: (value) => result.push(value),
+      })
+    )
+  );
+  expect(result).toEqual([{ state: 'idle' }]);
 });

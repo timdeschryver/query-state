@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnDestroy } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ComponentData, provideComponentData, tapState } from 'component-data';
@@ -44,32 +44,30 @@ import { Person } from './models';
     revalidateTriggers: false,
   }),
 })
-export class ChildComponent implements OnDestroy {
+export class ChildComponent implements OnInit {
   model = {
     id: '',
     firstname: '',
     lastname: '',
   };
 
-  private sub = this.data.data$
-    .pipe(
-      tapState({
-        onSuccess: (person) => {
-          this.model.id = person.id;
-          this.model.firstname = person.firstname;
-          this.model.lastname = person.lastname;
-        },
-      })
-    )
-    .subscribe();
-
   constructor(
     public readonly data: ComponentData<Person, DataService>,
     private router: Router
   ) {}
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
+  ngOnInit(): void {
+    this.data.effect(
+      this.data.data$.pipe(
+        tapState({
+          onSuccess: (person) => {
+            this.model.id = person.id;
+            this.model.firstname = person.firstname;
+            this.model.lastname = person.lastname;
+          },
+        })
+      )
+    );
   }
 
   submit(): void {
