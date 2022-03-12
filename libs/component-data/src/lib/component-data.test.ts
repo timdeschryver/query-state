@@ -4,12 +4,13 @@ import {
   ComponentData,
   ComponentDataCache,
   ComponentDataConfig,
-  ComponentDataService,
   ComponentRoute,
   DataParams,
 } from '../';
 
-function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
+function setup(
+  config: Partial<ComponentDataConfig<unknown>> = { name: 'test' }
+) {
   jest.useFakeTimers();
   const router = { navigate: jest.fn() } as unknown as Router;
   const route = {
@@ -19,14 +20,15 @@ function setup(config: Partial<ComponentDataConfig> = { name: 'test' }) {
   };
   const service = {
     query: jest.fn(() => of({ data: 'response' })),
-  } as ComponentDataService<unknown>;
+    queryAlternative: jest.fn(() => of({ data: 'alternative-response' })),
+  };
   const cache = new ComponentDataCache();
 
   const componentData = new ComponentData(
     new ComponentRoute(route as unknown as ActivatedRoute, router),
     cache,
     service,
-    config as ComponentDataConfig
+    config as ComponentDataConfig<unknown>
   );
 
   const emits: unknown[] = [];
@@ -63,6 +65,24 @@ it('executes the query on param navigation', () => {
     { state: 'idle' },
     { state: 'loading' },
     { state: 'success', data: { data: 'response' } },
+  ]);
+});
+
+it('executes configured query', () => {
+  const { service, route, emits } = setup({
+    query: 'queryAlternative',
+  } as any);
+  route.params.next({ id: 'b' });
+  jest.advanceTimersByTime(1);
+
+  expect(service.queryAlternative).toHaveBeenCalledWith({
+    params: { id: 'b' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'success', data: { data: 'alternative-response' } },
   ]);
 });
 

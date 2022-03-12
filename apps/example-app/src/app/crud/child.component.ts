@@ -40,6 +40,7 @@ import { Person } from './models';
   `,
   providers: provideComponentData(DataService, {
     name: ChildComponent.name,
+    query: 'queryOne',
     disableCache: true,
     revalidateTriggers: false,
   }),

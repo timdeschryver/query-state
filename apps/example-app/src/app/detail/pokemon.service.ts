@@ -6,7 +6,7 @@ import { ComponentDataService, QueryParams } from 'component-data';
 @Injectable({
   providedIn: 'root',
 })
-export class PokemonService implements ComponentDataService<any> {
+export class PokemonService implements ComponentDataService {
   constructor(private http: HttpClient) {}
   query({ params }: QueryParams): Observable<any> {
     return this.http

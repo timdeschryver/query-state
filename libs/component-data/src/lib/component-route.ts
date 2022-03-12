@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  filter,
-  map,
-  pairwise,
-  startWith,
-  Subject,
-} from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { DataParams } from './data-models';
 
 @Injectable()

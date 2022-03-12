@@ -6,9 +6,7 @@ import { ComponentDataService, QueryParams } from 'component-data';
 @Injectable({
   providedIn: 'root',
 })
-export class GitHubService
-  implements ComponentDataService<{ username: string }>
-{
+export class GitHubService implements ComponentDataService {
   constructor(private http: HttpClient) {}
 
   query({ queryParams }: QueryParams): Observable<{ username: string }> {

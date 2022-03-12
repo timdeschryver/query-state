@@ -9,9 +9,9 @@ export function componentRoute(route: ActivatedRoute, router: Router) {
   return new ComponentRoute(route, router);
 }
 
-export const provideComponentData = <Data>(
-  service: Type<ComponentDataService<Data>>,
-  config: ComponentDataConfig
+export const provideComponentData = <Service = ComponentDataService>(
+  service: Type<Service>,
+  config: ComponentDataConfig<Service>
 ): Provider[] => [
   ComponentData,
   {

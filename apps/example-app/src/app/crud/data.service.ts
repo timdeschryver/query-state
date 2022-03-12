@@ -6,7 +6,7 @@ import { Person } from './models';
 @Injectable({
   providedIn: 'root',
 })
-export class DataService implements ComponentDataService<unknown> {
+export class DataService implements ComponentDataService {
   private persons = new BehaviorSubject<Person[]>([
     { id: 'er', firstname: 'Ellen', lastname: 'Riley' },
     { id: 'jb', firstname: 'Jaxon', lastname: 'Brigstocke' },
@@ -14,18 +14,12 @@ export class DataService implements ComponentDataService<unknown> {
     { id: 'mr', firstname: 'Mikayla', lastname: 'Rosenstengel' },
   ]);
 
-  query(params: QueryParams): Observable<Person | Person[]> {
-    if ('personId' in params.params) {
-      return this.getOne(params.params.personId);
-    }
-    return this.getAll();
-  }
-
-  getAll(): Observable<Person[]> {
+  query(): Observable<Person[]> {
     return this.persons.pipe(delay(1000));
   }
 
-  getOne(id: string): Observable<Person> {
+  queryOne(params: QueryParams): Observable<Person> {
+    const id = params.params['personId'];
     return this.persons.pipe(
       map((persons) => persons.find((p) => p.id === id)),
       map((person) => {

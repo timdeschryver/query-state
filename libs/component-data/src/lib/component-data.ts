@@ -70,11 +70,12 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
     private readonly componentRoute: ComponentRoute,
     private readonly cache: ComponentDataCache,
     @Inject(COMPONENT_DATA_SERVICE)
-    private readonly dataService: Service & ComponentDataService<Data>,
+    private readonly dataService: Service & ComponentDataService,
 
     @Inject(COMPONENT_DATA_CONFIG)
-    private readonly config: ComponentDataConfig
+    private readonly config: ComponentDataConfig<ComponentDataService>
   ) {
+    const query = config.query || 'query';
     this.subscriptions.add(
       combineLatest([
         this.componentRoute.params$,
@@ -98,7 +99,10 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
                 ? undefined
                 : this.cache.getCacheEntry(this.config.name, paramsKey);
 
-              return this.dataService.query({ params, queryParams }).pipe(
+              return this.dataService[query]({
+                params,
+                queryParams,
+              }).pipe(
                 tap((data) => {
                   if (!this.config.disableCache) {
                     this.cache.setCacheEntry(this.config.name, paramsKey, data);
@@ -107,7 +111,7 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
                 map(
                   (data): RequestStateData<Data> => ({
                     state: 'success',
-                    data,
+                    data: data as Data,
                   })
                 ),
                 startWith({
