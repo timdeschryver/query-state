@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+
+  "mainEntryPointFilePath": "../../dist/libs/component-data/index.d.ts",
+
+  "projectFolder": ".",
+  "bundledPackages": ["request-state-contracts"],
+
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "etc"
+  },
+
+  "docModel": {
+    "enabled": true,
+    "apiJsonFilePath": "../../dist/component-data.api.json"
+  },
+
+  "dtsRollup": {
+    "enabled": false
+  }
+}
