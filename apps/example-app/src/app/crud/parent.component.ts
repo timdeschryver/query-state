@@ -25,7 +25,7 @@ import { Person } from './models';
       </ng-template>
     </request-state-template>
 
-    <router-outlet (deactivate)="data.refresh()"></router-outlet>
+    <router-outlet (deactivate)="data.revalidate()"></router-outlet>
   `,
   providers: provideComponentData(DataService, {
     name: ParentComponent.name,

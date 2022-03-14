@@ -54,7 +54,7 @@ export class SearchComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (this.form.valueChanges) {
       this.data.update(this.form.valueChanges.pipe(debounceTime(500)));
-      this.data.refresh(this.refreshTrigger);
+      this.data.revalidate(this.refreshTrigger);
     }
   }
 }

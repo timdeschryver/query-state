@@ -31,7 +31,7 @@ import { DataParams } from './data-models';
 @Injectable()
 export class ComponentData<Data, Service = unknown> implements OnDestroy {
   private subscriptions = new Subscription();
-  private refreshTrigger = new Subject<void>();
+  private revalidateTrigger = new Subject<void>();
   private dataSubject = new BehaviorSubject<RequestStateData<Data>>(
     undefined as unknown as RequestStateData<Data>
   );
@@ -52,7 +52,7 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
         focusTrigger: false,
         onlineTrigger: false,
         timerTrigger: false,
-        triggers: (_data) => [this.refreshTrigger],
+        triggers: (_data) => [this.revalidateTrigger],
       };
     }
 
@@ -61,8 +61,8 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
       ...(triggers || {}),
       triggers: (data) =>
         triggers?.triggers
-          ? triggers.triggers(data).concat(this.refreshTrigger)
-          : [this.refreshTrigger],
+          ? triggers.triggers(data).concat(this.revalidateTrigger)
+          : [this.revalidateTrigger],
     };
   }
 
@@ -150,15 +150,15 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
     }
   }
 
-  refresh(trigger$?: Observable<unknown>): void {
+  revalidate(trigger$?: Observable<unknown>): void {
     if (isObservable(trigger$)) {
       this.subscriptions.add(
         trigger$.subscribe(() => {
-          this.refreshTrigger.next();
+          this.revalidateTrigger.next();
         })
       );
     } else {
-      this.refreshTrigger.next();
+      this.revalidateTrigger.next();
     }
   }
 
@@ -177,6 +177,6 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
   ngOnDestroy(): void {
     this.dataSubject.complete();
     this.subscriptions.unsubscribe();
-    this.refreshTrigger.complete();
+    this.revalidateTrigger.complete();
   }
 }

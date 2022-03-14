@@ -142,7 +142,7 @@ it('builds and uses the cache on route re-enter', () => {
   ]);
 });
 
-it('does not refresh when params dont change', () => {
+it('does not revalidate when params dont change', () => {
   const { route, emits } = setup();
   jest.advanceTimersByTime(1);
 
@@ -159,7 +159,7 @@ it('does not refresh when params dont change', () => {
   ]);
 });
 
-it('does not refresh but revalidate when params are equal for cacheKey', () => {
+it('does not revalidate but revalidate when params are equal for cacheKey', () => {
   const { route, emits } = setup({
     cacheKey: (params) => params.params.id.toLowerCase(),
   });
@@ -180,11 +180,11 @@ it('does not refresh but revalidate when params are equal for cacheKey', () => {
   ]);
 });
 
-it('refresh revalidates the response', () => {
+it('revalidate revalidates the response', () => {
   const { componentData, emits } = setup();
   jest.advanceTimersByTime(1);
 
-  componentData.refresh();
+  componentData.revalidate();
   jest.advanceTimersByTime(1);
 
   expect(emits).toEqual([
@@ -196,17 +196,17 @@ it('refresh revalidates the response', () => {
   ]);
 });
 
-it('refresh as a stream revalidates the response', () => {
+it('revalidate as a stream revalidates the response', () => {
   const { componentData, emits } = setup();
   jest.advanceTimersByTime(1);
 
-  const refresh = new Subject<void>();
-  componentData.refresh(refresh);
+  const revalidate = new Subject<void>();
+  componentData.revalidate(revalidate);
 
-  refresh.next();
+  revalidate.next();
   jest.advanceTimersByTime(1);
 
-  refresh.next();
+  revalidate.next();
   jest.advanceTimersByTime(1);
 
   expect(emits).toEqual([
