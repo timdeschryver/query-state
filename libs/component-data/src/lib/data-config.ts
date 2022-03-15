@@ -49,6 +49,18 @@ export interface ComponentDataConfig<Service> {
    * Triggers to refresh the current data
    */
   revalidateTriggers?: false | TriggerConfig;
+
+  /**
+   * Decide when to retry a failed request.
+   * Defaults to 3 times.
+   */
+  retryCondition?: number | ((retries: number) => boolean);
+
+  /**
+   * Set the delay between the retries.
+   * Defaults to an exponential retry with a starting delay of 1 second.
+   */
+  retryDelay?: (retries: number) => number | Date;
 }
 
 export type TriggerConfig = {

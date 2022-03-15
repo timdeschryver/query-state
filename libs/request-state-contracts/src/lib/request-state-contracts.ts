@@ -9,4 +9,5 @@ export interface RequestStateData<Data> {
   state: RequestState;
   data?: Data;
   error?: unknown;
+  retries?: number;
 }

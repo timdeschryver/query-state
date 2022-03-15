@@ -3,8 +3,11 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
+  concatMap,
   debounceTime,
-  distinctUntilKeyChanged,
+  distinctUntilChanged,
+  EMPTY,
+  expand,
   isObservable,
   map,
   Observable,
@@ -15,6 +18,7 @@ import {
   Subscription,
   switchMap,
   tap,
+  timer,
 } from 'rxjs';
 import { ComponentRoute } from './component-route';
 import { ComponentDataCache } from './data-cache';
@@ -76,6 +80,18 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
     private readonly config: ComponentDataConfig<ComponentDataService>
   ) {
     const query = config.query || 'query';
+
+    const retryCondition =
+      typeof config.retryCondition === 'number'
+        ? (retries: number) => retries < (config.retryCondition as number)
+        : config.retryCondition ??
+          function retry(retries) {
+            return retries < 3;
+          };
+
+    const retryDelay =
+      config.retryDelay ?? ((retries) => Math.pow(2, retries - 1) * 1000);
+
     this.subscriptions.add(
       combineLatest([
         this.componentRoute.params$,
@@ -99,37 +115,81 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
                 ? undefined
                 : this.cache.getCacheEntry(this.config.name, paramsKey);
 
-              return this.dataService[query]({
-                params,
-                queryParams,
-              }).pipe(
-                tap((data) => {
+              const invokeRequest = (
+                retries: number
+              ): Observable<RequestStateData<Data>> => {
+                return this.dataService[query]({
+                  params,
+                  queryParams,
+                }).pipe(
+                  map(
+                    (data): RequestStateData<Data> => ({
+                      state: 'success',
+                      data: data as Data,
+                    })
+                  ),
+                  catchError(
+                    (error: unknown): Observable<RequestStateData<Data>> => {
+                      return of({
+                        state: 'error',
+                        error,
+                        retries: retries === 0 ? undefined : retries,
+                      });
+                    }
+                  )
+                );
+              };
+
+              return invokeRequest(0).pipe(
+                expand((result) => {
+                  if (
+                    result.state === 'error' &&
+                    retryCondition(result.retries || 1)
+                  ) {
+                    return timer(retryDelay(result.retries || 1)).pipe(
+                      concatMap(() => {
+                        return invokeRequest((result.retries || 0) + 1);
+                      })
+                    );
+                  }
+
+                  return EMPTY;
+                }),
+                tap((result) => {
                   if (!this.config.disableCache) {
-                    this.cache.setCacheEntry(this.config.name, paramsKey, data);
+                    if (result.state === 'success') {
+                      this.cache.setCacheEntry(
+                        this.config.name,
+                        paramsKey,
+                        result.data
+                      );
+                    }
                   }
                 }),
-                map(
-                  (data): RequestStateData<Data> => ({
-                    state: 'success',
-                    data: data as Data,
-                  })
-                ),
+                map((result) => {
+                  if (
+                    result.state === 'error' &&
+                    retryCondition(result.retries || 1)
+                  ) {
+                    return {
+                      ...result,
+                      state: cachedEntry ? 'revalidate' : 'loading',
+                    } as RequestStateData<Data>;
+                  }
+
+                  return result;
+                }),
                 startWith({
                   state: cachedEntry ? 'revalidate' : 'loading',
                   data: cachedEntry,
-                } as RequestStateData<Data>),
-                catchError(
-                  (error: unknown): Observable<RequestStateData<Data>> =>
-                    of({
-                      state: 'error',
-                      error,
-                    })
-                )
+                } as RequestStateData<Data>)
               );
             }
           ),
           startWith({ state: 'idle' } as RequestStateData<Data>),
-          distinctUntilKeyChanged('state')
+          distinctUntilChanged(
+            (a, b) => a.state === b.state && a.retries === b.retries
+          )
         )
         .subscribe((data) => {
           this.data = data;

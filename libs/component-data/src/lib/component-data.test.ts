@@ -102,9 +102,126 @@ it('executes the query on query param navigation', () => {
   ]);
 });
 
-it('ends up in the error state on failure', () => {
+it('ends up in the error state on failure after retrying', () => {
   const { service, emits } = setup();
-  service.query = jest.fn(() => throwError(() => 'Something went wrong'));
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
+  jest.advanceTimersByTime(10_000);
+
+  expect(service.query).toHaveBeenCalledWith({
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+    { state: 'error', error: 'Something went wrong', retries: 3 },
+  ]);
+});
+
+it('retries 3 times exponentially on failure', () => {
+  const { service, emits } = setup();
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
+  jest.advanceTimersByTime(1);
+
+  expect(service.query).toHaveBeenCalledWith({
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+
+  jest.advanceTimersByTime(1000);
+  expect(service.query).toHaveBeenCalledTimes(2);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+  ]);
+
+  jest.advanceTimersByTime(2000);
+  expect(service.query).toHaveBeenCalledTimes(3);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+  ]);
+
+  jest.advanceTimersByTime(3000);
+  expect(service.query).toHaveBeenCalledTimes(4);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+    { state: 'error', error: 'Something went wrong', retries: 3 },
+  ]);
+
+  jest.advanceTimersByTime(10_000);
+  expect(service.query).toHaveBeenCalledTimes(4);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+    { state: 'error', error: 'Something went wrong', retries: 3 },
+  ]);
+});
+
+it('sets the retry config with a retry number', () => {
+  const { service, emits } = setup({
+    retryCondition: 2,
+  });
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
+  jest.advanceTimersByTime(1);
+
+  expect(service.query).toHaveBeenCalledWith({
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+
+  jest.advanceTimersByTime(1000);
+  expect(service.query).toHaveBeenCalledTimes(2);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+  ]);
+
+  jest.advanceTimersByTime(2000);
+  expect(service.query).toHaveBeenCalledTimes(3);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'error', error: 'Something went wrong', retries: 2 },
+  ]);
+
+  jest.advanceTimersByTime(10_000);
+  expect(service.query).toHaveBeenCalledTimes(3);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'error', error: 'Something went wrong', retries: 2 },
+  ]);
+});
+
+it('disables retry behavior by setting retryCondition to 0', () => {
+  const { service, emits } = setup({
+    retryCondition: 0,
+  });
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
   jest.advanceTimersByTime(1);
 
   expect(service.query).toHaveBeenCalledWith({
@@ -115,6 +232,100 @@ it('ends up in the error state on failure', () => {
     { state: 'idle' },
     { state: 'loading' },
     { state: 'error', error: 'Something went wrong' },
+  ]);
+
+  jest.advanceTimersByTime(10_000);
+  expect(service.query).toHaveBeenCalledTimes(1);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'error', error: 'Something went wrong' },
+  ]);
+});
+
+it('sets the retry config with a retry condition', () => {
+  const { service, emits } = setup({
+    retryCondition: (retries) => retries <= 1,
+  });
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
+  jest.advanceTimersByTime(1);
+
+  expect(service.query).toHaveBeenCalledWith({
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+
+  jest.advanceTimersByTime(1000);
+  expect(service.query).toHaveBeenCalledTimes(2);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+  ]);
+
+  jest.advanceTimersByTime(2000);
+  expect(service.query).toHaveBeenCalledTimes(3);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'error', error: 'Something went wrong', retries: 2 },
+  ]);
+});
+
+it('sets the retry delay', () => {
+  const { service, emits } = setup({
+    retryDelay: (retries) => retries * 100,
+  });
+  service.query = jest.fn(() => {
+    return throwError(() => 'Something went wrong');
+  });
+  jest.advanceTimersByTime(1);
+
+  expect(service.query).toHaveBeenCalledWith({
+    params: { id: 'a' },
+    queryParams: { id: 'a' },
+  });
+  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+
+  jest.advanceTimersByTime(100);
+  expect(service.query).toHaveBeenCalledTimes(2);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+  ]);
+
+  jest.advanceTimersByTime(200);
+  expect(service.query).toHaveBeenCalledTimes(3);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+  ]);
+
+  jest.advanceTimersByTime(300);
+  expect(service.query).toHaveBeenCalledTimes(4);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+    { state: 'error', error: 'Something went wrong', retries: 3 },
+  ]);
+
+  jest.advanceTimersByTime(1000);
+  expect(service.query).toHaveBeenCalledTimes(4);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong', retries: 1 },
+    { state: 'loading', error: 'Something went wrong', retries: 2 },
+    { state: 'error', error: 'Something went wrong', retries: 3 },
   ]);
 });
 
