@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingTemplateDirective, "[rsDefaultLoading]", never, {}, {}, never>;
+static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingTemplateDirective, "[rsDefaultLoading]", never, { "rsDefaultLoading": "rsDefaultLoading"; }, {}, never>;
 ```

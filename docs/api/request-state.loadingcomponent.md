@@ -9,3 +9,11 @@
 ```typescript
 export interface LoadingTemplateComponent 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [error?](./request-state.loadingcomponent.error.md) | unknown | <i>(Optional)</i> |
+|  [retries?](./request-state.loadingcomponent.retries.md) | number | <i>(Optional)</i> |
+

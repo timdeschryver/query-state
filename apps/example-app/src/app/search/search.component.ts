@@ -14,8 +14,9 @@ import { GitHubService } from './github.service';
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
     <request-state-template [requestState]="data.data">
-      <ng-template rsLoadingRequestState>
-        🔎 Searching for GitHub users...
+      <ng-template rsLoadingRequestState let-retries>
+        🔎 Searching for GitHub users
+        {{ retries ? '( retrying ' + retries + ' )' : '' }}
       </ng-template>
 
       <ng-template rsErrorRequestState let-error>

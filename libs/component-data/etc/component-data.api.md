@@ -42,7 +42,7 @@ export class ComponentData<Data, Service = unknown> implements OnDestroy {
     // (undocumented)
     queryParams: DataParams;
     // (undocumented)
-    refresh(trigger$?: Observable<unknown>): void;
+    revalidate(trigger$?: Observable<unknown>): void;
     // (undocumented)
     get service(): Service;
     // (undocumented)
@@ -79,6 +79,8 @@ export interface ComponentDataConfig<Service> {
     }) => boolean;
     name: string;
     query?: keyof Service;
+    retryCondition?: number | ((retries: number) => boolean);
+    retryDelay?: (retries: number) => number | Date;
     revalidateTriggers?: false | TriggerConfig;
 }
 

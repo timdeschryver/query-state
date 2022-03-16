@@ -7,12 +7,22 @@ import { Observable } from 'rxjs';
   selector: 'ng-template[rsIdleRequestState]',
 })
 export class IdleRequestStateTemplateDirective<T> {
-  @Input() rsIdleRequestState: RequestStateData<T> | Observable<RequestStateData<T>> | undefined | '';
+  @Input() rsIdleRequestState:
+    | RequestStateData<T>
+    | Observable<RequestStateData<T>>
+    | undefined
+    | '';
 
   static ngTemplateContextGuard<T>(
     _dir: IdleRequestStateTemplateDirective<T>,
     ctx: unknown
-  ): ctx is { $implicit: T | undefined; data: T | undefined; revalidating: boolean; } {
+  ): ctx is {
+    $implicit?: T;
+    data?: T;
+    revalidating: boolean;
+    error?: unknown;
+    retries?: number;
+  } {
     return true;
   }
 

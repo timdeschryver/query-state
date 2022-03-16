@@ -4,9 +4,23 @@ import { LoadingComponent } from 'request-state';
 
 @Component({
   selector: 'component-data-nx-custom-loading',
-  template: ` <div>⏱️⏱️⏱️</div> `,
+  template: `
+    <div>
+      ⏱️⏱️⏱️
+      {{
+        retries
+          ? 'this is taking a little longer than expected... ( ' +
+            retries +
+            ' )'
+          : ''
+      }}
+    </div>
+  `,
 })
-export class CustomLoadingComponent implements LoadingComponent {}
+export class CustomLoadingComponent implements LoadingComponent {
+  retries?: number;
+  error?: unknown;
+}
 
 @NgModule({
   imports: [CommonModule],

@@ -15,4 +15,5 @@ export interface ErrorTemplateComponent
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [error](./request-state.errorcomponent.error.md) | unknown |  |
+|  [retries?](./request-state.errorcomponent.retries.md) | number | <i>(Optional)</i> |
 

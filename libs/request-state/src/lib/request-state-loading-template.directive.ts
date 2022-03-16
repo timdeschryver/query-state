@@ -5,10 +5,14 @@ import { Directive, NgModule, TemplateRef } from '@angular/core';
   selector: 'ng-template[rsLoadingRequestState]',
 })
 export class LoadingRequestStateTemplateDirective {
-  static ngTemplateContextGuar(
+  static ngTemplateContextGuard(
     _dir: LoadingRequestStateTemplateDirective,
     ctx: unknown
-  ): ctx is undefined {
+  ): ctx is {
+    $implicit?: number;
+    error?: unknown;
+    retries?: number;
+  } {
     return true;
   }
 

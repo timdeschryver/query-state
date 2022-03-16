@@ -20,5 +20,7 @@ export interface ComponentDataConfig<Service>
 |  [ignore?](./component-data.componentdataconfig.ignore.md) | (params: { params: [DataParams](./component-data.dataparams.md)<!-- -->; queryParams: [DataParams](./component-data.dataparams.md)<!-- -->; }) =&gt; boolean | <i>(Optional)</i> A decider function that decides whether to invoke the query By default all changes are sent to the query If the function returns <code>true</code>, the changes are ignored and the query isn't invoked |
 |  [name](./component-data.componentdataconfig.name.md) | string | The name of the component This is used to build up a cache |
 |  [query?](./component-data.componentdataconfig.query.md) | keyof Service | <i>(Optional)</i> The query method that is invoked. Defaults to <code>query</code>. |
+|  [retryCondition?](./component-data.componentdataconfig.retrycondition.md) | number \| ((retries: number) =&gt; boolean) | <i>(Optional)</i> Decide when to retry a failed request. Defaults to 3 times. |
+|  [retryDelay?](./component-data.componentdataconfig.retrydelay.md) | (retries: number) =&gt; number \| Date | <i>(Optional)</i> Set the delay between the retries. Defaults to an exponential retry with a starting delay of 1 second. |
 |  [revalidateTriggers?](./component-data.componentdataconfig.revalidatetriggers.md) | false \| [TriggerConfig](./component-data.triggerconfig.md) | <i>(Optional)</i> Triggers to refresh the current data |
 

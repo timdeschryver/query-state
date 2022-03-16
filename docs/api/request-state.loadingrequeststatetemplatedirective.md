@@ -28,5 +28,5 @@ export declare class LoadingRequestStateTemplateDirective
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [ngTemplateContextGuar(\_dir, ctx)](./request-state.loadingrequeststatetemplatedirective.ngtemplatecontextguar.md) | <code>static</code> |  |
+|  [ngTemplateContextGuard(\_dir, ctx)](./request-state.loadingrequeststatetemplatedirective.ngtemplatecontextguard.md) | <code>static</code> |  |
 

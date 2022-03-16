@@ -8,9 +8,11 @@
 
 ```typescript
 static ngTemplateContextGuard<T>(_dir: IdleRequestStateTemplateDirective<T>, ctx: unknown): ctx is {
-        $implicit: T | undefined;
-        data: T | undefined;
+        $implicit?: T;
+        data?: T;
         revalidating: boolean;
+        error?: unknown;
+        retries?: number;
     };
 ```
 
@@ -23,5 +25,5 @@ static ngTemplateContextGuard<T>(_dir: IdleRequestStateTemplateDirective<T>, ctx
 
 <b>Returns:</b>
 
-ctx is { $implicit: T \| undefined; data: T \| undefined; revalidating: boolean; }
+ctx is { $implicit?: T; data?: T; revalidating: boolean; error?: unknown; retries?: number; }
 

@@ -10,6 +10,7 @@
 static ngTemplateContextGuard(_dir: ErrorRequestStateTemplateDirective, ctx: unknown): ctx is {
         $implicit: unknown;
         error: unknown;
+        retries?: number;
     };
 ```
 
@@ -22,5 +23,5 @@ static ngTemplateContextGuard(_dir: ErrorRequestStateTemplateDirective, ctx: unk
 
 <b>Returns:</b>
 
-ctx is { $implicit: unknown; error: unknown; }
+ctx is { $implicit: unknown; error: unknown; retries?: number; }
 

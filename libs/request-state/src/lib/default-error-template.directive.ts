@@ -1,4 +1,5 @@
 import {
+  ComponentRef,
   Directive,
   Inject,
   InjectionToken,
@@ -9,12 +10,26 @@ import {
   Type,
   ViewContainerRef,
 } from '@angular/core';
+import { RequestStateData } from 'request-state-contracts';
 
 @Directive({
   selector: '[rsDefaultError]',
 })
 export class DefaultErrorTemplateDirective implements OnInit {
-  @Input() rsDefaultError: unknown;
+  ref?: ComponentRef<ErrorTemplateComponent>;
+  private _rsDefaultError!: RequestStateData<unknown>;
+  @Input() set rsDefaultError(value: RequestStateData<unknown>) {
+    this._rsDefaultError = value;
+    if (this.ref) {
+      this.ref.instance.error = this.rsDefaultError.error;
+      this.ref.instance.retries = this.rsDefaultError.retries;
+      this.ref.changeDetectorRef.markForCheck();
+    }
+  }
+
+  get rsDefaultError() {
+    return this._rsDefaultError;
+  }
 
   constructor(
     private viewContainerRef: ViewContainerRef,
@@ -27,14 +42,16 @@ export class DefaultErrorTemplateDirective implements OnInit {
   ngOnInit() {
     if (this.errorComponent) {
       this.viewContainerRef.clear();
-      const cmp = this.viewContainerRef.createComponent(this.errorComponent);
-      cmp.instance.error = this.rsDefaultError;
+      this.ref = this.viewContainerRef.createComponent(this.errorComponent);
+      this.ref.instance.error = this.rsDefaultError.error;
+      this.ref.instance.retries = this.rsDefaultError.retries;
     }
   }
 }
 
 export interface ErrorTemplateComponent {
   error: unknown;
+  retries?: number;
 }
 
 @NgModule({

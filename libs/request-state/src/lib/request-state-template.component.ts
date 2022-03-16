@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, Input, NgModule, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  Input,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { RequestStateData } from 'request-state-contracts';
 import { isObservable, Observable, Subscription } from 'rxjs';
 import { DefaultErrorDirectiveModule } from './default-error-template.directive';
@@ -25,12 +31,19 @@ import {
         <ng-container *ngSwitchCase="'loading'">
           <ng-container *ngIf="loadingTemplate; else defaultLoading">
             <ng-container
-              *ngTemplateOutlet="loadingTemplate.templateRef"
+              *ngTemplateOutlet="
+                loadingTemplate.templateRef;
+                context: {
+                  $implicit: rs.retries,
+                  error: rs.error,
+                  retries: rs.retries
+                }
+              "
             ></ng-container>
           </ng-container>
 
           <ng-template #defaultLoading>
-            <ng-template rsDefaultLoading></ng-template>
+            <ng-template [rsDefaultLoading]="rs"></ng-template>
           </ng-template>
         </ng-container>
 
@@ -41,14 +54,15 @@ import {
                 errorTemplate.templateRef;
                 context: {
                   $implicit: rs.error,
-                  error: rs.error
+                  error: rs.error,
+                  retries: rs.retries
                 }
               "
             ></ng-container>
           </ng-container>
 
           <ng-template #defaultError>
-            <ng-template [rsDefaultError]="rs.error"></ng-template>
+            <ng-template [rsDefaultError]="rs"></ng-template>
           </ng-template>
         </ng-container>
 
@@ -59,8 +73,10 @@ import {
                 idleTemplate.templateRef;
                 context: {
                   $implicit: rs.data,
-                  state: rs.data,
-                  revalidating: rs.state === 'revalidate'
+                  data: rs.data,
+                  revalidating: rs.state === 'revalidate',
+                  error: rs.error,
+                  retries: rs.retries
                 }
               "
             >

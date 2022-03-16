@@ -7,5 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-rsDefaultError: unknown;
+get rsDefaultError(): RequestStateData<unknown>;
+
+set rsDefaultError(value: RequestStateData<unknown>);
 ```

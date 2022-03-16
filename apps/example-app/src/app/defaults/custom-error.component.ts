@@ -6,7 +6,7 @@ import { ErrorComponent } from 'request-state';
   selector: 'component-data-nx-custom-error',
   template: `
     <div role="alert" style="border: 1px solid red">
-      Something went wrong!
+      Something went wrong (retried {{ retries }} times)
       <pre>
         {{ error | json }}
       </pre
@@ -16,6 +16,7 @@ import { ErrorComponent } from 'request-state';
 })
 export class CustomErrorComponent implements ErrorComponent {
   error: unknown;
+  retries?: number;
 }
 
 @NgModule({

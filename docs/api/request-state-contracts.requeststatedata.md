@@ -16,5 +16,6 @@ export interface RequestStateData<Data>
 |  --- | --- | --- |
 |  [data?](./request-state-contracts.requeststatedata.data.md) | Data | <i>(Optional)</i> |
 |  [error?](./request-state-contracts.requeststatedata.error.md) | unknown | <i>(Optional)</i> |
+|  [retries?](./request-state-contracts.requeststatedata.retries.md) | number | <i>(Optional)</i> |
 |  [state](./request-state-contracts.requeststatedata.state.md) | [RequestState](./request-state-contracts.requeststate.md) |  |
 

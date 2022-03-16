@@ -35,6 +35,6 @@ export declare class ComponentData<Data, Service = unknown> implements OnDestroy
 |  --- | --- | --- |
 |  [effect(sourceOrSourceFactory)](./component-data.componentdata.effect.md) |  |  |
 |  [ngOnDestroy()](./component-data.componentdata.ngondestroy.md) |  |  |
-|  [refresh(trigger$)](./component-data.componentdata.refresh.md) |  |  |
+|  [revalidate(trigger$)](./component-data.componentdata.revalidate.md) |  |  |
 |  [update(queryParamsOrObservable)](./component-data.componentdata.update.md) |  |  |
 

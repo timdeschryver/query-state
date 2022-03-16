@@ -14,6 +14,8 @@ export interface RequestStateData<Data> {
     // (undocumented)
     error?: unknown;
     // (undocumented)
+    retries?: number;
+    // (undocumented)
     state: RequestState;
 }
 

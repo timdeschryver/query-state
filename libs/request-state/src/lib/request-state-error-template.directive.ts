@@ -8,7 +8,7 @@ export class ErrorRequestStateTemplateDirective {
   static ngTemplateContextGuard(
     _dir: ErrorRequestStateTemplateDirective,
     ctx: unknown
-  ): ctx is { $implicit: unknown; error: unknown } {
+  ): ctx is { $implicit: unknown; error: unknown; retries?: number } {
     return true;
   }
 

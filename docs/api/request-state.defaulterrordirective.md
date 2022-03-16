@@ -23,7 +23,8 @@ export declare class DefaultErrorTemplateDirective implements OnInit
 |  --- | --- | --- | --- |
 |  [ɵdir](./request-state.defaulterrordirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;DefaultErrorTemplateDirective, "\[rsDefaultError\]", never, { "rsDefaultError": "rsDefaultError"; }, {}, never&gt; |  |
 |  [ɵfac](./request-state.defaulterrordirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;DefaultErrorTemplateDirective, \[null, { optional: true; }\]&gt; |  |
-|  [rsDefaultError](./request-state.defaulterrordirective.rsdefaulterror.md) |  | unknown |  |
+|  [ref?](./request-state.defaulterrordirective.ref.md) |  | ComponentRef&lt;ErrorTemplateComponent&gt; | <i>(Optional)</i> |
+|  [rsDefaultError](./request-state.defaulterrordirective.rsdefaulterror.md) |  | RequestStateData&lt;unknown&gt; |  |
 
 ## Methods
 

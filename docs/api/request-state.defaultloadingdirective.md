@@ -21,8 +21,10 @@ export declare class DefaultLoadingTemplateDirective implements OnInit
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./request-state.defaultloadingdirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;DefaultLoadingTemplateDirective, "\[rsDefaultLoading\]", never, {}, {}, never&gt; |  |
+|  [ɵdir](./request-state.defaultloadingdirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;DefaultLoadingTemplateDirective, "\[rsDefaultLoading\]", never, { "rsDefaultLoading": "rsDefaultLoading"; }, {}, never&gt; |  |
 |  [ɵfac](./request-state.defaultloadingdirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;DefaultLoadingTemplateDirective, \[null, { optional: true; }\]&gt; |  |
+|  [ref?](./request-state.defaultloadingdirective.ref.md) |  | ComponentRef&lt;LoadingTemplateComponent&gt; | <i>(Optional)</i> |
+|  [rsDefaultLoading](./request-state.defaultloadingdirective.rsdefaultloading.md) |  | RequestStateData&lt;unknown&gt; |  |
 
 ## Methods
 

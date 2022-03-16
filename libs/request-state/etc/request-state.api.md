@@ -4,6 +4,7 @@
 
 ```ts
 
+import { ComponentRef } from '@angular/core';
 import * as i0 from '@angular/core';
 import * as i1 from '@angular/common';
 import { InjectionToken } from '@angular/core';
@@ -21,7 +22,11 @@ export class DefaultErrorDirective implements OnInit {
     // (undocumented)
     ngOnInit(): void;
     // (undocumented)
-    rsDefaultError: unknown;
+    ref?: ComponentRef<ErrorComponent>;
+    // Warning: (ae-forgotten-export) The symbol "RequestStateData" needs to be exported by the entry point index.d.ts
+    set rsDefaultError(value: RequestStateData<unknown>);
+    // (undocumented)
+    get rsDefaultError(): RequestStateData<unknown>;
     // (undocumented)
     static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorDirective, "[rsDefaultError]", never, { "rsDefaultError": "rsDefaultError"; }, {}, never>;
     // (undocumented)
@@ -44,7 +49,12 @@ export class DefaultLoadingDirective implements OnInit {
     // (undocumented)
     ngOnInit(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingDirective, "[rsDefaultLoading]", never, {}, {}, never>;
+    ref?: ComponentRef<LoadingComponent>;
+    set rsDefaultLoading(value: RequestStateData<unknown>);
+    // (undocumented)
+    get rsDefaultLoading(): RequestStateData<unknown>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingDirective, "[rsDefaultLoading]", never, { "rsDefaultLoading": "rsDefaultLoading"; }, {}, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingDirective, [null, { optional: true; }]>;
 }
@@ -63,6 +73,8 @@ class DefaultLoadingDirectiveModule {
 export interface ErrorComponent {
     // (undocumented)
     error: unknown;
+    // (undocumented)
+    retries?: number;
 }
 
 // @public (undocumented)
@@ -72,6 +84,7 @@ export class ErrorRequestStateTemplateDirective {
     static ngTemplateContextGuard(_dir: ErrorRequestStateTemplateDirective, ctx: unknown): ctx is {
         $implicit: unknown;
         error: unknown;
+        retries?: number;
     };
     // (undocumented)
     templateRef: TemplateRef<unknown>;
@@ -96,12 +109,12 @@ export class IdleRequestStateTemplateDirective<T> {
     constructor(templateRef: TemplateRef<unknown>);
     // (undocumented)
     static ngTemplateContextGuard<T>(_dir: IdleRequestStateTemplateDirective<T>, ctx: unknown): ctx is {
-        $implicit: T | undefined;
-        data: T | undefined;
+        $implicit?: T;
+        data?: T;
         revalidating: boolean;
+        error?: unknown;
+        retries?: number;
     };
-    // Warning: (ae-forgotten-export) The symbol "RequestStateData" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     rsIdleRequestState: RequestStateData<T> | Observable<RequestStateData<T>> | undefined | '';
     // (undocumented)
@@ -124,13 +137,21 @@ class IdleRequestStateTemplateDirectiveModule {
 
 // @public (undocumented)
 export interface LoadingComponent {
+    // (undocumented)
+    error?: unknown;
+    // (undocumented)
+    retries?: number;
 }
 
 // @public (undocumented)
 export class LoadingRequestStateTemplateDirective {
     constructor(templateRef: TemplateRef<unknown>);
     // (undocumented)
-    static ngTemplateContextGuar(_dir: LoadingRequestStateTemplateDirective, ctx: unknown): ctx is undefined;
+    static ngTemplateContextGuard(_dir: LoadingRequestStateTemplateDirective, ctx: unknown): ctx is {
+        $implicit?: number;
+        error?: unknown;
+        retries?: number;
+    };
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
