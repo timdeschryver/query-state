@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { DataParams } from './models';
 
 @Injectable()
-export class ComponentRoute {
+export class UrlState {
   params = this.activatedRoute.snapshot?.params ?? {};
   queryParams = this.activatedRoute.snapshot?.queryParams ?? {};
 
@@ -25,7 +25,7 @@ export class ComponentRoute {
   }
 }
 
-export class MockComponentRoute {
+export class MockUrlState {
   params: Params = {};
   queryParams: Params = {};
 

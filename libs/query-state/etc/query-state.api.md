@@ -19,25 +19,6 @@ import { Type } from '@angular/core';
 import { UnaryFunction } from 'rxjs';
 
 // @public (undocumented)
-export class ComponentRoute {
-    constructor(activatedRoute: ActivatedRoute, router: Router);
-    // (undocumented)
-    navigate(queryParams: Params): void;
-    // (undocumented)
-    params$: Subject<DataParams>;
-    // (undocumented)
-    params: Params;
-    // (undocumented)
-    queryParams$: Subject<DataParams>;
-    // (undocumented)
-    queryParams: Params;
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<ComponentRoute, never>;
-    // (undocumented)
-    static ɵprov: i0.ɵɵInjectableDeclaration<ComponentRoute>;
-}
-
-// @public (undocumented)
 export type DataParams = Record<string, string>;
 
 // @public (undocumented)
@@ -52,7 +33,7 @@ export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers
 export function mapSuccess<QueryData>(): UnaryFunction<Observable<QueryStateData<QueryData>>, Observable<QueryData>>;
 
 // @public (undocumented)
-export class MockComponentRoute {
+export class MockUrlState {
     constructor({ params, queryParams, }?: {
         params?: DataParams;
         queryParams?: DataParams;
@@ -94,7 +75,7 @@ export interface QueryService {
 
 // @public (undocumented)
 export class QueryState<Data, Service = unknown> implements OnDestroy {
-    constructor(componentRoute: ComponentRoute, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
+    constructor(urlState: UrlState, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
     // (undocumented)
     data$: Observable<QueryStateData<Data>>;
     // (undocumented)
@@ -166,6 +147,25 @@ export type TriggerConfig = {
     timerTrigger?: false | number;
     triggers?: <Data>(data: Data) => Observable<unknown>[];
 };
+
+// @public (undocumented)
+export class UrlState {
+    constructor(activatedRoute: ActivatedRoute, router: Router);
+    // (undocumented)
+    navigate(queryParams: Params): void;
+    // (undocumented)
+    params$: Subject<DataParams>;
+    // (undocumented)
+    params: Params;
+    // (undocumented)
+    queryParams$: Subject<DataParams>;
+    // (undocumented)
+    queryParams: Params;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<UrlState, never>;
+    // (undocumented)
+    static ɵprov: i0.ɵɵInjectableDeclaration<UrlState>;
+}
 
 // (No @packageDocumentation comment for this package)
 

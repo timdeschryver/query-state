@@ -1,5 +1,5 @@
 export { QueryState } from './lib/query-state';
-export { ComponentRoute, MockComponentRoute } from './lib/component-route';
+export { UrlState, MockUrlState } from './lib/url-state';
 export { QueryStateCache } from './lib/query-state-cache';
 export {
   QUERY_STATE_CONFIG,

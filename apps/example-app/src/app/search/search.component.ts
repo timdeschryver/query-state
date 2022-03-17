@@ -13,7 +13,7 @@ import { GitHubService } from './github.service';
       <input type="text" name="username" [ngModel]="username" required />
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
-    <query-state-template [queryState]="data.data">
+    <query-state-template [queryState]="queryState.data">
       <ng-template qsLoadingQueryState let-retries>
         🔎 Searching for GitHub users
         {{ retries ? '( retrying ' + retries + ' )' : '' }}
@@ -25,7 +25,7 @@ import { GitHubService } from './github.service';
       </ng-template>
 
       <ng-template
-        [qsIdleQueryState]="data.data"
+        [qsIdleQueryState]="queryState.data"
         let-user
         let-revalidating="revalidating"
       >
@@ -47,15 +47,15 @@ import { GitHubService } from './github.service';
 })
 export class SearchComponent implements AfterViewInit {
   @ViewChild(NgForm) form!: NgForm;
-  username = this.data.queryParams.username || '';
+  username = this.queryState.queryParams.username || '';
   refreshTrigger = new Subject<void>();
 
-  constructor(readonly data: QueryState<{ username: string }>) {}
+  constructor(readonly queryState: QueryState<{ username: string }>) {}
 
   ngAfterViewInit() {
     if (this.form.valueChanges) {
-      this.data.update(this.form.valueChanges.pipe(debounceTime(500)));
-      this.data.revalidate(this.refreshTrigger);
+      this.queryState.update(this.form.valueChanges.pipe(debounceTime(500)));
+      this.queryState.revalidate(this.refreshTrigger);
     }
   }
 }

@@ -9,14 +9,14 @@ Constructs a new instance of the `QueryState` class
 <b>Signature:</b>
 
 ```typescript
-constructor(componentRoute: ComponentRoute, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
+constructor(urlState: UrlState, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  componentRoute | [ComponentRoute](./query-state.componentroute.md) |  |
+|  urlState | [UrlState](./query-state.urlstate.md) |  |
 |  cache | [QueryStateCache](./query-state.querystatecache.md) |  |
 |  dataService | Service &amp; [QueryService](./query-state.queryservice.md) |  |
 |  config | [QueryStateConfig](./query-state.querystateconfig.md)<!-- -->&lt;[QueryService](./query-state.queryservice.md)<!-- -->&gt; |  |

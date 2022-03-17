@@ -4,7 +4,7 @@ import {
   QueryState,
   QueryStateCache,
   QueryStateConfig,
-  ComponentRoute,
+  UrlState,
   DataParams,
 } from '..';
 
@@ -23,7 +23,7 @@ function setup(config: Partial<QueryStateConfig<unknown>> = { name: 'test' }) {
   const cache = new QueryStateCache();
 
   const componentData = new QueryState(
-    new ComponentRoute(route as unknown as ActivatedRoute, router),
+    new UrlState(route as unknown as ActivatedRoute, router),
     cache,
     service,
     config as QueryStateConfig<unknown>

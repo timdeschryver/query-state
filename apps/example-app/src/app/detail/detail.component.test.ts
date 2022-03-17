@@ -2,7 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { render, screen } from '@testing-library/angular';
-import { ComponentRoute, MockComponentRoute, QueryParams } from 'query-state';
+import { UrlState, MockUrlState, QueryParams } from 'query-state';
 import { DetailComponent, DetailComponentModule } from './detail.component';
 import { PokemonService } from './pokemon.service';
 
@@ -53,14 +53,14 @@ it('search and render detail without activated route', async () => {
   expect(await screen.findByText(/"id": 3/i)).toBeVisible();
 });
 
-it('search and render detail with MockComponentRoute', async () => {
+it('search and render detail with MockUrlState', async () => {
   await render(DetailComponent, {
     excludeComponentDeclaration: true,
     imports: [DetailComponentModule, RouterTestingModule.withRoutes([])],
     componentProviders: [
       {
-        provide: ComponentRoute,
-        useValue: new MockComponentRoute({ params: { id: '1000' } }),
+        provide: UrlState,
+        useValue: new MockUrlState({ params: { id: '1000' } }),
       },
     ],
     providers: [

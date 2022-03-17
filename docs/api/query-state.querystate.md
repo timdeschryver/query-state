@@ -15,7 +15,7 @@ export declare class QueryState<Data, Service = unknown> implements OnDestroy
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(componentRoute, cache, dataService, config)](./query-state.querystate._constructor_.md) |  | Constructs a new instance of the <code>QueryState</code> class |
+|  [(constructor)(urlState, cache, dataService, config)](./query-state.querystate._constructor_.md) |  | Constructs a new instance of the <code>QueryState</code> class |
 
 ## Properties
 

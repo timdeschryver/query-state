@@ -1,12 +1,12 @@
 import { Type, Provider } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryState } from './query-state';
-import { ComponentRoute } from './component-route';
+import { UrlState } from './url-state';
 import { QueryStateConfig, QUERY_STATE_CONFIG } from './query-state-config';
 import { QueryService, QUERY_SERVICE } from './query-service';
 
-export function componentRoute(route: ActivatedRoute, router: Router) {
-  return new ComponentRoute(route, router);
+export function urlState(route: ActivatedRoute, router: Router) {
+  return new UrlState(route, router);
 }
 
 export const provideQueryState = <Service = QueryService>(
@@ -15,8 +15,8 @@ export const provideQueryState = <Service = QueryService>(
 ): Provider[] => [
   QueryState,
   {
-    provide: ComponentRoute,
-    useFactory: componentRoute,
+    provide: UrlState,
+    useFactory: urlState,
     deps: [ActivatedRoute, Router],
   },
   {

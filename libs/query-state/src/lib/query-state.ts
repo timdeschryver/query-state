@@ -20,7 +20,7 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { ComponentRoute } from './component-route';
+import { UrlState } from './url-state';
 import { QueryStateCache } from './query-state-cache';
 import {
   QUERY_STATE_CONFIG,
@@ -40,8 +40,8 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
     undefined as unknown as QueryStateData<Data>
   );
 
-  params = this.componentRoute.params as DataParams;
-  queryParams = this.componentRoute.queryParams as DataParams;
+  params = this.urlState.params as DataParams;
+  queryParams = this.urlState.queryParams as DataParams;
 
   data?: QueryStateData<Data>;
   data$ = this.dataSubject.asObservable();
@@ -71,7 +71,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
   }
 
   constructor(
-    private readonly componentRoute: ComponentRoute,
+    private readonly urlState: UrlState,
     private readonly cache: QueryStateCache,
     @Inject(QUERY_SERVICE)
     private readonly dataService: Service & QueryService,
@@ -93,10 +93,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
       config.retryDelay ?? ((retries) => Math.pow(2, retries - 1) * 1000);
 
     this.subscriptions.add(
-      combineLatest([
-        this.componentRoute.params$,
-        this.componentRoute.queryParams$,
-      ])
+      combineLatest([this.urlState.params$, this.urlState.queryParams$])
         .pipe(
           debounceTime(0),
           echo(this.triggerConfig),
@@ -202,11 +199,11 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
     if (isObservable(queryParamsOrObservable)) {
       this.subscriptions.add(
         queryParamsOrObservable.subscribe((queryParams) => {
-          this.componentRoute.navigate(queryParams);
+          this.urlState.navigate(queryParams);
         })
       );
     } else {
-      this.componentRoute.navigate(queryParamsOrObservable);
+      this.urlState.navigate(queryParamsOrObservable);
     }
   }
 

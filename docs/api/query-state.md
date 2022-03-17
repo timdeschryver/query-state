@@ -8,10 +8,10 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [ComponentRoute](./query-state.componentroute.md) |  |
-|  [MockComponentRoute](./query-state.mockcomponentroute.md) |  |
+|  [MockUrlState](./query-state.mockurlstate.md) |  |
 |  [QueryState](./query-state.querystate.md) |  |
 |  [QueryStateCache](./query-state.querystatecache.md) |  |
+|  [UrlState](./query-state.urlstate.md) |  |
 
 ## Functions
 
