@@ -1,28 +1,28 @@
-# Component Data
+# Query State
 
-Simple and configurable request helpers.
+Simple and configurable query helpers.
 
 ```ts
 @Component({
   selector: 'app-detail',
-  template: `<request-state-template [requestState]="data.data$">
-    <ng-template [rsIdleRequestState]="data.data" let-detail>
+  template: `<query-state-template [queryState]="queryState.data$">
+    <ng-template [qsIdleQueryState]="queryState.data" let-detail>
       <h2>Hello {{ detail.name }}</h2>
     </ng-template>
-  </request-state-template>`,
-  providers: provideComponentData(DetailService, {
+  </query-state-template>`,
+  providers: provideQueryState(DetailService, {
     name: DetailComponent.name,
   }),
 })
 export class DetailComponent {
-  constructor(public readonly data: ComponentData<{ name: string }>) {}
+  constructor(public readonly queryState: QueryState<{ name: string }>) {}
 }
 ```
 
-## component-data
+## query-state
 
-> Helpers to automatically fetch and revalidate data.
+> Helpers to automatically fetch and revalidate query data.
 
-## request-state
+## query-state-template
 
-> Template helper to show the request state and response.
+> Template helper to show the query state and response.

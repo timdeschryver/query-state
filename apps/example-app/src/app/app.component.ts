@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'component-data-root',
+  selector: 'query-state-root',
   template: `
     <a routerLink="">Home</a> |
     <a routerLink="search" [queryParams]="{ username: 'timdeschryver' }">

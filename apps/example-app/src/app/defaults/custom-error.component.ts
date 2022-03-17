@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { ErrorComponent } from 'request-state';
+import { ErrorTemplateComponent } from 'query-state-template';
 
 @Component({
-  selector: 'component-data-nx-custom-error',
+  selector: 'query-state-custom-error',
   template: `
     <div role="alert" style="border: 1px solid red">
       Something went wrong (retried {{ retries }} times)
@@ -14,7 +14,7 @@ import { ErrorComponent } from 'request-state';
     </div>
   `,
 })
-export class CustomErrorComponent implements ErrorComponent {
+export class CustomErrorComponent implements ErrorTemplateComponent {
   error: unknown;
   retries?: number;
 }

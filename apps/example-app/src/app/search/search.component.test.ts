@@ -2,11 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import {
-  ComponentRoute,
-  MockComponentRoute,
-  QueryParams,
-} from 'component-data';
+import { ComponentRoute, MockComponentRoute, QueryParams } from 'query-state';
 import { GitHubService } from './github.service';
 import { SearchComponent, SearchComponentModule } from './search.component';
 

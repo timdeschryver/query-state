@@ -1,0 +1,12 @@
+{
+  "name": "query-state",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "query-state-contracts": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

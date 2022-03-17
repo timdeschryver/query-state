@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ComponentData, provideComponentData } from 'component-data';
-import { RequestStateTemplateModule } from 'request-state';
+import { QueryState, provideQueryState } from 'query-state';
+import { QueryStateTemplateModule } from 'query-state-template';
 import { DataService } from './data.service';
 import { Person } from './models';
 
 @Component({
-  selector: 'component-data-parent',
+  selector: 'query-state-parent',
   template: `
-    <request-state-template [requestState]="data.data$">
+    <query-state-template [queryState]="queryState.data$">
       <ng-template
-        [rsIdleRequestState]="data.data"
+        [qsIdleQueryState]="queryState.data"
         let-persons
         let-revalidating="revalidating"
       >
@@ -23,20 +23,20 @@ import { Person } from './models';
 
         {{ revalidating ? '...' : '' }}
       </ng-template>
-    </request-state-template>
+    </query-state-template>
 
-    <router-outlet (deactivate)="data.revalidate()"></router-outlet>
+    <router-outlet (deactivate)="queryState.revalidate()"></router-outlet>
   `,
-  providers: provideComponentData(DataService, {
+  providers: provideQueryState(DataService, {
     name: ParentComponent.name,
   }),
 })
 export class ParentComponent {
-  constructor(public readonly data: ComponentData<Person[]>) {}
+  constructor(public readonly queryState: QueryState<Person[]>) {}
 }
 
 @NgModule({
   declarations: [ParentComponent],
-  imports: [CommonModule, RouterModule, RequestStateTemplateModule],
+  imports: [CommonModule, RouterModule, QueryStateTemplateModule],
 })
 export class ParentComponentModule {}

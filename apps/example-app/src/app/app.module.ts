@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  REQUEST_STATE_ERROR_COMPONENT,
-  REQUEST_STATE_LOADING_COMPONENT,
-} from 'request-state';
+  QUERY_STATE_ERROR_COMPONENT,
+  QUERY_STATE_LOADING_COMPONENT,
+} from 'query-state-template';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponentModule } from './search/search.component';
@@ -40,11 +40,11 @@ import { ChildComponentModule } from './crud/child.component';
   ],
   providers: [
     {
-      provide: REQUEST_STATE_LOADING_COMPONENT,
+      provide: QUERY_STATE_LOADING_COMPONENT,
       useValue: CustomLoadingComponent,
     },
     {
-      provide: REQUEST_STATE_ERROR_COMPONENT,
+      provide: QUERY_STATE_ERROR_COMPONENT,
       useValue: CustomErrorComponent,
     },
   ],

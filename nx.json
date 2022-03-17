@@ -1,5 +1,5 @@
 {
-  "npmScope": "component-data",
+  "npmScope": "query-state",
   "affected": {
     "defaultBase": "main"
   },

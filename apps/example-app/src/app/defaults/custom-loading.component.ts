@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { LoadingComponent } from 'request-state';
+import { LoadingTemplateComponent } from 'query-state-template';
 
 @Component({
-  selector: 'component-data-nx-custom-loading',
+  selector: 'query-state-custom-loading',
   template: `
     <div>
       ⏱️⏱️⏱️
@@ -17,7 +17,7 @@ import { LoadingComponent } from 'request-state';
     </div>
   `,
 })
-export class CustomLoadingComponent implements LoadingComponent {
+export class CustomLoadingComponent implements LoadingTemplateComponent {
   retries?: number;
   error?: unknown;
 }

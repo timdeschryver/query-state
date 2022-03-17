@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ComponentDataService, QueryParams } from 'component-data';
+import { QueryService, QueryParams } from 'query-state';
 import { BehaviorSubject, delay, map, Observable, of } from 'rxjs';
 import { Person } from './models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService implements ComponentDataService {
+export class DataService implements QueryService {
   private persons = new BehaviorSubject<Person[]>([
     { id: 'er', firstname: 'Ellen', lastname: 'Riley' },
     { id: 'jb', firstname: 'Jaxon', lastname: 'Brigstocke' },

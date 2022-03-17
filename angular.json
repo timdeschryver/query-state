@@ -1,33 +1,33 @@
 {
   "version": 1,
   "projects": {
-    "component-data": {
+    "query-state": {
       "projectType": "library",
-      "root": "libs/component-data",
-      "sourceRoot": "libs/component-data/src",
-      "prefix": "component-data",
+      "root": "libs/query-state",
+      "sourceRoot": "libs/query-state/src",
+      "prefix": "query-state",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/component-data"],
+          "outputs": ["dist/libs/query-state"],
           "options": {
-            "project": "libs/component-data/ng-package.json"
+            "project": "libs/query-state/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/component-data/tsconfig.lib.prod.json"
+              "tsConfig": "libs/query-state/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/component-data/tsconfig.lib.json"
+              "tsConfig": "libs/query-state/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/component-data"],
+          "outputs": ["coverage/libs/query-state"],
           "options": {
-            "jestConfig": "libs/component-data/jest.config.js",
+            "jestConfig": "libs/query-state/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -35,41 +35,41 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/component-data/src/**/*.ts",
-              "libs/component-data/src/**/*.html"
+              "libs/query-state/src/**/*.ts",
+              "libs/query-state/src/**/*.html"
             ]
           }
         }
       },
       "tags": []
     },
-    "request-state": {
+    "query-state-template": {
       "projectType": "library",
-      "root": "libs/request-state",
-      "sourceRoot": "libs/request-state/src",
-      "prefix": "request-state",
+      "root": "libs/query-state-template",
+      "sourceRoot": "libs/query-state-template/src",
+      "prefix": "query-state-template",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/request-state"],
+          "outputs": ["dist/libs/query-state-template"],
           "options": {
-            "project": "libs/request-state/ng-package.json"
+            "project": "libs/query-state-template/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/request-state/tsconfig.lib.prod.json"
+              "tsConfig": "libs/query-state-template/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/request-state/tsconfig.lib.json"
+              "tsConfig": "libs/query-state-template/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/request-state"],
+          "outputs": ["coverage/libs/query-state-template"],
           "options": {
-            "jestConfig": "libs/request-state/jest.config.js",
+            "jestConfig": "libs/query-state-template/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -77,41 +77,41 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/request-state/src/**/*.ts",
-              "libs/request-state/src/**/*.html"
+              "libs/query-state-template/src/**/*.ts",
+              "libs/query-state-template/src/**/*.html"
             ]
           }
         }
       },
       "tags": []
     },
-    "request-state-contracts": {
+    "query-state-contracts": {
       "projectType": "library",
-      "root": "libs/request-state-contracts",
-      "sourceRoot": "libs/request-state-contracts/src",
-      "prefix": "request-state-contracts",
+      "root": "libs/query-state-contracts",
+      "sourceRoot": "libs/query-state-contracts/src",
+      "prefix": "query-state-contracts",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/request-state-contracts"],
+          "outputs": ["dist/libs/query-state-contracts"],
           "options": {
-            "project": "libs/request-state-contracts/ng-package.json"
+            "project": "libs/query-state-contracts/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/request-state-contracts/tsconfig.lib.prod.json"
+              "tsConfig": "libs/query-state-contracts/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/request-state-contracts/tsconfig.lib.json"
+              "tsConfig": "libs/query-state-contracts/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/request-state-contracts"],
+          "outputs": ["coverage/libs/query-state-contracts"],
           "options": {
-            "jestConfig": "libs/request-state-contracts/jest.config.js",
+            "jestConfig": "libs/query-state-contracts/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -119,8 +119,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/request-state-contracts/src/**/*.ts",
-              "libs/request-state-contracts/src/**/*.html"
+              "libs/query-state-contracts/src/**/*.ts",
+              "libs/query-state-contracts/src/**/*.html"
             ]
           }
         }
@@ -131,7 +131,7 @@
       "projectType": "application",
       "root": "apps/example-app",
       "sourceRoot": "apps/example-app/src",
-      "prefix": "component-data",
+      "prefix": "query-state",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

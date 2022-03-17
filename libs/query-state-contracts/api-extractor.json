@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+
+  "mainEntryPointFilePath": "../../dist/libs/query-state-contracts/index.d.ts",
+
+  "projectFolder": ".",
+
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "etc"
+  },
+
+  "docModel": {
+    "enabled": true,
+    "apiJsonFilePath": "../../dist/query-state-contracts.api.json"
+  },
+
+  "dtsRollup": {
+    "enabled": false
+  }
+}

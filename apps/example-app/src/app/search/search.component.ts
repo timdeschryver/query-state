@@ -2,30 +2,30 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgModule, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
-import { ComponentData, provideComponentData } from 'component-data';
-import { RequestStateTemplateModule } from 'request-state';
+import { QueryState, provideQueryState } from 'query-state';
+import { QueryStateTemplateModule } from 'query-state-template';
 import { GitHubService } from './github.service';
 
 @Component({
-  selector: 'component-data-nx-search',
+  selector: 'query-state-search',
   template: `
     <form>
       <input type="text" name="username" [ngModel]="username" required />
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
-    <request-state-template [requestState]="data.data">
-      <ng-template rsLoadingRequestState let-retries>
+    <query-state-template [queryState]="data.data">
+      <ng-template qsLoadingQueryState let-retries>
         🔎 Searching for GitHub users
         {{ retries ? '( retrying ' + retries + ' )' : '' }}
       </ng-template>
 
-      <ng-template rsErrorRequestState let-error>
+      <ng-template qsErrorQueryState let-error>
         👀 Something is broken - call for help
         <pre>{{ error | json }}</pre>
       </ng-template>
 
       <ng-template
-        [rsIdleRequestState]="data.data"
+        [qsIdleQueryState]="data.data"
         let-user
         let-revalidating="revalidating"
       >
@@ -34,9 +34,9 @@ import { GitHubService } from './github.service';
         </div>
         <pre>{{ user | json }}</pre>
       </ng-template>
-    </request-state-template>
+    </query-state-template>
   `,
-  providers: provideComponentData(GitHubService, {
+  providers: provideQueryState(GitHubService, {
     name: SearchComponent.name,
     disableInitialLoad: true,
     // only execute when username is not empty
@@ -50,7 +50,7 @@ export class SearchComponent implements AfterViewInit {
   username = this.data.queryParams.username || '';
   refreshTrigger = new Subject<void>();
 
-  constructor(readonly data: ComponentData<{ username: string }>) {}
+  constructor(readonly data: QueryState<{ username: string }>) {}
 
   ngAfterViewInit() {
     if (this.form.valueChanges) {
@@ -61,7 +61,7 @@ export class SearchComponent implements AfterViewInit {
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RequestStateTemplateModule],
+  imports: [CommonModule, FormsModule, QueryStateTemplateModule],
   declarations: [SearchComponent],
 })
 export class SearchComponentModule {}

@@ -1,30 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { ComponentData, provideComponentData } from 'component-data';
-import { RequestStateTemplateModule } from 'request-state';
+import { QueryState, provideQueryState } from 'query-state';
+import { QueryStateTemplateModule } from 'query-state-template';
 import { PokemonService } from './pokemon.service';
 
 @Component({
-  selector: 'component-data-nx-detail',
-  template: ` <request-state-template [requestState]="data.data$">
+  selector: 'query-state-detail',
+  template: ` <query-state-template [queryState]="queryState.data$">
     <ng-template
-      [rsIdleRequestState]="data.data"
+      [qsIdleQueryState]="queryState.data"
       let-detail
       let-revalidating="revalidating"
     >
       <pre>{{ detail | json }}</pre>
     </ng-template>
-  </request-state-template>`,
-  providers: provideComponentData(PokemonService, {
+  </query-state-template>`,
+  providers: provideQueryState(PokemonService, {
     name: DetailComponent.name,
   }),
 })
 export class DetailComponent {
-  constructor(public readonly data: ComponentData<{ name: string }>) {}
+  constructor(public readonly queryState: QueryState<{ name: string }>) {}
 }
 
 @NgModule({
-  imports: [CommonModule, RequestStateTemplateModule],
+  imports: [CommonModule, QueryStateTemplateModule],
   declarations: [DetailComponent],
 })
 export class DetailComponentModule {}

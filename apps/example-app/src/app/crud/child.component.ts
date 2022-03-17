@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ComponentData, provideComponentData, tapState } from 'component-data';
-import { RequestStateTemplateModule } from 'request-state';
+import { QueryState, provideQueryState, tapState } from 'query-state';
+import { QueryStateTemplateModule } from 'query-state-template';
 import { DataService } from './data.service';
 import { Person } from './models';
 
 @Component({
-  selector: 'component-data-child',
+  selector: 'query-state-child',
   template: `
-    <request-state-template [requestState]="data.data$">
+    <query-state-template [queryState]="queryState.data$">
       <ng-template
-        [rsIdleRequestState]="data.data"
+        [qsIdleQueryState]="queryState.data"
         let-person
         let-revalidating="revalidating"
       >
@@ -34,11 +34,11 @@ import { Person } from './models';
           </form>
         </ng-container>
       </ng-template>
-    </request-state-template>
+    </query-state-template>
 
     <a routerLink="/parent">Back</a>
   `,
-  providers: provideComponentData(DataService, {
+  providers: provideQueryState(DataService, {
     name: ChildComponent.name,
     query: 'queryOne',
     disableCache: true,
@@ -53,13 +53,13 @@ export class ChildComponent implements OnInit {
   };
 
   constructor(
-    public readonly data: ComponentData<Person, DataService>,
+    public readonly queryState: QueryState<Person, DataService>,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.data.effect(
-      this.data.data$.pipe(
+    this.queryState.effect(
+      this.queryState.data$.pipe(
         tapState({
           onSuccess: (person) => {
             this.model.id = person.id;
@@ -72,7 +72,7 @@ export class ChildComponent implements OnInit {
   }
 
   submit(): void {
-    this.data.service
+    this.queryState.service
       .update({
         firstname: this.model.firstname,
         id: this.model.id,
@@ -86,11 +86,6 @@ export class ChildComponent implements OnInit {
 
 @NgModule({
   declarations: [ChildComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    RequestStateTemplateModule,
-  ],
+  imports: [CommonModule, FormsModule, RouterModule, QueryStateTemplateModule],
 })
 export class ChildComponentModule {}

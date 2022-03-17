@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable } from 'rxjs';
-import { ComponentDataService, QueryParams } from 'component-data';
+import { QueryService, QueryParams } from 'query-state';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GitHubService implements ComponentDataService {
+export class GitHubService implements QueryService {
   constructor(private http: HttpClient) {}
 
   query({ queryParams }: QueryParams): Observable<{ username: string }> {

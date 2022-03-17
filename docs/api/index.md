@@ -8,7 +8,7 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [component-data](./component-data.md) |  |
-|  [request-state](./request-state.md) |  |
-|  [request-state-contracts](./request-state-contracts.md) |  |
+|  [query-state](./query-state.md) |  |
+|  [query-state-contracts](./query-state-contracts.md) |  |
+|  [query-state-template](./query-state-template.md) |  |
 

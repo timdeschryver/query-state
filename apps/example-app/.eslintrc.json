@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "component-data",
+            "prefix": "query-state",
             "style": "kebab-case"
           }
         ]

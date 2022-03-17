@@ -2,11 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { render, screen } from '@testing-library/angular';
-import {
-  ComponentRoute,
-  MockComponentRoute,
-  QueryParams,
-} from 'component-data';
+import { ComponentRoute, MockComponentRoute, QueryParams } from 'query-state';
 import { DetailComponent, DetailComponentModule } from './detail.component';
 import { PokemonService } from './pokemon.service';
 
