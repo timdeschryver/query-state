@@ -6,19 +6,6 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@typescript-eslint/no-unused-vars": [
-          "error",
-          {
-            "argsIgnorePattern": "^_",
-            "varsIgnorePattern": "^_",
-            "caughtErrorsIgnorePattern": "^_"
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts"],
-      "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
@@ -43,6 +30,29 @@
       "files": ["*.js"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.base.json"],
+        "createDefaultProgram": true
+      },
+      "extends": ["plugin:rxjs/recommended"]
+    },
+    {
+      "files": ["*.ts"],
+      "excludedFiles": ["*.test.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_"
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error"
+      }
     }
   ]
 }

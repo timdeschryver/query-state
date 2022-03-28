@@ -8,6 +8,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx affected --target=test",
+    "lint": "nx lint",
     "docs": "node ./tools/docs.mjs"
   },
   "private": true,
@@ -54,6 +55,7 @@
     "eslint": "8.2.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-rxjs": "^5.0.2",
     "jest": "27.2.3",
     "jest-preset-angular": "11.0.0",
     "ng-packagr": "^13.0.0",

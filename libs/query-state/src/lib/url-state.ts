@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DataParams } from './models';
+import { QueryParams } from './query-service';
 
 @Injectable()
 export class UrlState {
@@ -16,7 +17,7 @@ export class UrlState {
     private readonly router: Router
   ) {}
 
-  navigate(queryParams: Params) {
+  navigate(queryParams: Params): void {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge',
@@ -32,13 +33,7 @@ export class MockUrlState {
   params$ = new BehaviorSubject<DataParams>({} as DataParams);
   queryParams$ = new BehaviorSubject<DataParams>({} as DataParams);
 
-  constructor({
-    params,
-    queryParams,
-  }: {
-    params?: DataParams;
-    queryParams?: DataParams;
-  } = {}) {
+  constructor({ params, queryParams }: QueryParams) {
     this.params$.next(params ?? ({} as DataParams));
     this.queryParams$.next(queryParams ?? ({} as DataParams));
   }

@@ -56,14 +56,14 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
         focusTrigger: false,
         onlineTrigger: false,
         timerTrigger: false,
-        triggers: (_data) => [this.revalidateTrigger],
+        triggers: (_data): Subject<void>[] => [this.revalidateTrigger],
       };
     }
 
     const triggers = this.config.revalidateTriggers;
     return {
       ...(triggers || {}),
-      triggers: (data) =>
+      triggers: (data): Observable<unknown>[] =>
         triggers?.triggers
           ? triggers.triggers(data).concat(this.revalidateTrigger)
           : [this.revalidateTrigger],
@@ -83,14 +83,16 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
 
     const retryCondition =
       typeof config.retryCondition === 'number'
-        ? (retries: number) => retries < (config.retryCondition as number)
+        ? (retries: number): boolean =>
+            retries < (config.retryCondition as number)
         : config.retryCondition ??
-          function retry(retries) {
+          function retry(retries): boolean {
             return retries < 3;
           };
 
     const retryDelay =
-      config.retryDelay ?? ((retries) => Math.pow(2, retries - 1) * 1000);
+      config.retryDelay ??
+      ((retries): number => Math.pow(2, retries - 1) * 1000);
 
     this.subscriptions.add(
       combineLatest([this.urlState.params$, this.urlState.queryParams$])

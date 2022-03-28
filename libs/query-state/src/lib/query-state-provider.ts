@@ -5,7 +5,7 @@ import { UrlState } from './url-state';
 import { QueryStateConfig, QUERY_STATE_CONFIG } from './query-state-config';
 import { QueryService, QUERY_SERVICE } from './query-service';
 
-export function urlState(route: ActivatedRoute, router: Router) {
+export function urlState(route: ActivatedRoute, router: Router): UrlState {
   return new UrlState(route, router);
 }
 

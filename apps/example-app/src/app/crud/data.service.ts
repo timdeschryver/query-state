@@ -33,7 +33,7 @@ export class DataService implements QueryService {
     );
   }
 
-  update(person: Person) {
+  update(person: Person): Observable<void> {
     return of(
       this.persons.next(
         this.persons.value.map((p) => (p.id === person.id ? person : p))

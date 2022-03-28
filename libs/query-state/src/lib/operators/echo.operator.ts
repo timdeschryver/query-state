@@ -7,6 +7,7 @@ import {
   merge,
   MonoTypeOperatorFunction,
   NEVER,
+  Observable,
   startWith,
   switchMap,
   takeUntil,
@@ -22,9 +23,9 @@ export function echo<Data>({
   timerTrigger = 60_000,
   focusTrigger = true,
   onlineTrigger = true,
-  triggers = () => [],
+  triggers = (): never[] => [],
 }: TriggerConfig = {}): MonoTypeOperatorFunction<Data> {
-  return (source) => {
+  return (source): Observable<Data> => {
     const triggers$ = [
       focusTrigger ? fromEvent(window, 'focus') : NEVER,
       onlineTrigger ? fromEvent(window, 'online') : NEVER,

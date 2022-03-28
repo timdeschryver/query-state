@@ -27,7 +27,7 @@ export class DefaultLoadingTemplateDirective implements OnInit {
     }
   }
 
-  get qsDefaultLoading() {
+  get qsDefaultLoading(): QueryStateData<unknown> {
     return this._qsDefaultLoading;
   }
 
@@ -39,7 +39,7 @@ export class DefaultLoadingTemplateDirective implements OnInit {
     private loadingComponent?: Type<LoadingTemplateComponent>
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.loadingComponent) {
       this.viewContainerRef.clear();
       this.ref = this.viewContainerRef.createComponent(this.loadingComponent);

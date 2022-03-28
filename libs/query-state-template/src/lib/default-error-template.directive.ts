@@ -27,7 +27,7 @@ export class DefaultErrorTemplateDirective implements OnInit {
     }
   }
 
-  get qsDefaultError() {
+  get qsDefaultError(): QueryStateData<unknown> {
     return this._qsDefaultError;
   }
 
@@ -39,7 +39,7 @@ export class DefaultErrorTemplateDirective implements OnInit {
     private errorComponent?: Type<ErrorTemplateComponent>
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.errorComponent) {
       this.viewContainerRef.clear();
       this.ref = this.viewContainerRef.createComponent(this.errorComponent);

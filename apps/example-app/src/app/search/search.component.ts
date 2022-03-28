@@ -52,7 +52,7 @@ export class SearchComponent implements AfterViewInit {
 
   constructor(readonly queryState: QueryState<{ username: string }>) {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this.form.valueChanges) {
       this.queryState.update(this.form.valueChanges.pipe(debounceTime(500)));
       this.queryState.revalidate(this.refreshTrigger);

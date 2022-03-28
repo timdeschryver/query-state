@@ -10,12 +10,12 @@ export class QueryStateCache {
     return this.readCache(name).get(key);
   }
 
-  setCacheEntry(name: string, key: string, value: unknown) {
+  setCacheEntry(name: string, key: string, value: unknown): void {
     const cache = this.readCache(name);
     cache.set(key, value);
   }
 
-  private readCache(name: string) {
+  private readCache(name: string): Map<string, unknown> {
     if (!this.cache.has(name)) {
       this.cache.set(name, new Map());
     }

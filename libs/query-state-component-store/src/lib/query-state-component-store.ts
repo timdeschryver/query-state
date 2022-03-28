@@ -6,14 +6,14 @@ import { QueryStateData } from 'query-state-contracts';
 export class QueryStateComponentStore<
   Data extends object
 > extends ComponentStore<QueryStateData<Data>> {
-  init(initialData: Data) {
+  init(initialData: Data): void {
     this.setState({
       state: 'idle',
       data: initialData,
     });
   }
 
-  loading() {
+  loading(): void {
     this.patchState({
       state: 'loading',
       data: undefined,
@@ -21,7 +21,7 @@ export class QueryStateComponentStore<
     });
   }
 
-  error(error: unknown) {
+  error(error: unknown): void {
     this.patchState({
       state: 'error',
       error,
@@ -29,7 +29,7 @@ export class QueryStateComponentStore<
     });
   }
 
-  success(data: Data) {
+  success(data: Data): void {
     this.patchState({
       state: 'success',
       data,
@@ -37,7 +37,7 @@ export class QueryStateComponentStore<
     });
   }
 
-  revalidate() {
+  revalidate(): void {
     this.patchState({
       state: 'revalidate',
     });
