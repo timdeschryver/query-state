@@ -15,12 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "query-state": ["libs/query-state/src/index.ts"],
-      "query-state-template": ["libs/query-state-template/src/index.ts"],
-      "query-state-contracts": ["libs/query-state-contracts/src/index.ts"],
-      "query-state-component-store": [
-        "libs/query-state-component-store/src/index.ts"
-      ]
+      "query-state": ["libs/query-state/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -24,5 +24,5 @@ export declare function tapState<QueryData>(callbacks: {
 
 <b>Returns:</b>
 
-MonoTypeOperatorFunction&lt;QueryStateData&lt;QueryData&gt;&gt;
+MonoTypeOperatorFunction&lt;[QueryStateData](./query-state.querystatedata.md)<!-- -->&lt;QueryData&gt;&gt;
 

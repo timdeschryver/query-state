@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { QueryState, provideQueryState } from 'query-state';
-import { QueryStateTemplateModule } from 'query-state-template';
+import {
+  QueryState,
+  provideQueryState,
+  QueryStateTemplateModule,
+} from 'query-state';
 import { PokemonService } from './pokemon.service';
 
 @Component({

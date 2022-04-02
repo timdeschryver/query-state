@@ -26,11 +26,12 @@ import {
   QUERY_STATE_CONFIG,
   QueryStateConfig,
   TriggerConfig,
-} from './query-state-config';
-import { QUERY_SERVICE, QueryService } from './query-service';
-import { echo } from './operators/echo.operator';
-import { QueryStateData } from 'query-state-contracts';
-import { DataParams } from './models';
+  QueryStateData,
+  QUERY_SERVICE,
+  QueryService,
+  DataParams,
+} from './contracts';
+import { echo } from './operators';
 
 @Injectable()
 export class QueryState<Data, Service = unknown> implements OnDestroy {

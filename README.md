@@ -22,7 +22,17 @@ export class DetailComponent {
 ## query-state
 
 > Helpers to automatically fetch and revalidate query data.
+> Template helpers to show the query state and response.
 
-## query-state-template
+### Includes
 
-> Template helper to show the query state and response.
+- [x] Request state
+- [x] Retries (with configuration)
+- [x] Revalidate on interval, focus, online detection
+- [x] Configurable default templates
+
+### Todo
+
+- [ ] Clear cache
+- [ ] Prefetch
+- [ ] BroadcastChannel

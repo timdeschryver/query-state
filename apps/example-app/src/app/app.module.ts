@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {
   QUERY_STATE_ERROR_COMPONENT,
   QUERY_STATE_LOADING_COMPONENT,
-} from 'query-state-template';
+} from 'query-state';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponentModule } from './search/search.component';

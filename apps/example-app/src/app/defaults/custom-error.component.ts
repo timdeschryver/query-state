@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { ErrorTemplateComponent } from 'query-state-template';
+import { ErrorTemplateComponent } from 'query-state';
 
 @Component({
   selector: 'query-state-custom-error',

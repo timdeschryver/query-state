@@ -14,7 +14,7 @@ export declare class MockUrlState
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)({ params, queryParams, })](./query-state.mockurlstate._constructor_.md) |  | Constructs a new instance of the <code>MockUrlState</code> class |
+|  [(constructor)({ params, queryParams })](./query-state.mockurlstate._constructor_.md) |  | Constructs a new instance of the <code>MockUrlState</code> class |
 
 ## Properties
 

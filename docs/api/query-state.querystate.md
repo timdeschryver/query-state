@@ -21,8 +21,8 @@ export declare class QueryState<Data, Service = unknown> implements OnDestroy
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [data?](./query-state.querystate.data.md) |  | QueryStateData&lt;Data&gt; | <i>(Optional)</i> |
-|  [data$](./query-state.querystate.data_.md) |  | Observable&lt;QueryStateData&lt;Data&gt;&gt; |  |
+|  [data?](./query-state.querystate.data.md) |  | [QueryStateData](./query-state.querystatedata.md)<!-- -->&lt;Data&gt; | <i>(Optional)</i> |
+|  [data$](./query-state.querystate.data_.md) |  | Observable&lt;[QueryStateData](./query-state.querystatedata.md)<!-- -->&lt;Data&gt;&gt; |  |
 |  [ɵfac](./query-state.querystate._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[QueryState](./query-state.querystate.md)<!-- -->&lt;any, any&gt;, never&gt; |  |
 |  [ɵprov](./query-state.querystate._prov.md) | <code>static</code> | i0.ɵɵInjectableDeclaration&lt;[QueryState](./query-state.querystate.md)<!-- -->&lt;any, any&gt;&gt; |  |
 |  [params](./query-state.querystate.params.md) |  | [DataParams](./query-state.dataparams.md) |  |

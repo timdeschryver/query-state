@@ -2,8 +2,12 @@ import { Type, Provider } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryState } from './query-state';
 import { UrlState } from './url-state';
-import { QueryStateConfig, QUERY_STATE_CONFIG } from './query-state-config';
-import { QueryService, QUERY_SERVICE } from './query-service';
+import {
+  QueryStateConfig,
+  QUERY_STATE_CONFIG,
+  QueryService,
+  QUERY_SERVICE,
+} from './contracts';
 
 export function urlState(route: ActivatedRoute, router: Router): UrlState {
   return new UrlState(route, router);

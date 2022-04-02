@@ -14,7 +14,7 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { TriggerConfig } from '../query-state-config';
+import { TriggerConfig } from '../contracts';
 
 /**
  * Re-emit the last emitted value

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { LoadingTemplateComponent } from 'query-state-template';
+import { LoadingTemplateComponent } from 'query-state';
 
 @Component({
   selector: 'query-state-custom-loading',

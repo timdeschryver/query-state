@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction, tap } from 'rxjs';
-import { QueryStateData } from 'query-state-contracts';
+import { QueryStateData } from '../contracts';
 
 export function tapState<QueryData>(callbacks: {
   onError?: (error: unknown) => void;

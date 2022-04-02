@@ -8,9 +8,16 @@
 
 |  Class | Description |
 |  --- | --- |
+|  [DefaultErrorTemplateDirective](./query-state.defaulterrortemplatedirective.md) |  |
+|  [DefaultLoadingTemplateDirective](./query-state.defaultloadingtemplatedirective.md) |  |
+|  [ErrorQueryStateTemplateDirective](./query-state.errorquerystatetemplatedirective.md) |  |
+|  [IdleQueryStateTemplateDirective](./query-state.idlequerystatetemplatedirective.md) |  |
+|  [LoadingQueryStateTemplateDirective](./query-state.loadingquerystatetemplatedirective.md) |  |
 |  [MockUrlState](./query-state.mockurlstate.md) |  |
 |  [QueryState](./query-state.querystate.md) |  |
 |  [QueryStateCache](./query-state.querystatecache.md) |  |
+|  [QueryStateTemplateComponent](./query-state.querystatetemplatecomponent.md) |  |
+|  [QueryStateTemplateModule](./query-state.querystatetemplatemodule.md) |  |
 |  [UrlState](./query-state.urlstate.md) |  |
 
 ## Functions
@@ -26,9 +33,12 @@
 
 |  Interface | Description |
 |  --- | --- |
+|  [ErrorTemplateComponent](./query-state.errortemplatecomponent.md) |  |
+|  [LoadingTemplateComponent](./query-state.loadingtemplatecomponent.md) |  |
 |  [QueryParams](./query-state.queryparams.md) |  |
 |  [QueryService](./query-state.queryservice.md) |  |
 |  [QueryStateConfig](./query-state.querystateconfig.md) |  |
+|  [QueryStateData](./query-state.querystatedata.md) |  |
 
 ## Variables
 
@@ -37,6 +47,8 @@
 |  [provideQueryState](./query-state.providequerystate.md) |  |
 |  [QUERY\_SERVICE](./query-state.query_service.md) |  |
 |  [QUERY\_STATE\_CONFIG](./query-state.query_state_config.md) |  |
+|  [QUERY\_STATE\_ERROR\_COMPONENT](./query-state.query_state_error_component.md) |  |
+|  [QUERY\_STATE\_LOADING\_COMPONENT](./query-state.query_state_loading_component.md) |  |
 
 ## Type Aliases
 

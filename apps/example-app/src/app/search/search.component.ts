@@ -2,8 +2,11 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, NgModule, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
-import { QueryState, provideQueryState } from 'query-state';
-import { QueryStateTemplateModule } from 'query-state-template';
+import {
+  QueryState,
+  provideQueryState,
+  QueryStateTemplateModule,
+} from 'query-state';
 import { GitHubService } from './github.service';
 
 @Component({
@@ -43,6 +46,10 @@ import { GitHubService } from './github.service';
     ignore: ({ queryParams }) => queryParams['username'] === '',
     cacheKey: ({ params: dataParams, queryParams }) =>
       JSON.stringify([dataParams, queryParams]).toLowerCase(),
+
+    revalidateTriggers: {
+      focusTrigger: false,
+    },
   }),
 })
 export class SearchComponent implements AfterViewInit {

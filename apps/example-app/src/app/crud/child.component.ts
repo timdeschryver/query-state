@@ -2,8 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { QueryState, provideQueryState, tapState } from 'query-state';
-import { QueryStateTemplateModule } from 'query-state-template';
+import {
+  QueryState,
+  provideQueryState,
+  tapState,
+  QueryStateTemplateModule,
+} from 'query-state';
 import { DataService } from './data.service';
 import { Person } from './models';
 

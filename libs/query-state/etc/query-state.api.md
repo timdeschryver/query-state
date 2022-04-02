@@ -6,20 +6,78 @@
 
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { ComponentRef } from '@angular/core';
 import * as i0 from '@angular/core';
+import * as i1 from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { MonoTypeOperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs';
 import { OnDestroy } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Params } from '@angular/router';
 import { Provider } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { TemplateRef } from '@angular/core';
 import { Type } from '@angular/core';
 import { UnaryFunction } from 'rxjs';
+import { ViewContainerRef } from '@angular/core';
 
 // @public (undocumented)
 export type DataParams = Record<string, string>;
+
+// @public (undocumented)
+class DefaultErrorDirectiveModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultErrorDirectiveModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<DefaultErrorDirectiveModule>;
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<DefaultErrorDirectiveModule, [typeof DefaultErrorTemplateDirective], never, [typeof DefaultErrorTemplateDirective]>;
+}
+
+// @public (undocumented)
+export class DefaultErrorTemplateDirective implements OnInit {
+    constructor(viewContainerRef: ViewContainerRef, errorComponent?: Type<ErrorTemplateComponent> | undefined);
+    // (undocumented)
+    ngOnInit(): void;
+    set qsDefaultError(value: QueryStateData<unknown>);
+    // (undocumented)
+    get qsDefaultError(): QueryStateData<unknown>;
+    // (undocumented)
+    ref?: ComponentRef<ErrorTemplateComponent>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorTemplateDirective, "[qsDefaultError]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultErrorTemplateDirective, [null, { optional: true; }]>;
+}
+
+// @public (undocumented)
+class DefaultLoadingDirectiveModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingDirectiveModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<DefaultLoadingDirectiveModule>;
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<DefaultLoadingDirectiveModule, [typeof DefaultLoadingTemplateDirective], never, [typeof DefaultLoadingTemplateDirective]>;
+}
+
+// @public (undocumented)
+export class DefaultLoadingTemplateDirective implements OnInit {
+    constructor(viewContainerRef: ViewContainerRef, loadingComponent?: Type<LoadingTemplateComponent> | undefined);
+    // (undocumented)
+    ngOnInit(): void;
+    set qsDefaultLoading(value: QueryStateData<unknown>);
+    // (undocumented)
+    get qsDefaultLoading(): QueryStateData<unknown>;
+    // (undocumented)
+    ref?: ComponentRef<LoadingTemplateComponent>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingTemplateDirective, "[qsDefaultLoading]", never, { "qsDefaultLoading": "qsDefaultLoading"; }, {}, never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingTemplateDirective, [null, { optional: true; }]>;
+}
 
 // @public (undocumented)
 export function distinctByJson<Data>(): MonoTypeOperatorFunction<Data>;
@@ -27,17 +85,113 @@ export function distinctByJson<Data>(): MonoTypeOperatorFunction<Data>;
 // @public
 export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): MonoTypeOperatorFunction<Data>;
 
-// Warning: (ae-forgotten-export) The symbol "QueryStateData" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export class ErrorQueryStateTemplateDirective {
+    constructor(templateRef: TemplateRef<unknown>);
+    // (undocumented)
+    static ngTemplateContextGuard(_dir: ErrorQueryStateTemplateDirective, ctx: unknown): ctx is {
+        $implicit: unknown;
+        error: unknown;
+        retries?: number;
+    };
+    // (undocumented)
+    templateRef: TemplateRef<unknown>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsErrorQueryState]", never, {}, {}, never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ErrorQueryStateTemplateDirective, never>;
+}
+
+// @public (undocumented)
+class ErrorQueryStateTemplateDirectiveModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ErrorQueryStateTemplateDirectiveModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<ErrorQueryStateTemplateDirectiveModule>;
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<ErrorQueryStateTemplateDirectiveModule, [typeof ErrorQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof ErrorQueryStateTemplateDirective]>;
+}
+
+// @public (undocumented)
+export interface ErrorTemplateComponent {
+    // (undocumented)
+    error: unknown;
+    // (undocumented)
+    retries?: number;
+}
+
+// @public (undocumented)
+export class IdleQueryStateTemplateDirective<T> {
+    constructor(templateRef: TemplateRef<unknown>);
+    // (undocumented)
+    static ngTemplateContextGuard<T>(_dir: IdleQueryStateTemplateDirective<T>, ctx: unknown): ctx is {
+        $implicit?: T;
+        data?: T;
+        revalidating: boolean;
+        error?: unknown;
+        retries?: number;
+    };
+    // (undocumented)
+    qsIdleQueryState: QueryStateData<T> | Observable<QueryStateData<T>> | undefined | '';
+    // (undocumented)
+    templateRef: TemplateRef<unknown>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdleQueryState]", never, { "qsIdleQueryState": "qsIdleQueryState"; }, {}, never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<IdleQueryStateTemplateDirective<any>, never>;
+}
+
+// @public (undocumented)
+class IdleQueryStateTemplateDirectiveModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<IdleQueryStateTemplateDirectiveModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<IdleQueryStateTemplateDirectiveModule>;
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<IdleQueryStateTemplateDirectiveModule, [typeof IdleQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof IdleQueryStateTemplateDirective]>;
+}
+
+// @public (undocumented)
+export class LoadingQueryStateTemplateDirective {
+    constructor(templateRef: TemplateRef<unknown>);
+    // (undocumented)
+    static ngTemplateContextGuard(_dir: LoadingQueryStateTemplateDirective, ctx: unknown): ctx is {
+        $implicit?: number;
+        error?: unknown;
+        retries?: number;
+    };
+    // (undocumented)
+    templateRef: TemplateRef<unknown>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoadingQueryState]", never, {}, {}, never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<LoadingQueryStateTemplateDirective, never>;
+}
+
+// @public (undocumented)
+class LoadingQueryStateTemplateDirectiveModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<LoadingQueryStateTemplateDirectiveModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<LoadingQueryStateTemplateDirectiveModule>;
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<LoadingQueryStateTemplateDirectiveModule, [typeof LoadingQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof LoadingQueryStateTemplateDirective]>;
+}
+
+// @public (undocumented)
+export interface LoadingTemplateComponent {
+    // (undocumented)
+    error?: unknown;
+    // (undocumented)
+    retries?: number;
+}
+
 // @public (undocumented)
 export function mapSuccess<QueryData>(): UnaryFunction<Observable<QueryStateData<QueryData>>, Observable<QueryData>>;
 
 // @public (undocumented)
 export class MockUrlState {
-    constructor({ params, queryParams, }?: {
-        params?: DataParams;
-        queryParams?: DataParams;
-    });
+    constructor({ params, queryParams }?: Partial<QueryParams>);
     // (undocumented)
     navigate(queryParams: DataParams): void;
     // (undocumented)
@@ -58,6 +212,12 @@ export const QUERY_SERVICE: InjectionToken<QueryService>;
 
 // @public (undocumented)
 export const QUERY_STATE_CONFIG: InjectionToken<QueryStateConfig<unknown>>;
+
+// @public (undocumented)
+export const QUERY_STATE_ERROR_COMPONENT: InjectionToken<Type<ErrorTemplateComponent>>;
+
+// @public (undocumented)
+export const QUERY_STATE_LOADING_COMPONENT: InjectionToken<Type<LoadingTemplateComponent>>;
 
 // @public (undocumented)
 export interface QueryParams {
@@ -129,6 +289,58 @@ export interface QueryStateConfig<Service> {
     retryCondition?: number | ((retries: number) => boolean);
     retryDelay?: (retries: number) => number | Date;
     revalidateTriggers?: false | TriggerConfig;
+}
+
+// @public (undocumented)
+export interface QueryStateData<Data> {
+    // (undocumented)
+    data?: Data;
+    // (undocumented)
+    error?: unknown;
+    // (undocumented)
+    retries?: number;
+    // Warning: (ae-forgotten-export) The symbol "QueryState" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    state: QueryState_2;
+}
+
+// @public (undocumented)
+export class QueryStateTemplateComponent<T> implements OnDestroy {
+    // (undocumented)
+    errorTemplate?: ErrorQueryStateTemplateDirective;
+    // (undocumented)
+    idleTemplate?: IdleQueryStateTemplateDirective<T>;
+    // (undocumented)
+    loadingTemplate?: LoadingQueryStateTemplateDirective;
+    // (undocumented)
+    ngOnDestroy(): void;
+    // (undocumented)
+    qsState?: QueryStateData<T> | null;
+    // (undocumented)
+    set queryState(value: QueryStateData<T> | Observable<QueryStateData<T>> | null | undefined);
+    // (undocumented)
+    subscription?: Subscription;
+    // (undocumented)
+    static ɵcmp: i0.ɵɵComponentDeclaration<QueryStateTemplateComponent<any>, "query-state-template", never, { "queryState": "queryState"; }, {}, ["loadingTemplate", "errorTemplate", "idleTemplate"], never>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateTemplateComponent<any>, never>;
+}
+
+// @public (undocumented)
+export class QueryStateTemplateModule {
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateTemplateModule, never>;
+    // (undocumented)
+    static ɵinj: i0.ɵɵInjectorDeclaration<QueryStateTemplateModule>;
+    // Warning: (ae-forgotten-export) The symbol "i2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "i3" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "i4" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "i5" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "i6" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    static ɵmod: i0.ɵɵNgModuleDeclaration<QueryStateTemplateModule, [typeof QueryStateTemplateComponent], [typeof i1.CommonModule, typeof i2.LoadingQueryStateTemplateDirectiveModule, typeof i3.ErrorQueryStateTemplateDirectiveModule, typeof i4.IdleQueryStateTemplateDirectiveModule, typeof i5.DefaultLoadingDirectiveModule, typeof i6.DefaultErrorDirectiveModule], [typeof QueryStateTemplateComponent, typeof i4.IdleQueryStateTemplateDirective, typeof i3.ErrorQueryStateTemplateDirective, typeof i2.LoadingQueryStateTemplateDirective]>;
 }
 
 // @public (undocumented)

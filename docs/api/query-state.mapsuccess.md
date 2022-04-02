@@ -11,5 +11,5 @@ export declare function mapSuccess<QueryData>(): UnaryFunction<Observable<QueryS
 ```
 <b>Returns:</b>
 
-UnaryFunction&lt;Observable&lt;QueryStateData&lt;QueryData&gt;&gt;, Observable&lt;QueryData&gt;&gt;
+UnaryFunction&lt;Observable&lt;[QueryStateData](./query-state.querystatedata.md)<!-- -->&lt;QueryData&gt;&gt;, Observable&lt;QueryData&gt;&gt;
 

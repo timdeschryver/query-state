@@ -9,15 +9,12 @@ Constructs a new instance of the `MockUrlState` class
 <b>Signature:</b>
 
 ```typescript
-constructor({ params, queryParams, }?: {
-        params?: DataParams;
-        queryParams?: DataParams;
-    });
+constructor({ params, queryParams }?: Partial<QueryParams>);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { params, queryParams, } | { params?: [DataParams](./query-state.dataparams.md)<!-- -->; queryParams?: [DataParams](./query-state.dataparams.md)<!-- -->; } |  |
+|  { params, queryParams } | Partial&lt;[QueryParams](./query-state.queryparams.md)<!-- -->&gt; |  |
 

@@ -1,5 +1,5 @@
 import { filter, map, Observable, UnaryFunction } from 'rxjs';
-import { QueryStateData } from 'query-state-contracts';
+import { QueryStateData } from '../contracts';
 
 export function mapSuccess<QueryData>(): UnaryFunction<
   Observable<QueryStateData<QueryData>>,

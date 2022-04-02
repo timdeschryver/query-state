@@ -14,7 +14,7 @@ effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStat
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  sourceOrSourceFactory | Observable&lt;unknown&gt; \| ((data: Observable&lt;QueryStateData&lt;Data&gt;&gt;) =&gt; Observable&lt;unknown&gt;) |  |
+|  sourceOrSourceFactory | Observable&lt;unknown&gt; \| ((data: Observable&lt;[QueryStateData](./query-state.querystatedata.md)<!-- -->&lt;Data&gt;&gt;) =&gt; Observable&lt;unknown&gt;) |  |
 
 <b>Returns:</b>
 
