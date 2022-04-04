@@ -14,7 +14,7 @@ import { Person } from './models';
   template: `
     <query-state-template [queryState]="queryState.data$">
       <ng-template
-        [qsIdle]="queryState.data"
+        [qsIdle]="queryState.data$"
         let-persons
         let-revalidating="revalidating"
       >

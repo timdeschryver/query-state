@@ -11,7 +11,7 @@ import { PokemonService } from './pokemon.service';
   selector: 'query-state-detail',
   template: ` <query-state-template [queryState]="queryState.data$">
     <ng-template
-      [qsIdle]="queryState.data"
+      [qsIdle]="queryState.data$"
       let-detail
       let-revalidating="revalidating"
     >

@@ -6,7 +6,7 @@ Simple and configurable query helpers.
 @Component({
   selector: 'app-detail',
   template: `<query-state-template [queryState]="queryState.data$">
-    <ng-template [qsIdleQueryState]="queryState.data" let-detail>
+    <ng-template [qsIdle]="queryState.data" let-detail>
       <h2>Hello {{ detail.name }}</h2>
     </ng-template>
   </query-state-template>`,

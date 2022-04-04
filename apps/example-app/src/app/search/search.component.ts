@@ -28,7 +28,7 @@ import { GitHubService } from './github.service';
       </ng-template>
 
       <ng-template
-        [qsIdle]="queryState.data"
+        [qsIdle]="queryState.data$"
         let-user
         let-revalidating="revalidating"
       >
