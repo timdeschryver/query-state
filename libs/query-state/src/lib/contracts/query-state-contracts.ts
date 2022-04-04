@@ -1,12 +1,7 @@
-export type QueryState =
-  | 'idle'
-  | 'loading'
-  | 'success'
-  | 'error'
-  | 'revalidate';
+export type State = 'idle' | 'loading' | 'success' | 'error' | 'revalidate';
 
 export interface QueryStateData<Data> {
-  state: QueryState;
+  state: State;
   data?: Data;
   error?: unknown;
   retries?: number;

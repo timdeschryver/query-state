@@ -16,7 +16,7 @@ import { Person } from './models';
   template: `
     <query-state-template [queryState]="queryState.data$">
       <ng-template
-        [qsIdleQueryState]="queryState.data"
+        [qsIdle]="queryState.data"
         let-person
         let-revalidating="revalidating"
       >
@@ -76,15 +76,14 @@ export class ChildComponent implements OnInit {
   }
 
   submit(): void {
-    this.queryState.service
-      .update({
+    this.queryState.effect(
+      this.queryState.service.update({
         firstname: this.model.firstname,
         id: this.model.id,
         lastname: this.model.lastname,
-      })
-      .subscribe(() => {
-        this.router.navigate(['/parent']);
-      });
+      }),
+      () => this.router.navigate(['/parent'])
+    );
   }
 }
 

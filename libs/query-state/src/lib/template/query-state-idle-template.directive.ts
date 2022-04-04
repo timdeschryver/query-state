@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { QueryStateData } from '../contracts';
 
 @Directive({
-  selector: 'ng-template[qsIdleQueryState]',
+  selector: 'ng-template[qsIdle]',
 })
 export class IdleQueryStateTemplateDirective<T> {
-  @Input() qsIdleQueryState:
+  @Input() qsIdle:
     | QueryStateData<T>
     | Observable<QueryStateData<T>>
     | undefined

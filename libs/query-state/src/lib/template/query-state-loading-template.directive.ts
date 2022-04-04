@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Directive, NgModule, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: 'ng-template[qsLoadingQueryState]',
+  selector: 'ng-template[qsLoading]',
 })
 export class LoadingQueryStateTemplateDirective {
   static ngTemplateContextGuard(

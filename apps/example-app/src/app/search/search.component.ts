@@ -17,18 +17,18 @@ import { GitHubService } from './github.service';
     </form>
     <button (click)="refreshTrigger.next()">Refresh</button>
     <query-state-template [queryState]="queryState.data">
-      <ng-template qsLoadingQueryState let-retries>
+      <ng-template qsLoading let-retries>
         🔎 Searching for GitHub users
         {{ retries ? '( retrying ' + retries + ' )' : '' }}
       </ng-template>
 
-      <ng-template qsErrorQueryState let-error>
+      <ng-template qsError let-error>
         👀 Something is broken - call for help
         <pre>{{ error | json }}</pre>
       </ng-template>
 
       <ng-template
-        [qsIdleQueryState]="queryState.data"
+        [qsIdle]="queryState.data"
         let-user
         let-revalidating="revalidating"
       >

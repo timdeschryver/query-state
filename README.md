@@ -26,6 +26,7 @@ export class DetailComponent {
 
 ### Includes
 
+- [x] Caching
 - [x] Request state
 - [x] Retries (with configuration)
 - [x] Revalidate on interval, focus, online detection

@@ -11,6 +11,7 @@ import {
   isObservable,
   map,
   Observable,
+  Observer,
   of,
   skip,
   startWith,
@@ -76,7 +77,6 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
     private readonly cache: QueryStateCache,
     @Inject(QUERY_SERVICE)
     private readonly dataService: Service & QueryService,
-
     @Inject(QUERY_STATE_CONFIG)
     private readonly config: QueryStateConfig<QueryService>
   ) {
@@ -225,12 +225,21 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
   effect(
     sourceOrSourceFactory:
       | Observable<unknown>
-      | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>)
+      | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>),
+    observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)
   ): void {
     if (typeof sourceOrSourceFactory === 'function') {
-      this.subscriptions.add(sourceOrSourceFactory(this.data$).subscribe());
+      this.subscriptions.add(
+        sourceOrSourceFactory(this.data$).subscribe(
+          observerOrNext as Partial<Observer<unknown>>
+        )
+      );
     } else {
-      this.subscriptions.add(sourceOrSourceFactory.subscribe());
+      this.subscriptions.add(
+        sourceOrSourceFactory.subscribe(
+          observerOrNext as Partial<Observer<unknown>>
+        )
+      );
     }
   }
 

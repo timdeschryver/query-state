@@ -14,7 +14,7 @@ it('renders the custom loader template', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'loading', retries: 2, error: 'oops' }">
-          <ng-template qsLoadingQueryState let-retries='retries' let-error='error'>
+          <ng-template qsLoading let-retries='retries' let-error='error'>
             ({{retries}} - {{error}}) Loading State
           </ng-template>
         </query-state-template>
@@ -31,7 +31,7 @@ it('renders the custom loader template: implicit retries', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'loading', retries: 2, error: 'oops' }">
-          <ng-template qsLoadingQueryState let-retries>
+          <ng-template qsLoading let-retries>
             ({{retries}}) Loading State
           </ng-template>
         </query-state-template>
@@ -88,7 +88,7 @@ it('renders the custom error template', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'error', error: 'error message', retries: 8 }">
-          <ng-template qsErrorQueryState let-error='error' let-retries='retries'>
+          <ng-template qsError let-error='error' let-retries='retries'>
             Error State: {{error}} ({{retries}})
           </ng-template>
         </query-state-template>
@@ -105,7 +105,7 @@ it('renders the custom error template: implicit error', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'error', error: 'error is implicit' }">
-          <ng-template qsErrorQueryState let-error>
+          <ng-template qsError let-error>
             {{error}}
           </ng-template>
         </query-state-template>
@@ -166,7 +166,7 @@ it('renders the custom idle template', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'idle', data: 'hello' }">
-          <ng-template qsIdleQueryState let-data='data' let-revalidating='revalidating'>
+          <ng-template qsIdle let-data='data' let-revalidating='revalidating'>
             {{data}} Idle State ({{revalidating}})
           </ng-template>
         </query-state-template>
@@ -183,7 +183,7 @@ it('renders the custom idle template: implicit data', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'idle', data: 'data is implicit' }">
-          <ng-template qsIdleQueryState let-data>
+          <ng-template qsIdle let-data>
             {{ data }}
           </ng-template>
         </query-state-template>
@@ -200,7 +200,7 @@ it('renders the custom success template', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'success', data: 'my data' }">
-          <ng-template qsIdleQueryState let-data='data' let-revalidating='revalidating'>
+          <ng-template qsIdle let-data='data' let-revalidating='revalidating'>
             Success State {{revalidating}}: {{data}}
           </ng-template>
         </query-state-template>
@@ -217,7 +217,7 @@ it('renders the custom success template: implicit data', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'success', data: 'data is implicit' }">
-          <ng-template qsIdleQueryState let-data='data'>
+          <ng-template qsIdle let-data='data'>
             {{data}}
           </ng-template>
         </query-state-template>
@@ -234,7 +234,7 @@ it('renders the custom revalidate template', async () => {
   await render(
     `
         <query-state-template [queryState]="{ state: 'revalidate', data: 'my data', retries: 1 }">
-          <ng-template [qsIdleQueryState]="{ state: 'revalidate', data: 'my data' }" let-data let-revalidating='revalidating' let-retries='retries'>
+          <ng-template [qsIdle]="{ state: 'revalidate', data: 'my data' }" let-data let-revalidating='revalidating' let-retries='retries'>
             ({{retries}}) Idle State {{revalidating}}: {{data}}
           </ng-template>
         </query-state-template>

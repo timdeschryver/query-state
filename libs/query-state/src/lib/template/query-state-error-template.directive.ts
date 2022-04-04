@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Directive, NgModule, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: 'ng-template[qsErrorQueryState]',
+  selector: 'ng-template[qsError]',
 })
 export class ErrorQueryStateTemplateDirective {
   static ngTemplateContextGuard(

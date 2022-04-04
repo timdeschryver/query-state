@@ -12,6 +12,7 @@ import * as i1 from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { MonoTypeOperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs';
+import { Observer } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Params } from '@angular/router';
@@ -79,9 +80,6 @@ export class DefaultLoadingTemplateDirective implements OnInit {
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingTemplateDirective, [null, { optional: true; }]>;
 }
 
-// @public (undocumented)
-export function distinctByJson<Data>(): MonoTypeOperatorFunction<Data>;
-
 // @public
 export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): MonoTypeOperatorFunction<Data>;
 
@@ -97,7 +95,7 @@ export class ErrorQueryStateTemplateDirective {
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsErrorQueryState]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsError]", never, {}, {}, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ErrorQueryStateTemplateDirective, never>;
 }
@@ -132,11 +130,11 @@ export class IdleQueryStateTemplateDirective<T> {
         retries?: number;
     };
     // (undocumented)
-    qsIdleQueryState: QueryStateData<T> | Observable<QueryStateData<T>> | undefined | '';
+    qsIdle: QueryStateData<T> | Observable<QueryStateData<T>> | undefined | '';
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdleQueryState]", never, { "qsIdleQueryState": "qsIdleQueryState"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdle]", never, { "qsIdle": "qsIdle"; }, {}, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<IdleQueryStateTemplateDirective<any>, never>;
 }
@@ -163,7 +161,7 @@ export class LoadingQueryStateTemplateDirective {
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoadingQueryState]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoading]", never, {}, {}, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<LoadingQueryStateTemplateDirective, never>;
 }
@@ -208,12 +206,6 @@ export class MockUrlState {
 export const provideQueryState: <Service = QueryService>(service: Type<Service>, config: QueryStateConfig<Service>) => Provider[];
 
 // @public (undocumented)
-export const QUERY_SERVICE: InjectionToken<QueryService>;
-
-// @public (undocumented)
-export const QUERY_STATE_CONFIG: InjectionToken<QueryStateConfig<unknown>>;
-
-// @public (undocumented)
 export const QUERY_STATE_ERROR_COMPONENT: InjectionToken<Type<ErrorTemplateComponent>>;
 
 // @public (undocumented)
@@ -235,13 +227,15 @@ export interface QueryService {
 
 // @public (undocumented)
 export class QueryState<Data, Service = unknown> implements OnDestroy {
-    constructor(urlState: UrlState, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
+    constructor(urlState: UrlState, cache: QueryStateCache,
+    dataService: Service & QueryService,
+    config: QueryStateConfig<QueryService>);
     // (undocumented)
     data$: Observable<QueryStateData<Data>>;
     // (undocumented)
     data?: QueryStateData<Data>;
     // (undocumented)
-    effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>)): void;
+    effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>), observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)): void;
     // (undocumented)
     ngOnDestroy(): void;
     // (undocumented)
@@ -299,10 +293,8 @@ export interface QueryStateData<Data> {
     error?: unknown;
     // (undocumented)
     retries?: number;
-    // Warning: (ae-forgotten-export) The symbol "QueryState" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    state: QueryState_2;
+    state: State;
 }
 
 // @public (undocumented)
@@ -342,6 +334,9 @@ export class QueryStateTemplateModule {
     // (undocumented)
     static ɵmod: i0.ɵɵNgModuleDeclaration<QueryStateTemplateModule, [typeof QueryStateTemplateComponent], [typeof i1.CommonModule, typeof i2.LoadingQueryStateTemplateDirectiveModule, typeof i3.ErrorQueryStateTemplateDirectiveModule, typeof i4.IdleQueryStateTemplateDirectiveModule, typeof i5.DefaultLoadingDirectiveModule, typeof i6.DefaultErrorDirectiveModule], [typeof QueryStateTemplateComponent, typeof i4.IdleQueryStateTemplateDirective, typeof i3.ErrorQueryStateTemplateDirective, typeof i2.LoadingQueryStateTemplateDirective]>;
 }
+
+// @public (undocumented)
+export type State = 'idle' | 'loading' | 'success' | 'error' | 'revalidate';
 
 // @public (undocumented)
 export function tapState<QueryData>(callbacks: {
