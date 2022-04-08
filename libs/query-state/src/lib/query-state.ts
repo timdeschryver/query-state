@@ -5,7 +5,6 @@ import {
   combineLatest,
   concatMap,
   debounceTime,
-  distinctUntilChanged,
   EMPTY,
   expand,
   isObservable,
@@ -32,7 +31,7 @@ import {
   QueryService,
   DataParams,
 } from './contracts';
-import { echo } from './operators';
+import { distinctByJson, echo } from './operators';
 
 @Injectable()
 export class QueryState<Data, Service = unknown> implements OnDestroy {
@@ -114,7 +113,6 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
               const cachedEntry = this.config.disableCache
                 ? undefined
                 : this.cache.getCacheEntry(this.config.name, paramsKey);
-
               const invokeQuery = (
                 retries: number
               ): Observable<QueryStateData<Data>> => {
@@ -187,9 +185,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
             }
           ),
           startWith({ state: 'idle' } as QueryStateData<Data>),
-          distinctUntilChanged(
-            (a, b) => a.state === b.state && a.retries === b.retries
-          )
+          distinctByJson()
         )
         .subscribe((data) => {
           this.data = data;

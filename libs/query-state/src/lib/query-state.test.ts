@@ -114,6 +114,7 @@ it('ends up in the error state on failure after retrying', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
     { state: 'error', error: 'Something went wrong', retries: 3 },
@@ -131,13 +132,18 @@ it('retries 3 times exponentially on failure', () => {
     params: { id: 'a' },
     queryParams: { id: 'a' },
   });
-  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
+  ]);
 
   jest.advanceTimersByTime(1000);
   expect(service.query).toHaveBeenCalledTimes(2);
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
   ]);
 
@@ -146,6 +152,7 @@ it('retries 3 times exponentially on failure', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
   ]);
@@ -155,6 +162,7 @@ it('retries 3 times exponentially on failure', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
     { state: 'error', error: 'Something went wrong', retries: 3 },
@@ -165,6 +173,7 @@ it('retries 3 times exponentially on failure', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
     { state: 'error', error: 'Something went wrong', retries: 3 },
@@ -184,13 +193,18 @@ it('sets the retry config with a retry number', () => {
     params: { id: 'a' },
     queryParams: { id: 'a' },
   });
-  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
+  ]);
 
   jest.advanceTimersByTime(1000);
   expect(service.query).toHaveBeenCalledTimes(2);
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
   ]);
 
@@ -199,6 +213,7 @@ it('sets the retry config with a retry number', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'error', error: 'Something went wrong', retries: 2 },
   ]);
@@ -208,6 +223,7 @@ it('sets the retry config with a retry number', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'error', error: 'Something went wrong', retries: 2 },
   ]);
@@ -254,13 +270,18 @@ it('sets the retry config with a retry condition', () => {
     params: { id: 'a' },
     queryParams: { id: 'a' },
   });
-  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
+  ]);
 
   jest.advanceTimersByTime(1000);
   expect(service.query).toHaveBeenCalledTimes(2);
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
   ]);
 
@@ -269,6 +290,7 @@ it('sets the retry config with a retry condition', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'error', error: 'Something went wrong', retries: 2 },
   ]);
@@ -287,13 +309,18 @@ it('sets the retry delay', () => {
     params: { id: 'a' },
     queryParams: { id: 'a' },
   });
-  expect(emits).toEqual([{ state: 'idle' }, { state: 'loading' }]);
+  expect(emits).toEqual([
+    { state: 'idle' },
+    { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
+  ]);
 
   jest.advanceTimersByTime(100);
   expect(service.query).toHaveBeenCalledTimes(2);
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
   ]);
 
@@ -302,6 +329,7 @@ it('sets the retry delay', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
   ]);
@@ -311,6 +339,7 @@ it('sets the retry delay', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
     { state: 'error', error: 'Something went wrong', retries: 3 },
@@ -321,6 +350,7 @@ it('sets the retry delay', () => {
   expect(emits).toEqual([
     { state: 'idle' },
     { state: 'loading' },
+    { state: 'loading', error: 'Something went wrong' },
     { state: 'loading', error: 'Something went wrong', retries: 1 },
     { state: 'loading', error: 'Something went wrong', retries: 2 },
     { state: 'error', error: 'Something went wrong', retries: 3 },
