@@ -2,6 +2,12 @@
   "name": "query-state",
   "version": "0.0.0",
   "license": "MIT",
+  "author": "Tim Deschryver",
+  "keywords": [
+    "angular",
+    "rxjs",
+    "state"
+  ],
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",

@@ -1,10 +1,16 @@
 {
   "name": "ngx-query-state",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "license": "MIT",
+  "author": "Tim Deschryver",
+  "keywords": [
+    "angular",
+    "rxjs",
+    "state"
+  ],
   "peerDependencies": {
     "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0",
-    "query-state-contracts": "^0.0.1"
+    "@angular/core": "^13.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
