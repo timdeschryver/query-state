@@ -1,5 +1,5 @@
 import { TestScheduler } from 'rxjs/testing';
-import { echo } from './echo.operator';
+import { echo } from './echo';
 
 const testScheduler = () =>
   new TestScheduler((actual, expected) => {
@@ -15,9 +15,18 @@ it('echoes the value via timer', () => {
       '              -^- 119999ms !'
     ];
 
-    const expected = '-a 59999ms a 59999ms a|';
+    const expected = '-i 59999ms t 59999ms t|';
 
-    expectObservable(e1.pipe(echo())).toBe(expected);
+    expectObservable(e1.pipe(echo())).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+      t: {
+        trigger: 'timer',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -30,7 +39,7 @@ it('configures echoes via timer', () => {
       '                ^-------------!',
       '                -^------------!'
     ];
-    const expected = '-a----a----a--| ';
+    const expected = '-i----t----t--| ';
 
     expectObservable(
       e1.pipe(
@@ -38,7 +47,16 @@ it('configures echoes via timer', () => {
           timerTrigger: 5,
         })
       )
-    ).toBe(expected);
+    ).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+      t: {
+        trigger: 'timer',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -53,7 +71,7 @@ it('echoes multiple values via timer and switches to latest', () => {
       '                ----^---------!',
       '                --------------^-!',
     ];
-    const expected = '-a--b----b----c-|';
+    const expected = '-a--b----B----c-|';
 
     expectObservable(
       e1.pipe(
@@ -61,7 +79,24 @@ it('echoes multiple values via timer and switches to latest', () => {
           timerTrigger: 5,
         })
       )
-    ).toBe(expected);
+    ).toBe(expected, {
+      a: {
+        trigger: 'init',
+        value: 'a',
+      },
+      b: {
+        trigger: 'init',
+        value: 'b',
+      },
+      B: {
+        trigger: 'timer',
+        value: 'b',
+      },
+      c: {
+        trigger: 'init',
+        value: 'c',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -74,7 +109,7 @@ it('disables echoes of values via timer', () => {
       '                ^----!',
       '                -^---!'
     ];
-    const expected = '-a---| ';
+    const expected = '-i---| ';
 
     expectObservable(
       e1.pipe(
@@ -82,31 +117,12 @@ it('disables echoes of values via timer', () => {
           timerTrigger: false,
         })
       )
-    ).toBe(expected);
-    expectSubscriptions(e1.subscriptions).toBe(e1subs);
-  });
-});
-
-it('restart echoes on event', () => {
-  testScheduler().run(({ hot, expectObservable, expectSubscriptions }) => {
-    const e1 = hot('   -a-----| ');
-    const _evts = hot('----e--| ').subscribe(() => {
-      window.dispatchEvent(new Event('focus'));
+    ).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
     });
-    // prettier-ignore
-    const e1subs = [
-      '                 ^------!',
-      '                 -^-----!',
-    ];
-    const expected = ' -a--a--| ';
-
-    expectObservable(
-      e1.pipe(
-        echo({
-          timerTrigger: 5,
-        })
-      )
-    ).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -121,9 +137,18 @@ it('echoes the value via focus', () => {
     const e1subs = [
       '                 ^-----------!',
       '                 -^----------!'];
-    const expected = ' -a--a--a-a--| ';
+    const expected = ' -i--f--f-f--| ';
 
-    expectObservable(e1.pipe(echo())).toBe(expected);
+    expectObservable(e1.pipe(echo())).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+      f: {
+        trigger: 'focus',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -139,7 +164,7 @@ it('disables echoes the value via focus', () => {
           '             ^--------!',
           '             -^-------!'
     ];
-    const expected = ' -a-------| ';
+    const expected = ' -i-------| ';
 
     expectObservable(
       e1.pipe(
@@ -147,7 +172,12 @@ it('disables echoes the value via focus', () => {
           focusTrigger: false,
         })
       )
-    ).toBe(expected);
+    ).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -162,9 +192,18 @@ it('echoes the value via online', () => {
     const e1subs = [
       '                 ^-----------!',
       '                 -^----------!'];
-    const expected = ' -a--a--a-a--| ';
+    const expected = ' -i--o--o-o--| ';
 
-    expectObservable(e1.pipe(echo())).toBe(expected);
+    expectObservable(e1.pipe(echo())).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+      o: {
+        trigger: 'online',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -180,7 +219,7 @@ it('disables echoes the value via online', () => {
       '                 ^--------!',
       '                 -^-------!'
     ];
-    const expected = ' -a-------| ';
+    const expected = ' -i-------| ';
 
     expectObservable(
       e1.pipe(
@@ -188,7 +227,12 @@ it('disables echoes the value via online', () => {
           onlineTrigger: false,
         })
       )
-    ).toBe(expected);
+    ).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
@@ -202,7 +246,7 @@ it('echoes can be triggered by custom events', () => {
       '                ^-----------!',
       '                -^----------!',
     ];
-    const expected = '-a--a----a--| ';
+    const expected = '-i--c----c--| ';
 
     expectObservable(
       e1.pipe(
@@ -210,7 +254,16 @@ it('echoes can be triggered by custom events', () => {
           triggers: () => [evts],
         })
       )
-    ).toBe(expected);
+    ).toBe(expected, {
+      i: {
+        trigger: 'init',
+        value: 'a',
+      },
+      c: {
+        trigger: 'e',
+        value: 'a',
+      },
+    });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });

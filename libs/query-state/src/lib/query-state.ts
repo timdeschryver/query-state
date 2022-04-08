@@ -9,10 +9,10 @@ import {
   expand,
   isObservable,
   map,
+  mapTo,
   Observable,
   Observer,
   of,
-  skip,
   startWith,
   Subject,
   Subscription,
@@ -31,12 +31,13 @@ import {
   QueryService,
   DataParams,
 } from './contracts';
-import { distinctByJson, echo } from './operators';
+import { echo } from './operators';
+import { distinctByJson } from './operators/distinct-by-json';
 
 @Injectable()
 export class QueryState<Data, Service = unknown> implements OnDestroy {
   private subscriptions = new Subscription();
-  private revalidateTrigger = new Subject<void>();
+  private revalidateTrigger = new Subject<'revalidate'>();
   private dataSubject = new BehaviorSubject<QueryStateData<Data>>(
     undefined as unknown as QueryStateData<Data>
   );
@@ -57,16 +58,19 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
         focusTrigger: false,
         onlineTrigger: false,
         timerTrigger: false,
-        triggers: (_data): Subject<void>[] => [this.revalidateTrigger],
+        triggers: (_data): Subject<'revalidate'>[] => [this.revalidateTrigger],
       };
     }
 
     const triggers = this.config.revalidateTriggers;
     return {
       ...(triggers || {}),
-      triggers: (data): Observable<unknown>[] =>
+      triggers: (data): Observable<string>[] =>
         triggers?.triggers
-          ? triggers.triggers(data).concat(this.revalidateTrigger)
+          ? triggers
+              .triggers(data)
+              .map((trigger) => trigger.pipe(mapTo('custom')))
+              .concat(this.revalidateTrigger)
           : [this.revalidateTrigger],
     };
   }
@@ -99,9 +103,11 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
         .pipe(
           debounceTime(0),
           echo(this.triggerConfig),
-          skip(this.config.disableInitialLoad ? 1 : 0),
           switchMap(
-            ([params, queryParams]): Observable<QueryStateData<Data>> => {
+            ({
+              trigger: _trigger,
+              value: [params, queryParams],
+            }): Observable<QueryStateData<Data>> => {
               // not a RxJS filter because we want to emit a value when query params reset
               if (this.config.ignore?.({ params, queryParams })) {
                 return of({ state: 'idle' } as QueryStateData<Data>);
@@ -210,11 +216,11 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
     if (isObservable(trigger$)) {
       this.subscriptions.add(
         trigger$.subscribe(() => {
-          this.revalidateTrigger.next();
+          this.revalidateTrigger.next('revalidate');
         })
       );
     } else {
-      this.revalidateTrigger.next();
+      this.revalidateTrigger.next('revalidate');
     }
   }
 

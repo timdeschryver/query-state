@@ -9,7 +9,10 @@ Re-emit the last emitted value
 <b>Signature:</b>
 
 ```typescript
-export declare function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): MonoTypeOperatorFunction<Data>;
+export declare function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): OperatorFunction<Data, {
+    trigger: string;
+    value: Data;
+}>;
 ```
 
 ## Parameters
@@ -20,5 +23,5 @@ export declare function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, 
 
 <b>Returns:</b>
 
-MonoTypeOperatorFunction&lt;Data&gt;
+OperatorFunction&lt;Data, { trigger: string; value: Data; }&gt;
 

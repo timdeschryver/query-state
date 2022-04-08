@@ -20,12 +20,6 @@ export interface QueryStateConfig<Service> {
   query?: keyof Service;
 
   /**
-   * By default, we're fetching the data on the initial load
-   * To prevent this, set this to `true`
-   */
-  disableInitialLoad?: boolean;
-
-  /**
    * Disable that results are cached
    */
   disableCache?: boolean;

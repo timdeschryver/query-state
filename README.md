@@ -32,6 +32,11 @@ export class DetailComponent {
 - [x] Revalidate on interval, focus, online detection
 - [x] Configurable default templates
 
+### Docs
+
+- [Examples](./apps/example-app/src/app)
+- [API Docs](./docs/api/index.md)
+
 ### Todo
 
 - [ ] Clear cache

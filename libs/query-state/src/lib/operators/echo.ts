@@ -1,13 +1,13 @@
 import {
-  distinctUntilChanged,
   filter,
   fromEvent,
+  map,
   mapTo,
   materialize,
   merge,
-  MonoTypeOperatorFunction,
   NEVER,
   Observable,
+  OperatorFunction,
   startWith,
   switchMap,
   takeUntil,
@@ -15,6 +15,7 @@ import {
   timer,
 } from 'rxjs';
 import { TriggerConfig } from '../contracts';
+import { distinctByJson } from './distinct-by-json';
 
 /**
  * Re-emit the last emitted value
@@ -24,23 +25,36 @@ export function echo<Data>({
   focusTrigger = true,
   onlineTrigger = true,
   triggers = (): never[] => [],
-}: TriggerConfig = {}): MonoTypeOperatorFunction<Data> {
-  return (source): Observable<Data> => {
+}: TriggerConfig = {}): OperatorFunction<
+  Data,
+  {
+    trigger: string;
+    value: Data;
+  }
+> {
+  return (source): Observable<{ trigger: string; value: Data }> => {
     const triggers$ = [
-      focusTrigger ? fromEvent(window, 'focus') : NEVER,
-      onlineTrigger ? fromEvent(window, 'online') : NEVER,
+      focusTrigger ? fromEvent(window, 'focus').pipe(mapTo('focus')) : NEVER,
+      onlineTrigger ? fromEvent(window, 'online').pipe(mapTo('online')) : NEVER,
     ];
     return source.pipe(
       distinctByJson(),
       switchMap((value) => {
         return merge(...triggers$, ...triggers(value)).pipe(
-          startWith(value),
+          startWith('init'),
           timerTrigger === false
             ? tap()
-            : switchMap(() => {
-                return timer(0, timerTrigger);
+            : switchMap((t) => {
+                return timer(0, timerTrigger).pipe(
+                  map((i) => (i === 0 ? t : 'timer'))
+                );
               }),
-          mapTo(value),
+          map((trigger): { trigger: string; value: Data } => {
+            return {
+              trigger: typeof trigger === 'string' ? trigger : 'unknown',
+              value,
+            };
+          }),
           takeUntil(
             source.pipe(
               materialize(),
@@ -51,12 +65,4 @@ export function echo<Data>({
       })
     );
   };
-}
-
-export function distinctByJson<Data>(): MonoTypeOperatorFunction<Data> {
-  return distinctUntilChanged(
-    (previous, current) =>
-      previous === current ||
-      JSON.stringify(previous) === JSON.stringify(current)
-  );
 }

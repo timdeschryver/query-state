@@ -41,15 +41,12 @@ import { GitHubService } from './github.service';
   `,
   providers: provideQueryState(GitHubService, {
     name: SearchComponent.name,
-    disableInitialLoad: true,
     // only execute when username is not empty
     ignore: ({ queryParams }) => queryParams['username'] === '',
     cacheKey: ({ params: dataParams, queryParams }) =>
       JSON.stringify([dataParams, queryParams]).toLowerCase(),
 
-    revalidateTriggers: {
-      focusTrigger: false,
-    },
+    revalidateTriggers: false,
   }),
 })
 export class SearchComponent implements AfterViewInit {

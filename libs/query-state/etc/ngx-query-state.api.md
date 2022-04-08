@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { Observer } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { OperatorFunction } from 'rxjs';
 import { Params } from '@angular/router';
 import { Provider } from '@angular/core';
 import { Router } from '@angular/router';
@@ -81,7 +82,10 @@ export class DefaultLoadingTemplateDirective implements OnInit {
 }
 
 // @public
-export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): MonoTypeOperatorFunction<Data>;
+export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): OperatorFunction<Data, {
+    trigger: string;
+    value: Data;
+}>;
 
 // @public (undocumented)
 export class ErrorQueryStateTemplateDirective {
@@ -227,9 +231,7 @@ export interface QueryService {
 
 // @public (undocumented)
 export class QueryState<Data, Service = unknown> implements OnDestroy {
-    constructor(urlState: UrlState, cache: QueryStateCache,
-    dataService: Service & QueryService,
-    config: QueryStateConfig<QueryService>);
+    constructor(urlState: UrlState, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
     // (undocumented)
     data$: Observable<QueryStateData<Data>>;
     // (undocumented)
@@ -273,7 +275,6 @@ export interface QueryStateConfig<Service> {
         queryParams: DataParams;
     }) => string;
     disableCache?: boolean;
-    disableInitialLoad?: boolean;
     ignore?: (params: {
         params: DataParams;
         queryParams: DataParams;
