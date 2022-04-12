@@ -4,6 +4,7 @@ import { ChildComponent } from './crud/child.component';
 import { ParentComponent } from './crud/parent.component';
 import { DetailComponent } from './detail/detail.component';
 import { SearchComponent } from './search/search.component';
+import { PrefetchParentComponent } from './prefetch/prefetch.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: 'detail/:id',
     component: DetailComponent,
+    // resolve: { pageData: JsonPlaceHolderResolver },
+  },
+  {
+    path: 'prefetch',
+    component: PrefetchParentComponent,
   },
   {
     path: 'parent',
@@ -29,5 +35,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {})],
   exports: [RouterModule],
+  providers: [],
 })
 export class AppRoutingModule {}

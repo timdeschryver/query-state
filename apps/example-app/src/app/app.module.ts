@@ -20,6 +20,7 @@ import {
 } from './defaults/custom-error.component';
 import { ParentComponentModule } from './crud/parent.component';
 import { ChildComponentModule } from './crud/child.component';
+import { PrefetchComponentModule } from './prefetch/prefetch.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { ChildComponentModule } from './crud/child.component';
 
     SearchComponentModule,
     DetailComponentModule,
+    PrefetchComponentModule,
 
     ParentComponentModule,
     ChildComponentModule,
