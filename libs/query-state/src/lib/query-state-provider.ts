@@ -59,7 +59,6 @@ export const provideQueryState = <Service = QueryService>(
     );
 
     // subscribe to get data
-    // console.log(Q.getCache().getCacheEntry(config.name, '[{},{}]')); //check current cache
     Q.data$.subscribe();
 
     // Push existing cache
