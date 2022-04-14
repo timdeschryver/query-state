@@ -55,6 +55,8 @@ export interface QueryStateConfig<Service> {
    * Defaults to an exponential retry with a starting delay of 1 second.
    */
   retryDelay?: (retries: number) => number | Date;
+
+  prefetch?: boolean;
 }
 
 export type TriggerConfig = {

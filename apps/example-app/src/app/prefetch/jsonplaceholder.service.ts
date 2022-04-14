@@ -23,11 +23,9 @@ export class JsonPlaceHolderService implements QueryService {
 //   constructor(
 //     private jsonPlaceHolderService: JsonPlaceHolderService // private readonly queryState: QueryState<{ name: string }>
 //   ) {
-//     console.log('in resolver');
 //   }
 
 //   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-//     // console.log('???', route, state);
 //     return this.jsonPlaceHolderService.query({
 //       params: {},
 //       queryParams: {},

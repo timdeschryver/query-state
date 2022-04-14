@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 
+export const QUERY_STATE_CACHE = new InjectionToken<QueryStateCache>(
+  'QUERY_STATE_CACHE'
+);
 @Injectable({
   providedIn: 'root',
 })

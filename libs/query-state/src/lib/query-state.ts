@@ -21,7 +21,7 @@ import {
   timer,
 } from 'rxjs';
 import { UrlState } from './url-state';
-import { QueryStateCache } from './query-state-cache';
+import { QueryStateCache, QUERY_STATE_CACHE } from './query-state-cache';
 import {
   QUERY_STATE_CONFIG,
   QueryStateConfig,
@@ -77,6 +77,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
 
   constructor(
     private readonly urlState: UrlState,
+    @Inject(QUERY_STATE_CACHE)
     private readonly cache: QueryStateCache,
     @Inject(QUERY_SERVICE)
     private readonly dataService: Service & QueryService,
@@ -198,6 +199,10 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
           this.dataSubject.next(data);
         })
     );
+  }
+
+  getCache(): QueryStateCache {
+    return this.cache;
   }
 
   update(queryParamsOrObservable: DataParams | Observable<DataParams>): void {
