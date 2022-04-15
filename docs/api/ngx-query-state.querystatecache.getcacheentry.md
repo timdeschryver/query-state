@@ -7,7 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-getCacheEntry(name: string, key: string): unknown | undefined;
+getCacheEntry(name: string, key: string): {
+        data: unknown;
+        meta: {
+            timestamp: number;
+        };
+    } | undefined;
 ```
 
 ## Parameters
@@ -19,5 +24,5 @@ getCacheEntry(name: string, key: string): unknown | undefined;
 
 <b>Returns:</b>
 
-unknown \| undefined
+{ data: unknown; meta: { timestamp: number; }; } \| undefined
 

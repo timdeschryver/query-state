@@ -259,9 +259,19 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
 // @public (undocumented)
 export class QueryStateCache {
     // (undocumented)
-    getCacheEntry(name: string, key: string): unknown | undefined;
+    getCacheEntry(name: string, key: string): {
+        data: unknown;
+        meta: {
+            timestamp: number;
+        };
+    } | undefined;
     // (undocumented)
-    setCacheEntry(name: string, key: string, value: unknown): void;
+    setCacheEntry(name: string, key: string, value: {
+        data: unknown;
+        meta: {
+            timestamp: number;
+        };
+    }): void;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateCache, never>;
     // (undocumented)
@@ -292,6 +302,10 @@ export interface QueryStateData<Data> {
     data?: Data;
     // (undocumented)
     error?: unknown;
+    // (undocumented)
+    meta: {
+        timestamp?: number;
+    };
     // (undocumented)
     retries?: number;
     // (undocumented)

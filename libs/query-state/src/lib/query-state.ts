@@ -110,15 +110,17 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
             }): Observable<QueryStateData<Data>> => {
               // not a RxJS filter because we want to emit a value when query params reset
               if (this.config.ignore?.({ params, queryParams })) {
-                return of({ state: 'idle' } as QueryStateData<Data>);
+                return of({ state: 'idle', meta: {} } as QueryStateData<Data>);
               }
 
               const paramsKey =
                 this.config.cacheKey?.({ params, queryParams }) ??
-                JSON.stringify([params, queryParams]);
+                JSON.stringify({ params, queryParams });
+
               const cachedEntry = this.config.disableCache
                 ? undefined
                 : this.cache.getCacheEntry(this.config.name, paramsKey);
+
               const invokeQuery = (
                 retries: number
               ): Observable<QueryStateData<Data>> => {
@@ -130,6 +132,9 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                     (data): QueryStateData<Data> => ({
                       state: 'success',
                       data: data as Data,
+                      meta: {
+                        timestamp: Date.now(),
+                      },
                     })
                   ),
                   catchError(
@@ -138,6 +143,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                         state: 'error',
                         error,
                         retries: retries === 0 ? undefined : retries,
+                        meta: {},
                       });
                     }
                   )
@@ -162,11 +168,10 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                 tap((result) => {
                   if (!this.config.disableCache) {
                     if (result.state === 'success') {
-                      this.cache.setCacheEntry(
-                        this.config.name,
-                        paramsKey,
-                        result.data
-                      );
+                      this.cache.setCacheEntry(this.config.name, paramsKey, {
+                        data: result.data,
+                        meta: { timestamp: result.meta.timestamp as number },
+                      });
                     }
                   }
                 }),
@@ -175,22 +180,39 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                     result.state === 'error' &&
                     retryCondition(result.retries || 1)
                   ) {
+                    if (cachedEntry) {
+                      return {
+                        ...result,
+                        state: 'revalidate',
+                        meta: { timestamp: cachedEntry.meta.timestamp },
+                      } as QueryStateData<Data>;
+                    }
+
                     return {
                       ...result,
-                      state: cachedEntry ? 'revalidate' : 'loading',
+                      state: 'loading',
+                      meta: {},
                     } as QueryStateData<Data>;
                   }
 
                   return result;
                 }),
-                startWith({
-                  state: cachedEntry ? 'revalidate' : 'loading',
-                  data: cachedEntry,
-                } as QueryStateData<Data>)
+                startWith(
+                  (cachedEntry
+                    ? {
+                        state: 'revalidate',
+                        data: cachedEntry.data,
+                        meta: { timestamp: cachedEntry.meta.timestamp },
+                      }
+                    : {
+                        state: 'loading',
+                        meta: {},
+                      }) as QueryStateData<Data>
+                )
               );
             }
           ),
-          startWith({ state: 'idle' } as QueryStateData<Data>),
+          startWith({ state: 'idle', meta: {} } as QueryStateData<Data>),
           distinctByJson()
         )
         .subscribe((data) => {

@@ -5,4 +5,7 @@ export interface QueryStateData<Data> {
   data?: Data;
   error?: unknown;
   retries?: number;
+  meta: {
+    timestamp?: number;
+  };
 }

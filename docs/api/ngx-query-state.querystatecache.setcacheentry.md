@@ -7,7 +7,12 @@
 <b>Signature:</b>
 
 ```typescript
-setCacheEntry(name: string, key: string, value: unknown): void;
+setCacheEntry(name: string, key: string, value: {
+        data: unknown;
+        meta: {
+            timestamp: number;
+        };
+    }): void;
 ```
 
 ## Parameters
@@ -16,7 +21,7 @@ setCacheEntry(name: string, key: string, value: unknown): void;
 |  --- | --- | --- |
 |  name | string |  |
 |  key | string |  |
-|  value | unknown |  |
+|  value | { data: unknown; meta: { timestamp: number; }; } |  |
 
 <b>Returns:</b>
 
