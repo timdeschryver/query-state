@@ -20,9 +20,9 @@ export interface QueryStateConfig<Service> {
   query?: keyof Service;
 
   /**
-   * Disable that results are cached
+   * Triggers to refresh the current data
    */
-  disableCache?: boolean;
+  revalidateTriggers?: false | TriggerConfig;
 
   /**
    * A decider function that decides whether to invoke the query
@@ -32,17 +32,19 @@ export interface QueryStateConfig<Service> {
   ignore?: (params: { params: DataParams; queryParams: DataParams }) => boolean;
 
   /**
-   * Creates a key based on params to check the cache
+   * Set the duration of the cache.
+   * Defaults to 10 minutes.
+   * Set to 0 to disable cache.
+   */
+  cacheTime?: number;
+
+  /**
+   * Creates a key based on params to check the cache.
    */
   cacheKey?: (params: {
     params: DataParams;
     queryParams: DataParams;
   }) => string;
-
-  /**
-   * Triggers to refresh the current data
-   */
-  revalidateTriggers?: false | TriggerConfig;
 
   /**
    * Decide when to retry a failed query.

@@ -20,6 +20,7 @@ import { PokemonService } from './pokemon.service';
   </query-state-template>`,
   providers: provideQueryState(PokemonService, {
     name: DetailComponent.name,
+    cacheTime: 5_000,
   }),
 })
 export class DetailComponent {

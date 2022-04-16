@@ -14,8 +14,8 @@ export interface QueryStateConfig<Service>
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [cacheKey?](./ngx-query-state.querystateconfig.cachekey.md) | (params: { params: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; queryParams: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; }) =&gt; string | <i>(Optional)</i> Creates a key based on params to check the cache |
-|  [disableCache?](./ngx-query-state.querystateconfig.disablecache.md) | boolean | <i>(Optional)</i> Disable that results are cached |
+|  [cacheKey?](./ngx-query-state.querystateconfig.cachekey.md) | (params: { params: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; queryParams: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; }) =&gt; string | <i>(Optional)</i> Creates a key based on params to check the cache. |
+|  [cacheTime?](./ngx-query-state.querystateconfig.cachetime.md) | number | <i>(Optional)</i> Set the duration of the cache. Defaults to 10 minutes. Set to 0 to disable cache. |
 |  [ignore?](./ngx-query-state.querystateconfig.ignore.md) | (params: { params: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; queryParams: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; }) =&gt; boolean | <i>(Optional)</i> A decider function that decides whether to invoke the query By default all changes are sent to the query If the function returns <code>true</code>, the changes are ignored and the query isn't invoked |
 |  [name](./ngx-query-state.querystateconfig.name.md) | string | The name of the component This is used to build up a cache |
 |  [query?](./ngx-query-state.querystateconfig.query.md) | keyof Service | <i>(Optional)</i> The query method that is invoked. Defaults to <code>query</code>. |

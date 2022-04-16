@@ -9,9 +9,7 @@
 ```typescript
 setCacheEntry(name: string, key: string, value: {
         data: unknown;
-        meta: {
-            timestamp: number;
-        };
+        meta: QueryStateData<unknown>['meta'];
     }): void;
 ```
 
@@ -21,7 +19,7 @@ setCacheEntry(name: string, key: string, value: {
 |  --- | --- | --- |
 |  name | string |  |
 |  key | string |  |
-|  value | { data: unknown; meta: { timestamp: number; }; } |  |
+|  value | { data: unknown; meta: [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;unknown&gt;\['meta'\]; } |  |
 
 <b>Returns:</b>
 

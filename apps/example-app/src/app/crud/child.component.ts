@@ -45,7 +45,7 @@ import { Person } from './models';
   providers: provideQueryState(DataService, {
     name: ChildComponent.name,
     query: 'queryOne',
-    disableCache: true,
+    cacheTime: 0,
     revalidateTriggers: false,
   }),
 })

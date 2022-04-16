@@ -39,6 +39,5 @@ export class DetailComponent {
 
 ### Todo
 
-- [ ] Clear cache
 - [ ] Prefetch
 - [ ] BroadcastChannel

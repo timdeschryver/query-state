@@ -16,7 +16,7 @@ export interface QueryStateData<Data>
 |  --- | --- | --- |
 |  [data?](./ngx-query-state.querystatedata.data.md) | Data | <i>(Optional)</i> |
 |  [error?](./ngx-query-state.querystatedata.error.md) | unknown | <i>(Optional)</i> |
-|  [meta](./ngx-query-state.querystatedata.meta.md) | { timestamp?: number; } |  |
+|  [meta](./ngx-query-state.querystatedata.meta.md) | { timestamp?: number; cacheExpiration?: number; } |  |
 |  [retries?](./ngx-query-state.querystatedata.retries.md) | number | <i>(Optional)</i> |
 |  [state](./ngx-query-state.querystatedata.state.md) | [State](./ngx-query-state.state.md) |  |
 

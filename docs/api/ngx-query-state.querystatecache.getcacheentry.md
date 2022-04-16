@@ -9,9 +9,7 @@
 ```typescript
 getCacheEntry(name: string, key: string): {
         data: unknown;
-        meta: {
-            timestamp: number;
-        };
+        meta: QueryStateData<unknown>['meta'];
     } | undefined;
 ```
 
@@ -24,5 +22,5 @@ getCacheEntry(name: string, key: string): {
 
 <b>Returns:</b>
 
-{ data: unknown; meta: { timestamp: number; }; } \| undefined
+{ data: unknown; meta: [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;unknown&gt;\['meta'\]; } \| undefined
 

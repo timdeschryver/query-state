@@ -9,5 +9,6 @@
 ```typescript
 meta: {
         timestamp?: number;
+        cacheExpiration?: number;
     };
 ```

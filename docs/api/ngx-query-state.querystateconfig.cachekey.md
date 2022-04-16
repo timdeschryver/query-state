@@ -4,7 +4,7 @@
 
 ## QueryStateConfig.cacheKey property
 
-Creates a key based on params to check the cache
+Creates a key based on params to check the cache.
 
 <b>Signature:</b>
 

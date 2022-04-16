@@ -98,6 +98,8 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
       config.retryDelay ??
       ((retries): number => Math.pow(2, retries - 1) * 1000);
 
+    const cacheTime = config.cacheTime ?? 60_000 * 10;
+
     this.subscriptions.add(
       combineLatest([this.urlState.params$, this.urlState.queryParams$])
         .pipe(
@@ -117,9 +119,10 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                 this.config.cacheKey?.({ params, queryParams }) ??
                 JSON.stringify({ params, queryParams });
 
-              const cachedEntry = this.config.disableCache
-                ? undefined
-                : this.cache.getCacheEntry(this.config.name, paramsKey);
+              const cachedEntry = this.cache.getCacheEntry(
+                this.config.name,
+                paramsKey
+              );
 
               const invokeQuery = (
                 retries: number
@@ -128,15 +131,19 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                   params,
                   queryParams,
                 }).pipe(
-                  map(
-                    (data): QueryStateData<Data> => ({
+                  map((data): QueryStateData<Data> => {
+                    const timestamp = Date.now();
+                    return {
                       state: 'success',
                       data: data as Data,
                       meta: {
-                        timestamp: Date.now(),
+                        timestamp: timestamp,
+                        cacheExpiration: cacheTime
+                          ? timestamp + cacheTime
+                          : undefined,
                       },
-                    })
-                  ),
+                    };
+                  }),
                   catchError(
                     (error: unknown): Observable<QueryStateData<Data>> => {
                       return of({
@@ -166,11 +173,14 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                   return EMPTY;
                 }),
                 tap((result) => {
-                  if (!this.config.disableCache) {
+                  if (cacheTime !== 0) {
                     if (result.state === 'success') {
                       this.cache.setCacheEntry(this.config.name, paramsKey, {
                         data: result.data,
-                        meta: { timestamp: result.meta.timestamp as number },
+                        meta: {
+                          timestamp: result.meta.timestamp as number,
+                          cacheExpiration: result.meta.cacheExpiration,
+                        },
                       });
                     }
                   }
@@ -184,7 +194,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                       return {
                         ...result,
                         state: 'revalidate',
-                        meta: { timestamp: cachedEntry.meta.timestamp },
+                        meta: cachedEntry.meta,
                       } as QueryStateData<Data>;
                     }
 
@@ -202,7 +212,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
                     ? {
                         state: 'revalidate',
                         data: cachedEntry.data,
-                        meta: { timestamp: cachedEntry.meta.timestamp },
+                        meta: cachedEntry.meta,
                       }
                     : {
                         state: 'loading',
@@ -218,6 +228,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
         .subscribe((data) => {
           this.data = data;
           this.dataSubject.next(data);
+          this.cache.clean();
         })
     );
   }
@@ -268,8 +279,8 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dataSubject.complete();
     this.subscriptions.unsubscribe();
+    this.dataSubject.complete();
     this.revalidateTrigger.complete();
   }
 }

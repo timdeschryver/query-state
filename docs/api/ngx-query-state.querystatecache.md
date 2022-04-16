@@ -21,6 +21,7 @@ export declare class QueryStateCache
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [clean()](./ngx-query-state.querystatecache.clean.md) |  |  |
 |  [getCacheEntry(name, key)](./ngx-query-state.querystatecache.getcacheentry.md) |  |  |
 |  [setCacheEntry(name, key, value)](./ngx-query-state.querystatecache.setcacheentry.md) |  |  |
 

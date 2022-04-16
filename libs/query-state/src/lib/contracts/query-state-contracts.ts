@@ -7,5 +7,6 @@ export interface QueryStateData<Data> {
   retries?: number;
   meta: {
     timestamp?: number;
+    cacheExpiration?: number;
   };
 }
