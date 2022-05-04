@@ -45,7 +45,7 @@ import { Person } from './models';
   providers: provideQueryState(DataService, {
     name: ChildComponent.name,
     query: 'queryOne',
-    cacheTime: 0,
+    cacheTime: 5000,
     revalidateTriggers: false,
   }),
 })
@@ -64,13 +64,21 @@ export class ChildComponent implements OnInit {
   ngOnInit(): void {
     this.queryState.effect(
       this.queryState.data$.pipe(
-        tapState({
-          onSuccess: (person) => {
-            this.model.id = person.id;
-            this.model.firstname = person.firstname;
-            this.model.lastname = person.lastname;
+        tapState(
+          {
+            onSuccess: (person) => {
+              this.model.id = person.id;
+              this.model.firstname = person.firstname;
+              this.model.lastname = person.lastname;
+            },
+            onError: () => {
+              console.log('some error');
+            },
           },
-        })
+          {
+            optimisticUpdates: true,
+          }
+        )
       )
     );
   }

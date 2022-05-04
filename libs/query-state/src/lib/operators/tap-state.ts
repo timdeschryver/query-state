@@ -1,13 +1,22 @@
 import { MonoTypeOperatorFunction, tap } from 'rxjs';
 import { QueryStateData } from '../contracts';
 
-export function tapState<QueryData>(callbacks: {
+type CallBackFunctions<T> = {
   onError?: (error: unknown) => void;
   onIdle?: () => void;
   onLoading?: () => void;
   onRevalidate?: () => void;
-  onSuccess?: (data: QueryData) => void;
-}): MonoTypeOperatorFunction<QueryStateData<QueryData>> {
+  onSuccess?: (data: T) => void;
+};
+
+type CallBackOptions = {
+  optimisticUpdates?: boolean;
+};
+
+export function tapState<QueryData>(
+  callbacks: CallBackFunctions<QueryData>,
+  options?: CallBackOptions
+): MonoTypeOperatorFunction<QueryStateData<QueryData>> {
   return tap((data) => {
     switch (data.state) {
       case 'error':
@@ -24,6 +33,11 @@ export function tapState<QueryData>(callbacks: {
 
       case 'revalidate':
         callbacks.onRevalidate?.();
+
+        if (options?.optimisticUpdates) {
+          callbacks.onSuccess?.(data.data as QueryData);
+        }
+
         break;
 
       case 'success':
