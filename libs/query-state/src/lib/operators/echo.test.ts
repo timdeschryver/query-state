@@ -18,14 +18,8 @@ it('echoes the value via timer', () => {
     const expected = '-i 59999ms t 59999ms t|';
 
     expectObservable(e1.pipe(echo())).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
-      t: {
-        trigger: 'timer',
-        value: 'a',
-      },
+      i: 'a',
+      t: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -48,14 +42,8 @@ it('configures echoes via timer', () => {
         })
       )
     ).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
-      t: {
-        trigger: 'timer',
-        value: 'a',
-      },
+      i: 'a',
+      t: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -80,22 +68,10 @@ it('echoes multiple values via timer and switches to latest', () => {
         })
       )
     ).toBe(expected, {
-      a: {
-        trigger: 'init',
-        value: 'a',
-      },
-      b: {
-        trigger: 'init',
-        value: 'b',
-      },
-      B: {
-        trigger: 'timer',
-        value: 'b',
-      },
-      c: {
-        trigger: 'init',
-        value: 'c',
-      },
+      a: 'a',
+      b: 'b',
+      B: 'b',
+      c: 'c',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -118,10 +94,7 @@ it('disables echoes of values via timer', () => {
         })
       )
     ).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
+      i: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -140,14 +113,8 @@ it('echoes the value via focus', () => {
     const expected = ' -i--f--f-f--| ';
 
     expectObservable(e1.pipe(echo())).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
-      f: {
-        trigger: 'focus',
-        value: 'a',
-      },
+      i: 'a',
+      f: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -173,10 +140,7 @@ it('disables echoes the value via focus', () => {
         })
       )
     ).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
+      i: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -195,14 +159,8 @@ it('echoes the value via online', () => {
     const expected = ' -i--o--o-o--| ';
 
     expectObservable(e1.pipe(echo())).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
-      o: {
-        trigger: 'online',
-        value: 'a',
-      },
+      i: 'a',
+      o: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -228,10 +186,7 @@ it('disables echoes the value via online', () => {
         })
       )
     ).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
+      i: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
@@ -255,14 +210,8 @@ it('echoes can be triggered by custom events', () => {
         })
       )
     ).toBe(expected, {
-      i: {
-        trigger: 'init',
-        value: 'a',
-      },
-      c: {
-        trigger: 'e',
-        value: 'a',
-      },
+      i: 'a',
+      c: 'a',
     });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });

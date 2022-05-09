@@ -68,7 +68,7 @@ it('executes the query on param navigation', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
   ]);
 });
@@ -92,7 +92,7 @@ it('executes configured query', () => {
       data: {
         data: 'alternative-response',
       },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
   ]);
 });
@@ -112,7 +112,7 @@ it('executes the query on query param navigation', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
   ]);
 });
@@ -496,27 +496,27 @@ it('builds and uses the cache on route re-enter', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     // param b
     { state: 'loading', meta: {} },
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1 + 1, cacheExpiration: CACHE_TIME + 1 + 1 },
+      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
     },
     // param a again with cache
     {
       state: 'revalidate',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'success',
       data: { data: 'response' },
       meta: {
-        timestamp: NOW + +1 + 1 + 1,
-        cacheExpiration: CACHE_TIME + 1 + 1 + 1,
+        timestamp: NOW + 1 + 1,
+        cacheExpiration: CACHE_TIME + 1 + 1,
       },
     },
   ]);
@@ -539,21 +539,21 @@ it('disables cache by setting cacheTime to 0', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1 },
+      meta: { timestamp: NOW },
     },
     // param b
     { state: 'loading', meta: {} },
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1 + 1 },
+      meta: { timestamp: NOW + 1 },
     },
-    // param a agian without cache
+    // param a again without cache
     { state: 'loading', meta: {} },
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1 + 1 + 1 },
+      meta: { timestamp: NOW + 1 + 1 },
     },
   ]);
 });
@@ -574,7 +574,7 @@ it('does not revalidate when params dont change', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
   ]);
 });
@@ -598,19 +598,19 @@ it('does not revalidate but revalidate when params are equal for cacheKey', () =
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'revalidate',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'success',
       data: { data: 'response' },
       meta: {
-        timestamp: NOW + 1 + 5 + 8 + 1,
-        cacheExpiration: CACHE_TIME + 1 + 5 + 8 + 1,
+        timestamp: NOW + 1 + 5 + 8,
+        cacheExpiration: CACHE_TIME + 1 + 5 + 8,
       },
     },
   ]);
@@ -630,12 +630,12 @@ it('revalidate revalidates the response', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'revalidate',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'success',
@@ -665,12 +665,12 @@ it('revalidate as a stream revalidates the response', () => {
     {
       state: 'success',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'revalidate',
       data: { data: 'response' },
-      meta: { timestamp: NOW + 1, cacheExpiration: CACHE_TIME + 1 },
+      meta: { timestamp: NOW, cacheExpiration: CACHE_TIME },
     },
     {
       state: 'success',
@@ -749,8 +749,8 @@ it('ignores emits when set', () => {
       state: 'success',
       data: { data: 'response' },
       meta: {
-        timestamp: NOW + 1 + 1,
-        cacheExpiration: CACHE_TIME + 1 + 1,
+        timestamp: NOW + 1,
+        cacheExpiration: CACHE_TIME + 1,
       },
     },
   ]);

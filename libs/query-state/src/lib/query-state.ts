@@ -106,10 +106,7 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
           debounceTime(0),
           echo(this.triggerConfig),
           switchMap(
-            ({
-              trigger: _trigger,
-              value: [params, queryParams],
-            }): Observable<QueryStateData<Data>> => {
+            ([params, queryParams]): Observable<QueryStateData<Data>> => {
               // not a RxJS filter because we want to emit a value when query params reset
               if (this.config.ignore?.({ params, queryParams })) {
                 return of({ state: 'idle', meta: {} } as QueryStateData<Data>);

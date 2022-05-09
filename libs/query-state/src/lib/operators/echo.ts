@@ -1,17 +1,14 @@
 import {
   filter,
   fromEvent,
-  map,
-  mapTo,
   materialize,
   merge,
-  NEVER,
+  MonoTypeOperatorFunction,
   Observable,
-  OperatorFunction,
-  startWith,
+  of,
+  repeat,
   switchMap,
   takeUntil,
-  tap,
   timer,
 } from 'rxjs';
 import { TriggerConfig } from '../contracts';
@@ -25,35 +22,26 @@ export function echo<Data>({
   focusTrigger = true,
   onlineTrigger = true,
   triggers = (): never[] => [],
-}: TriggerConfig = {}): OperatorFunction<
-  Data,
-  {
-    trigger: string;
-    value: Data;
-  }
-> {
-  return (source): Observable<{ trigger: string; value: Data }> => {
-    const triggers$ = [
-      focusTrigger ? fromEvent(window, 'focus').pipe(mapTo('focus')) : NEVER,
-      onlineTrigger ? fromEvent(window, 'online').pipe(mapTo('online')) : NEVER,
-    ];
+}: TriggerConfig = {}): MonoTypeOperatorFunction<Data> {
+  return (source): Observable<Data> => {
     return source.pipe(
       distinctByJson(),
       switchMap((value) => {
-        return merge(...triggers$, ...triggers(value)).pipe(
-          startWith('init'),
-          timerTrigger === false
-            ? tap()
-            : switchMap((t) => {
-                return timer(0, timerTrigger).pipe(
-                  map((i) => (i === 0 ? t : 'timer'))
-                );
-              }),
-          map((trigger): { trigger: string; value: Data } => {
-            return {
-              trigger: typeof trigger === 'string' ? trigger : 'unknown',
-              value,
-            };
+        return of(value).pipe(
+          repeat({
+            delay: () => {
+              const triggers$ = triggers(value);
+              if (focusTrigger) {
+                triggers$.push(fromEvent(window, 'focus'));
+              }
+              if (onlineTrigger) {
+                triggers$.push(fromEvent(window, 'online'));
+              }
+              if (timerTrigger) {
+                triggers$.push(timer(timerTrigger));
+              }
+              return merge(...triggers$);
+            },
           }),
           takeUntil(
             source.pipe(

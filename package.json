@@ -29,7 +29,7 @@
     "@angular/router": "^14.0.0-next.15",
     "@ngrx/component-store": "^13.0.2",
     "@nrwl/angular": "13.3.6",
-    "rxjs": "~7.4.0",
+    "rxjs": "~7.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
   },
