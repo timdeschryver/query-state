@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵprov: i0.ɵɵInjectableDeclaration<QueryState<any, any>>;
+static ɵprov: i0.ɵɵInjectableDeclaration<QueryState<any>>;
 ```

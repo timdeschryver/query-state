@@ -4,10 +4,8 @@
 
 ## QueryStateConfig.query property
 
-The query method that is invoked. Defaults to `query`<!-- -->.
-
 <b>Signature:</b>
 
 ```typescript
-query?: keyof Service;
+query: () => (params: Params, queryParams: Params) => Observable<Result>;
 ```

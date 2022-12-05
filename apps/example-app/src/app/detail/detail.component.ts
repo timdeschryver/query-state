@@ -1,34 +1,46 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import {
-  QueryState,
-  provideQueryState,
-  QueryStateTemplateModule,
+  IdleQueryStateTemplateDirective,
+  injectQueryState,
+  QUERY_STATE_ERROR_COMPONENT,
+  QUERY_STATE_LOADING_COMPONENT,
+  QueryStateTemplateComponent,
 } from 'query-state';
-import { PokemonService } from './pokemon.service';
+import { CustomLoadingComponent } from '../defaults/custom-loading.component';
+import { CustomErrorComponent } from '../defaults/custom-error.component';
 
 @Component({
   selector: 'query-state-detail',
-  template: ` <query-state-template [queryState]="queryState.data$">
-    <ng-template
-      [qsIdle]="queryState.data$"
-      let-detail
-      let-revalidating="revalidating"
-    >
-      <pre>{{ detail | json }}</pre>
-    </ng-template>
-  </query-state-template>`,
-  providers: provideQueryState(PokemonService, {
-    name: DetailComponent.name,
-    cacheTime: 5_000,
-  }),
+  template: `
+    <query-state-template [queryState]="queryState.data$">
+      <ng-template
+        [qsIdle]="queryState.data$"
+        let-detail
+        let-revalidating="revalidating"
+      >
+        <pre>{{ detail | json }}</pre>
+      </ng-template>
+    </query-state-template>
+  `,
+  imports: [
+    JsonPipe,
+    AsyncPipe,
+    QueryStateTemplateComponent,
+    IdleQueryStateTemplateDirective,
+  ],
+  providers: [
+    {
+      provide: QUERY_STATE_LOADING_COMPONENT,
+      useValue: CustomLoadingComponent,
+    },
+    {
+      provide: QUERY_STATE_ERROR_COMPONENT,
+      useValue: CustomErrorComponent,
+    },
+  ],
+  standalone: true,
 })
 export class DetailComponent {
-  constructor(public readonly queryState: QueryState<{ name: string }>) {}
+  queryState = injectQueryState();
 }
-
-@NgModule({
-  imports: [CommonModule, QueryStateTemplateModule],
-  declarations: [DetailComponent],
-})
-export class DetailComponentModule {}

@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>), observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)): void;
+effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Result>>) => Observable<unknown>), observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  sourceOrSourceFactory | Observable&lt;unknown&gt; \| ((data: Observable&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Data&gt;&gt;) =&gt; Observable&lt;unknown&gt;) |  |
+|  sourceOrSourceFactory | Observable&lt;unknown&gt; \| ((data: Observable&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Result&gt;&gt;) =&gt; Observable&lt;unknown&gt;) |  |
 |  observerOrNext | Partial&lt;Observer&lt;unknown&gt;&gt; \| ((value: unknown) =&gt; void) |  |
 
 <b>Returns:</b>

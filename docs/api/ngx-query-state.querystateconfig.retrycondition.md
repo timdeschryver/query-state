@@ -4,10 +4,8 @@
 
 ## QueryStateConfig.retryCondition property
 
-Decide when to retry a failed query. Defaults to 3 times.
-
 <b>Signature:</b>
 
 ```typescript
-retryCondition?: number | ((retries: number) => boolean);
+retryCondition?: (retries: number, error: unknown) => boolean;
 ```

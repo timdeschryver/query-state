@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable } from 'rxjs';
-import { QueryService, QueryParams } from 'query-state';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GitHubService implements QueryService {
+export class GitHubService  {
   constructor(private http: HttpClient) {}
 
-  query({ queryParams }: QueryParams): Observable<{ username: string }> {
+  search(username:string): Observable<GitHubUser> {
     return this.http
       .get<{ username: string }>(
-        `https://api.github.com/users/${queryParams['username']}`
+        `https://api.github.com/users/${username}`
       )
       .pipe(delay(800));
   }
+}
+
+export interface GitHubUser {
+  username: string;
 }

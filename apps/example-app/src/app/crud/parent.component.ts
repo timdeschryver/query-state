@@ -1,16 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
 import {
-  QueryState,
-  provideQueryState,
-  QueryStateTemplateModule,
+  IdleQueryStateTemplateDirective,
+  injectQueryState,
+  QueryStateTemplateComponent,
 } from 'query-state';
-import { DataService } from './data.service';
+import { RouterModule } from '@angular/router';
+import { NgForOf, NgIf } from '@angular/common';
 import { Person } from './models';
 
 @Component({
   selector: 'query-state-parent',
+  standalone: true,
+  imports: [
+    QueryStateTemplateComponent,
+    IdleQueryStateTemplateDirective,
+    RouterModule,
+    NgForOf,
+    NgIf,
+  ],
   template: `
     <query-state-template [queryState]="queryState.data$">
       <ng-template
@@ -30,16 +37,7 @@ import { Person } from './models';
 
     <router-outlet (deactivate)="queryState.revalidate()"></router-outlet>
   `,
-  providers: provideQueryState(DataService, {
-    name: ParentComponent.name,
-  }),
 })
 export class ParentComponent {
-  constructor(public readonly queryState: QueryState<Person[]>) {}
+  queryState = injectQueryState<Person[]>();
 }
-
-@NgModule({
-  declarations: [ParentComponent],
-  imports: [CommonModule, RouterModule, QueryStateTemplateModule],
-})
-export class ParentComponentModule {}

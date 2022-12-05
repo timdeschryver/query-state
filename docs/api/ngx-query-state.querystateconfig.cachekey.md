@@ -4,13 +4,8 @@
 
 ## QueryStateConfig.cacheKey property
 
-Creates a key based on params to check the cache.
-
 <b>Signature:</b>
 
 ```typescript
-cacheKey?: (params: {
-        params: DataParams;
-        queryParams: DataParams;
-    }) => string;
+cacheKey: (params: Params, queryParams: Params) => string;
 ```

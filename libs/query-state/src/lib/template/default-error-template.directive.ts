@@ -4,7 +4,6 @@ import {
   Inject,
   InjectionToken,
   Input,
-  NgModule,
   OnInit,
   Optional,
   Type,
@@ -14,6 +13,7 @@ import { QueryStateData } from '../contracts';
 
 @Directive({
   selector: '[qsDefaultError]',
+  standalone: true
 })
 export class DefaultErrorTemplateDirective implements OnInit {
   ref?: ComponentRef<ErrorTemplateComponent>;
@@ -22,7 +22,7 @@ export class DefaultErrorTemplateDirective implements OnInit {
     this._qsDefaultError = value;
     if (this.ref) {
       this.ref.instance.error = this.qsDefaultError.error;
-      this.ref.instance.retries = this.qsDefaultError.retries;
+      this.ref.instance.retries = this.qsDefaultError.meta.retries;
       this.ref.changeDetectorRef.markForCheck();
     }
   }
@@ -44,7 +44,7 @@ export class DefaultErrorTemplateDirective implements OnInit {
       this.viewContainerRef.clear();
       this.ref = this.viewContainerRef.createComponent(this.errorComponent);
       this.ref.instance.error = this.qsDefaultError.error;
-      this.ref.instance.retries = this.qsDefaultError.retries;
+      this.ref.instance.retries = this.qsDefaultError.meta.retries;
     }
   }
 }
@@ -53,12 +53,6 @@ export interface ErrorTemplateComponent {
   error: unknown;
   retries?: number;
 }
-
-@NgModule({
-  declarations: [DefaultErrorTemplateDirective],
-  exports: [DefaultErrorTemplateDirective],
-})
-export class DefaultErrorDirectiveModule {}
 
 export const QUERY_STATE_ERROR_COMPONENT = new InjectionToken<
   Type<ErrorTemplateComponent>

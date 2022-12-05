@@ -1,30 +1,28 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {
   Component,
   ContentChild,
   Input,
-  NgModule,
   OnDestroy,
 } from '@angular/core';
-import { isObservable, Observable, Subscription } from 'rxjs';
-import { QueryStateData } from '../contracts';
-import { DefaultErrorDirectiveModule } from './default-error-template.directive';
-import { DefaultLoadingDirectiveModule } from './default-loading-template.directive';
+import {isObservable, Observable, Subscription} from 'rxjs';
+import {QueryStateData} from '../contracts';
+import {DefaultErrorTemplateDirective} from './default-error-template.directive';
+import {DefaultLoadingTemplateDirective} from './default-loading-template.directive';
 import {
   ErrorQueryStateTemplateDirective,
-  ErrorQueryStateTemplateDirectiveModule,
 } from './query-state-error-template.directive';
 import {
   IdleQueryStateTemplateDirective,
-  IdleQueryStateTemplateDirectiveModule,
 } from './query-state-idle-template.directive';
 import {
   LoadingQueryStateTemplateDirective,
-  LoadingQueryStateTemplateDirectiveModule,
 } from './query-state-loading-template.directive';
 
 @Component({
   selector: 'query-state-template',
+  standalone: true,
+  imports: [DefaultErrorTemplateDirective, DefaultLoadingTemplateDirective, ErrorQueryStateTemplateDirective, IdleQueryStateTemplateDirective, LoadingQueryStateTemplateDirective, CommonModule],
   template: `
     <ng-container *ngIf="qsState as qs">
       <ng-container [ngSwitch]="qs.state">
@@ -34,9 +32,9 @@ import {
               *ngTemplateOutlet="
                 loadingTemplate.templateRef;
                 context: {
-                  $implicit: qs.retries,
+                  $implicit: qs.meta.retries,
                   error: qs.error,
-                  retries: qs.retries
+                  retries: qs.meta.retries
                 }
               "
             ></ng-container>
@@ -55,7 +53,7 @@ import {
                 context: {
                   $implicit: qs.error,
                   error: qs.error,
-                  retries: qs.retries
+                  retries: qs.meta.retries
                 }
               "
             ></ng-container>
@@ -72,11 +70,11 @@ import {
               *ngTemplateOutlet="
                 idleTemplate.templateRef;
                 context: {
-                  $implicit: qs.data,
-                  data: qs.data,
+                  $implicit: qs.result,
+                  result: qs.result,
                   revalidating: qs.state === 'revalidate',
                   error: qs.error,
-                  retries: qs.retries
+                  retries: qs.meta.retries
                 }
               "
             >
@@ -92,7 +90,7 @@ export class QueryStateTemplateComponent<T> implements OnDestroy {
   subscription?: Subscription;
 
   @Input() set queryState(
-    value: QueryStateData<T> | Observable<QueryStateData<T>> | null | undefined
+    value: QueryStateData<T> | Observable<QueryStateData<T>>  | null | undefined
   ) {
     if (isObservable(value)) {
       this.subscription?.unsubscribe();
@@ -117,22 +115,3 @@ export class QueryStateTemplateComponent<T> implements OnDestroy {
     this.subscription?.unsubscribe();
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LoadingQueryStateTemplateDirectiveModule,
-    ErrorQueryStateTemplateDirectiveModule,
-    IdleQueryStateTemplateDirectiveModule,
-    DefaultLoadingDirectiveModule,
-    DefaultErrorDirectiveModule,
-  ],
-  declarations: [QueryStateTemplateComponent],
-  exports: [
-    QueryStateTemplateComponent,
-    IdleQueryStateTemplateDirective,
-    ErrorQueryStateTemplateDirective,
-    LoadingQueryStateTemplateDirective,
-  ],
-})
-export class QueryStateTemplateModule {}

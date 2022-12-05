@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdle]", never, { "qsIdle": "qsIdle"; }, {}, never>;
+static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdle]", never, { "qsIdle": "qsIdle"; }, {}, never, never, true, never>;
 ```

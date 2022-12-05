@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { QueryService, QueryParams } from 'query-state';
-import { BehaviorSubject, delay, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, map, Observable, of, tap } from 'rxjs';
 import { Person } from './models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService implements QueryService {
+export class DataService {
   private persons = new BehaviorSubject<Person[]>([
     { id: 'er', firstname: 'Ellen', lastname: 'Riley' },
     { id: 'jb', firstname: 'Jaxon', lastname: 'Brigstocke' },
@@ -14,22 +13,25 @@ export class DataService implements QueryService {
     { id: 'mr', firstname: 'Mikayla', lastname: 'Rosenstengel' },
   ]);
 
-  query(): Observable<Person[]> {
-    return this.persons.pipe(delay(1000));
+  getAll(): Observable<Person[]> {
+    return this.persons.pipe(
+      tap((persons) => console.log('getAll', persons)),
+      delay(5_000)
+    );
   }
 
-  queryOne(params: QueryParams): Observable<Person> {
-    const id = params.params['personId'];
+  get(personId: string): Observable<Person> {
     return this.persons.pipe(
-      map((persons) => persons.find((p) => p.id === id)),
+      map((persons) => persons.find((p) => p.id === personId)),
       map((person) => {
         if (!person) {
-          throw Error(`Person not found with id ${id}`);
+          throw Error(`Person not found with id ${personId}`);
         }
 
         return person;
       }),
-      delay(1000)
+      tap((person) => console.log('get', person)),
+      delay(1_000)
     );
   }
 

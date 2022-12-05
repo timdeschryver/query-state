@@ -1,29 +1,41 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, NgModule, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { debounceTime, Subject } from 'rxjs';
+import {AsyncPipe, JsonPipe} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {debounceTime, map} from 'rxjs';
 import {
-  QueryState,
-  provideQueryState,
-  QueryStateTemplateModule,
+  QueryStateTemplateComponent,
+  IdleQueryStateTemplateDirective,
+  injectQueryState, LoadingQueryStateTemplateDirective, ErrorQueryStateTemplateDirective,
 } from 'query-state';
-import { GitHubService } from './github.service';
+import {GitHubUser} from "./github.service";
 
 @Component({
   selector: 'query-state-search',
+  standalone: true,
+  imports: [
+    JsonPipe,
+    AsyncPipe,
+    QueryStateTemplateComponent,
+    IdleQueryStateTemplateDirective,
+    LoadingQueryStateTemplateDirective,
+    ErrorQueryStateTemplateDirective,
+    ReactiveFormsModule
+  ],
   template: `
     <form>
-      <input type="text" name="username" [ngModel]="username" required />
+      <input type="text" name="username" [formControl]="search"/>
     </form>
-    <button (click)="refreshTrigger.next()">Refresh</button>
+
+    <button (click)="queryState.revalidate()">Refresh</button>
     <query-state-template [queryState]="queryState.data">
       <ng-template qsLoading let-retries>
         🔎 Searching for GitHub users
         {{ retries ? '( retrying ' + retries + ' )' : '' }}
       </ng-template>
 
-      <ng-template qsError let-error>
+      <ng-template qsError let-error let-retries="retries">
         👀 Something is broken - call for help
+        {{ retries ? '( retrying ' + retries + ' )' : '' }}
         <pre>{{ error | json }}</pre>
       </ng-template>
 
@@ -39,33 +51,16 @@ import { GitHubService } from './github.service';
       </ng-template>
     </query-state-template>
   `,
-  providers: provideQueryState(GitHubService, {
-    name: SearchComponent.name,
-    // only execute when username is not empty
-    ignore: ({ queryParams }) => queryParams['username'] === '',
-    cacheKey: ({ params: dataParams, queryParams }) =>
-      JSON.stringify([dataParams, queryParams]).toLowerCase(),
-
-    revalidateTriggers: false,
-  }),
 })
-export class SearchComponent implements AfterViewInit {
-  @ViewChild(NgForm) form!: NgForm;
-  username = this.queryState.queryParams.username || '';
-  refreshTrigger = new Subject<void>();
+export class SearchComponent implements OnInit {
+  queryState = injectQueryState<GitHubUser>();
+  search = new FormControl<string>(this.queryState.queryParams.username ?? '');
 
-  constructor(readonly queryState: QueryState<{ username: string }>) {}
-
-  ngAfterViewInit(): void {
-    if (this.form.valueChanges) {
-      this.queryState.update(this.form.valueChanges.pipe(debounceTime(500)));
-      this.queryState.revalidate(this.refreshTrigger);
-    }
+  ngOnInit(): void {
+    this.queryState.updateQueryParams(
+      this.search.valueChanges.pipe(
+        debounceTime(500),
+        map(username => ({username})),
+      ));
   }
 }
-
-@NgModule({
-  imports: [CommonModule, FormsModule, QueryStateTemplateModule],
-  declarations: [SearchComponent],
-})
-export class SearchComponentModule {}

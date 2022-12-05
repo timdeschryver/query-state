@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Directive, NgModule, TemplateRef } from '@angular/core';
+import { Directive,  TemplateRef } from '@angular/core';
 
 @Directive({
   selector: 'ng-template[qsError]',
+  standalone: true
 })
 export class ErrorQueryStateTemplateDirective {
   static ngTemplateContextGuard(
@@ -14,10 +14,3 @@ export class ErrorQueryStateTemplateDirective {
 
   constructor(public templateRef: TemplateRef<unknown>) {}
 }
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [ErrorQueryStateTemplateDirective],
-  exports: [ErrorQueryStateTemplateDirective],
-})
-export class ErrorQueryStateTemplateDirectiveModule {}

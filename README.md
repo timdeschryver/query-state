@@ -4,18 +4,23 @@ Simple and configurable query helpers.
 
 ```ts
 @Component({
-  selector: 'app-detail',
-  template: `<query-state-template [queryState]="queryState.data$">
-    <ng-template [qsIdle]="queryState.data" let-detail>
-      <h2>Hello {{ detail.name }}</h2>
-    </ng-template>
-  </query-state-template>`,
-  providers: provideQueryState(DetailService, {
-    name: DetailComponent.name,
-  }),
+  selector: 'query-state-detail',
+  template: `
+    <query-state-template [queryState]="queryState.data$">
+      <ng-template
+        [qsIdle]="queryState.data$"
+        let-detail
+        let-revalidating="revalidating"
+      >
+        <pre>{{ detail | json }}</pre>
+      </ng-template>
+    </query-state-template>
+  `,
+  imports: [JsonPipe, AsyncPipe, QueryStateTemplateComponent],
+  standalone: true,
 })
 export class DetailComponent {
-  constructor(public readonly queryState: QueryState<{ name: string }>) {}
+  queryState = injectQueryState();
 }
 ```
 

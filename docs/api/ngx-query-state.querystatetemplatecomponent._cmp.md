@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵcmp: i0.ɵɵComponentDeclaration<QueryStateTemplateComponent<any>, "query-state-template", never, { "queryState": "queryState"; }, {}, ["loadingTemplate", "errorTemplate", "idleTemplate"], never>;
+static ɵcmp: i0.ɵɵComponentDeclaration<QueryStateTemplateComponent<any>, "query-state-template", never, { "queryState": "queryState"; }, {}, ["loadingTemplate", "errorTemplate", "idleTemplate"], never, true, never>;
 ```

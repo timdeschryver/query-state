@@ -1,9 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { ErrorTemplateComponent } from 'query-state';
+import {JsonPipe} from '@angular/common';
+import {Component} from '@angular/core';
+import {ErrorTemplateComponent} from 'query-state';
 
 @Component({
   selector: 'query-state-custom-error',
+  standalone: true,
+  imports: [
+    JsonPipe
+  ],
   template: `
     <div role="alert" style="border: 1px solid red">
       Something went wrong (retried {{ retries }} times)
@@ -18,9 +22,3 @@ export class CustomErrorComponent implements ErrorTemplateComponent {
   error: unknown;
   retries?: number;
 }
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [CustomErrorComponent],
-})
-export class CustomErrorComponentModule {}

@@ -2,10 +2,21 @@
 
 [Home](./index.md) &gt; [ngx-query-state](./ngx-query-state.md) &gt; [provideQueryState](./ngx-query-state.providequerystate.md)
 
-## provideQueryState variable
+## provideQueryState() function
 
 <b>Signature:</b>
 
 ```typescript
-provideQueryState: <Service = QueryService>(service: Type<Service>, config: QueryStateConfig<Service>) => Provider[]
+export declare function provideQueryState<Result = unknown>(config: QueryStateConfig<Result>): Provider[];
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  config | [QueryStateConfig](./ngx-query-state.querystateconfig.md)<!-- -->&lt;Result&gt; |  |
+
+<b>Returns:</b>
+
+Provider\[\]
+

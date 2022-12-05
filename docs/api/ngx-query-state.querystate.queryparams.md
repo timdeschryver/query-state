@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-queryParams: DataParams;
+queryParams: Params;
 ```

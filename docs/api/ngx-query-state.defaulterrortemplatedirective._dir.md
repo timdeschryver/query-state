@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorTemplateDirective, "[qsDefaultError]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never>;
+static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorTemplateDirective, "[qsDefaultError]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never, never, true, never>;
 ```

@@ -13,19 +13,17 @@
 |  [ErrorQueryStateTemplateDirective](./ngx-query-state.errorquerystatetemplatedirective.md) |  |
 |  [IdleQueryStateTemplateDirective](./ngx-query-state.idlequerystatetemplatedirective.md) |  |
 |  [LoadingQueryStateTemplateDirective](./ngx-query-state.loadingquerystatetemplatedirective.md) |  |
-|  [MockUrlState](./ngx-query-state.mockurlstate.md) |  |
 |  [QueryState](./ngx-query-state.querystate.md) |  |
 |  [QueryStateCache](./ngx-query-state.querystatecache.md) |  |
 |  [QueryStateTemplateComponent](./ngx-query-state.querystatetemplatecomponent.md) |  |
-|  [QueryStateTemplateModule](./ngx-query-state.querystatetemplatemodule.md) |  |
-|  [UrlState](./ngx-query-state.urlstate.md) |  |
 
 ## Functions
 
 |  Function | Description |
 |  --- | --- |
-|  [echo({ timerTrigger, focusTrigger, onlineTrigger, triggers, })](./ngx-query-state.echo.md) | Re-emit the last emitted value |
-|  [mapSuccess()](./ngx-query-state.mapsuccess.md) |  |
+|  [injectQueryState()](./ngx-query-state.injectquerystate.md) |  |
+|  [provideQueryState(config)](./ngx-query-state.providequerystate.md) |  |
+|  [resolveQueryState(route)](./ngx-query-state.resolvequerystate.md) |  |
 |  [tapState(callbacks)](./ngx-query-state.tapstate.md) |  |
 
 ## Interfaces
@@ -34,24 +32,15 @@
 |  --- | --- |
 |  [ErrorTemplateComponent](./ngx-query-state.errortemplatecomponent.md) |  |
 |  [LoadingTemplateComponent](./ngx-query-state.loadingtemplatecomponent.md) |  |
-|  [QueryParams](./ngx-query-state.queryparams.md) |  |
-|  [QueryService](./ngx-query-state.queryservice.md) |  |
 |  [QueryStateConfig](./ngx-query-state.querystateconfig.md) |  |
 |  [QueryStateData](./ngx-query-state.querystatedata.md) |  |
+|  [QueryStateParams](./ngx-query-state.querystateparams.md) |  |
 
 ## Variables
 
 |  Variable | Description |
 |  --- | --- |
-|  [provideQueryState](./ngx-query-state.providequerystate.md) |  |
+|  [QUERY\_STATE\_CONFIG](./ngx-query-state.query_state_config.md) |  |
 |  [QUERY\_STATE\_ERROR\_COMPONENT](./ngx-query-state.query_state_error_component.md) |  |
 |  [QUERY\_STATE\_LOADING\_COMPONENT](./ngx-query-state.query_state_loading_component.md) |  |
-
-## Type Aliases
-
-|  Type Alias | Description |
-|  --- | --- |
-|  [DataParams](./ngx-query-state.dataparams.md) |  |
-|  [State](./ngx-query-state.state.md) |  |
-|  [TriggerConfig](./ngx-query-state.triggerconfig.md) |  |
 

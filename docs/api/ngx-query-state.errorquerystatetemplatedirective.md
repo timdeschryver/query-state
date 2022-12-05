@@ -20,7 +20,7 @@ export declare class ErrorQueryStateTemplateDirective
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./ngx-query-state.errorquerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[ErrorQueryStateTemplateDirective](./ngx-query-state.errorquerystatetemplatedirective.md)<!-- -->, "ng-template\[qsError\]", never, {}, {}, never&gt; |  |
+|  [ɵdir](./ngx-query-state.errorquerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[ErrorQueryStateTemplateDirective](./ngx-query-state.errorquerystatetemplatedirective.md)<!-- -->, "ng-template\[qsError\]", never, {}, {}, never, never, true, never&gt; |  |
 |  [ɵfac](./ngx-query-state.errorquerystatetemplatedirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[ErrorQueryStateTemplateDirective](./ngx-query-state.errorquerystatetemplatedirective.md)<!-- -->, never&gt; |  |
 |  [templateRef](./ngx-query-state.errorquerystatetemplatedirective.templateref.md) |  | TemplateRef&lt;unknown&gt; |  |
 

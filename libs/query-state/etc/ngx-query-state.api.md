@@ -5,39 +5,21 @@
 ```ts
 
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { ComponentRef } from '@angular/core';
 import * as i0 from '@angular/core';
-import * as i1 from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { MonoTypeOperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs';
 import { Observer } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { OperatorFunction } from 'rxjs';
 import { Params } from '@angular/router';
 import { Provider } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { TemplateRef } from '@angular/core';
 import { Type } from '@angular/core';
-import { UnaryFunction } from 'rxjs';
 import { ViewContainerRef } from '@angular/core';
-
-// @public (undocumented)
-export type DataParams = Record<string, string>;
-
-// @public (undocumented)
-class DefaultErrorDirectiveModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultErrorDirectiveModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<DefaultErrorDirectiveModule>;
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<DefaultErrorDirectiveModule, [typeof DefaultErrorTemplateDirective], never, [typeof DefaultErrorTemplateDirective]>;
-}
 
 // @public (undocumented)
 export class DefaultErrorTemplateDirective implements OnInit {
@@ -50,19 +32,9 @@ export class DefaultErrorTemplateDirective implements OnInit {
     // (undocumented)
     ref?: ComponentRef<ErrorTemplateComponent>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorTemplateDirective, "[qsDefaultError]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultErrorTemplateDirective, "[qsDefaultError]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultErrorTemplateDirective, [null, { optional: true; }]>;
-}
-
-// @public (undocumented)
-class DefaultLoadingDirectiveModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingDirectiveModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<DefaultLoadingDirectiveModule>;
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<DefaultLoadingDirectiveModule, [typeof DefaultLoadingTemplateDirective], never, [typeof DefaultLoadingTemplateDirective]>;
 }
 
 // @public (undocumented)
@@ -76,16 +48,10 @@ export class DefaultLoadingTemplateDirective implements OnInit {
     // (undocumented)
     ref?: ComponentRef<LoadingTemplateComponent>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingTemplateDirective, "[qsDefaultLoading]", never, { "qsDefaultLoading": "qsDefaultLoading"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultLoadingTemplateDirective, "[qsDefaultLoading]", never, { "qsDefaultLoading": "qsDefaultLoading"; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultLoadingTemplateDirective, [null, { optional: true; }]>;
 }
-
-// @public
-export function echo<Data>({ timerTrigger, focusTrigger, onlineTrigger, triggers, }?: TriggerConfig): OperatorFunction<Data, {
-    trigger: string;
-    value: Data;
-}>;
 
 // @public (undocumented)
 export class ErrorQueryStateTemplateDirective {
@@ -99,19 +65,9 @@ export class ErrorQueryStateTemplateDirective {
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsError]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsError]", never, {}, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ErrorQueryStateTemplateDirective, never>;
-}
-
-// @public (undocumented)
-class ErrorQueryStateTemplateDirectiveModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<ErrorQueryStateTemplateDirectiveModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<ErrorQueryStateTemplateDirectiveModule>;
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<ErrorQueryStateTemplateDirectiveModule, [typeof ErrorQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof ErrorQueryStateTemplateDirective]>;
 }
 
 // @public (undocumented)
@@ -138,20 +94,13 @@ export class IdleQueryStateTemplateDirective<T> {
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdle]", never, { "qsIdle": "qsIdle"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<IdleQueryStateTemplateDirective<any>, "ng-template[qsIdle]", never, { "qsIdle": "qsIdle"; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<IdleQueryStateTemplateDirective<any>, never>;
 }
 
 // @public (undocumented)
-class IdleQueryStateTemplateDirectiveModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<IdleQueryStateTemplateDirectiveModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<IdleQueryStateTemplateDirectiveModule>;
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<IdleQueryStateTemplateDirectiveModule, [typeof IdleQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof IdleQueryStateTemplateDirective]>;
-}
+export function injectQueryState<Result = unknown>(): QueryState<Result>;
 
 // @public (undocumented)
 export class LoadingQueryStateTemplateDirective {
@@ -165,19 +114,9 @@ export class LoadingQueryStateTemplateDirective {
     // (undocumented)
     templateRef: TemplateRef<unknown>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoading]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoading]", never, {}, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<LoadingQueryStateTemplateDirective, never>;
-}
-
-// @public (undocumented)
-class LoadingQueryStateTemplateDirectiveModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<LoadingQueryStateTemplateDirectiveModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<LoadingQueryStateTemplateDirectiveModule>;
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<LoadingQueryStateTemplateDirectiveModule, [typeof LoadingQueryStateTemplateDirective], [typeof i1.CommonModule], [typeof LoadingQueryStateTemplateDirective]>;
 }
 
 // @public (undocumented)
@@ -189,25 +128,10 @@ export interface LoadingTemplateComponent {
 }
 
 // @public (undocumented)
-export function mapSuccess<QueryData>(): UnaryFunction<Observable<QueryStateData<QueryData>>, Observable<QueryData>>;
+export function provideQueryState<Result = unknown>(config: QueryStateConfig<Result>): Provider[];
 
 // @public (undocumented)
-export class MockUrlState {
-    constructor({ params, queryParams }?: Partial<QueryParams>);
-    // (undocumented)
-    navigate(queryParams: DataParams): void;
-    // (undocumented)
-    params$: BehaviorSubject<DataParams>;
-    // (undocumented)
-    params: Params;
-    // (undocumented)
-    queryParams$: BehaviorSubject<DataParams>;
-    // (undocumented)
-    queryParams: Params;
-}
-
-// @public (undocumented)
-export const provideQueryState: <Service = QueryService>(service: Type<Service>, config: QueryStateConfig<Service>) => Provider[];
+export const QUERY_STATE_CONFIG: InjectionToken<QueryStateConfig<unknown>>;
 
 // @public (undocumented)
 export const QUERY_STATE_ERROR_COMPONENT: InjectionToken<Type<ErrorTemplateComponent>>;
@@ -216,60 +140,37 @@ export const QUERY_STATE_ERROR_COMPONENT: InjectionToken<Type<ErrorTemplateCompo
 export const QUERY_STATE_LOADING_COMPONENT: InjectionToken<Type<LoadingTemplateComponent>>;
 
 // @public (undocumented)
-export interface QueryParams {
+export class QueryState<Result = unknown> {
     // (undocumented)
-    params: DataParams;
+    data$: Observable<QueryStateData<Result>>;
     // (undocumented)
-    queryParams: DataParams;
-}
-
-// @public (undocumented)
-export interface QueryService {
+    data: QueryStateData<Result> | undefined;
     // (undocumented)
-    query(params: QueryParams): Observable<unknown>;
-}
-
-// @public (undocumented)
-export class QueryState<Data, Service = unknown> implements OnDestroy {
-    constructor(urlState: UrlState, cache: QueryStateCache, dataService: Service & QueryService, config: QueryStateConfig<QueryService>);
+    effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Result>>) => Observable<unknown>), observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)): void;
     // (undocumented)
-    data$: Observable<QueryStateData<Data>>;
+    listenToRoute(route: ActivatedRoute): void;
     // (undocumented)
-    data?: QueryStateData<Data>;
+    params: Params;
     // (undocumented)
-    effect(sourceOrSourceFactory: Observable<unknown> | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>), observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)): void;
+    preload(route: ActivatedRouteSnapshot): void;
     // (undocumented)
-    ngOnDestroy(): void;
-    // (undocumented)
-    params: DataParams;
-    // (undocumented)
-    queryParams: DataParams;
+    queryParams: Params;
     // (undocumented)
     revalidate(trigger$?: Observable<unknown>): void;
     // (undocumented)
-    get service(): Service;
+    updateQueryParams(queryParamsOrObservable: Params | Observable<Params>): void;
     // (undocumented)
-    update(queryParamsOrObservable: DataParams | Observable<DataParams>): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<QueryState<any>, never>;
     // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<QueryState<any, any>, never>;
-    // (undocumented)
-    static ɵprov: i0.ɵɵInjectableDeclaration<QueryState<any, any>>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<QueryState<any>>;
 }
 
 // @public (undocumented)
 export class QueryStateCache {
     // (undocumented)
-    clean(): void;
+    get<Result = unknown>(key: string): QueryStateData<Result>;
     // (undocumented)
-    getCacheEntry(name: string, key: string): {
-        data: unknown;
-        meta: QueryStateData<unknown>['meta'];
-    } | undefined;
-    // (undocumented)
-    setCacheEntry(name: string, key: string, value: {
-        data: unknown;
-        meta: QueryStateData<unknown>['meta'];
-    }): void;
+    set(key: string, value: QueryStateData): void;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateCache, never>;
     // (undocumented)
@@ -277,38 +178,48 @@ export class QueryStateCache {
 }
 
 // @public (undocumented)
-export interface QueryStateConfig<Service> {
-    cacheKey?: (params: {
-        params: DataParams;
-        queryParams: DataParams;
-    }) => string;
-    cacheTime?: number;
-    ignore?: (params: {
-        params: DataParams;
-        queryParams: DataParams;
-    }) => boolean;
-    name: string;
-    query?: keyof Service;
-    retryCondition?: number | ((retries: number) => boolean);
-    retryDelay?: (retries: number) => number | Date;
-    revalidateTriggers?: false | TriggerConfig;
+export interface QueryStateConfig<Result = unknown> {
+    // (undocumented)
+    cacheExpiration?: number;
+    // (undocumented)
+    cacheKey: (params: Params, queryParams: Params) => string;
+    // (undocumented)
+    query: () => (params: Params, queryParams: Params) => Observable<Result>;
+    // (undocumented)
+    retryCondition?: (retries: number, error: unknown) => boolean;
+    // (undocumented)
+    retryDelay?: (retries: number, error: unknown) => number | Date;
+    // (undocumented)
+    triggers?: false | {
+        focusTrigger?: boolean;
+        onlineTrigger?: boolean;
+        timerTrigger?: boolean | number;
+        customTriggers?: Observable<unknown>[];
+    };
 }
 
 // @public (undocumented)
-export interface QueryStateData<Data> {
-    // (undocumented)
-    data?: Data;
+export interface QueryStateData<Result = unknown> {
     // (undocumented)
     error?: unknown;
     // (undocumented)
     meta: {
-        timestamp?: number;
+        retries?: number;
+        timestamp: number;
         cacheExpiration?: number;
     };
     // (undocumented)
-    retries?: number;
+    result?: Result;
     // (undocumented)
-    state: State;
+    state: 'idle' | 'loading' | 'error' | 'success' | 'revalidate';
+}
+
+// @public (undocumented)
+export interface QueryStateParams {
+    // (undocumented)
+    params: Params;
+    // (undocumented)
+    queryParams: Params;
 }
 
 // @public (undocumented)
@@ -328,65 +239,22 @@ export class QueryStateTemplateComponent<T> implements OnDestroy {
     // (undocumented)
     subscription?: Subscription;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<QueryStateTemplateComponent<any>, "query-state-template", never, { "queryState": "queryState"; }, {}, ["loadingTemplate", "errorTemplate", "idleTemplate"], never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<QueryStateTemplateComponent<any>, "query-state-template", never, { "queryState": "queryState"; }, {}, ["loadingTemplate", "errorTemplate", "idleTemplate"], never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateTemplateComponent<any>, never>;
 }
 
 // @public (undocumented)
-export class QueryStateTemplateModule {
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<QueryStateTemplateModule, never>;
-    // (undocumented)
-    static ɵinj: i0.ɵɵInjectorDeclaration<QueryStateTemplateModule>;
-    // Warning: (ae-forgotten-export) The symbol "i2" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "i3" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "i4" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "i5" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "i6" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<QueryStateTemplateModule, [typeof QueryStateTemplateComponent], [typeof i1.CommonModule, typeof i2.LoadingQueryStateTemplateDirectiveModule, typeof i3.ErrorQueryStateTemplateDirectiveModule, typeof i4.IdleQueryStateTemplateDirectiveModule, typeof i5.DefaultLoadingDirectiveModule, typeof i6.DefaultErrorDirectiveModule], [typeof QueryStateTemplateComponent, typeof i4.IdleQueryStateTemplateDirective, typeof i3.ErrorQueryStateTemplateDirective, typeof i2.LoadingQueryStateTemplateDirective]>;
-}
+export function resolveQueryState(route: ActivatedRouteSnapshot): boolean;
 
 // @public (undocumented)
-export type State = 'idle' | 'loading' | 'success' | 'error' | 'revalidate';
-
-// @public (undocumented)
-export function tapState<QueryData>(callbacks: {
+export function tapState<Result>(callbacks: {
     onError?: (error: unknown) => void;
     onIdle?: () => void;
     onLoading?: () => void;
     onRevalidate?: () => void;
-    onSuccess?: (data: QueryData) => void;
-}): MonoTypeOperatorFunction<QueryStateData<QueryData>>;
-
-// @public (undocumented)
-export type TriggerConfig = {
-    focusTrigger?: boolean;
-    onlineTrigger?: boolean;
-    timerTrigger?: false | number;
-    triggers?: <Data>(data: Data) => Observable<unknown>[];
-};
-
-// @public (undocumented)
-export class UrlState {
-    constructor(activatedRoute: ActivatedRoute, router: Router);
-    // (undocumented)
-    navigate(queryParams: Params): void;
-    // (undocumented)
-    params$: Subject<DataParams>;
-    // (undocumented)
-    params: Params;
-    // (undocumented)
-    queryParams$: Subject<DataParams>;
-    // (undocumented)
-    queryParams: Params;
-    // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<UrlState, never>;
-    // (undocumented)
-    static ɵprov: i0.ɵɵInjectableDeclaration<UrlState>;
-}
+    onSuccess?: (data: Result) => void;
+}): MonoTypeOperatorFunction<QueryStateData<Result>>;
 
 // (No @packageDocumentation comment for this package)
 

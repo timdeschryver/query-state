@@ -1,263 +1,293 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import {
+  ENVIRONMENT_INITIALIZER,
+  inject,
+  Injectable,
+  InjectionToken,
+  Provider,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot, NavigationEnd,
+  Params,
+  Router,
+} from '@angular/router';
 import {
   BehaviorSubject,
-  catchError,
-  combineLatest,
-  concatMap,
-  debounceTime,
+  catchError, combineLatest,
+  concatMap, distinctUntilChanged,
   EMPTY,
   expand,
+  fromEvent,
   isObservable,
-  map,
-  mapTo,
+  map, merge,
   Observable,
   Observer,
   of,
+  repeat, share,
   startWith,
   Subject,
   Subscription,
-  switchMap,
+  switchMap, takeUntil,
+  takeWhile,
   tap,
   timer,
 } from 'rxjs';
-import { UrlState } from './url-state';
-import { QueryStateCache } from './query-state-cache';
 import {
-  QUERY_STATE_CONFIG,
   QueryStateConfig,
-  TriggerConfig,
+  QueryStateParams,
   QueryStateData,
-  QUERY_SERVICE,
-  QueryService,
-  DataParams,
 } from './contracts';
-import { echo } from './operators';
-import { distinctByJson } from './operators/distinct-by-json';
+
+export const QUERY_STATE_CONFIG = new InjectionToken<QueryStateConfig>(
+  'QUERY_STATE_CONFIG'
+);
+
+@Injectable({providedIn: 'root'})
+export class QueryStateCache {
+  private cache = new Map<string, QueryStateData>();
+
+  get<Result = unknown>(key: string): QueryStateData<Result> {
+    return this.cache.get(key) as QueryStateData<Result>;
+  }
+
+  set(key: string, value: QueryStateData): void {
+    this.cache.set(key, value);
+  }
+}
 
 @Injectable()
-export class QueryState<Data, Service = unknown> implements OnDestroy {
+export class QueryState<Result = unknown> {
+  private cache = inject(QueryStateCache);
+  private config: QueryStateConfig<Result> = inject(
+    QUERY_STATE_CONFIG
+  ) as QueryStateConfig<Result>;
+  private router = inject(Router);
+  private rootRoute = inject(ActivatedRoute);
+
+  private myActivatedRoute: ActivatedRoute | undefined;
+  private queryInvoker = this.config.query();
+
+  private revalideSubject = new Subject<void>();
+  private removedSubject = new Subject<void>();
   private subscriptions = new Subscription();
-  private revalidateTrigger = new Subject<'revalidate'>();
-  private dataSubject = new BehaviorSubject<QueryStateData<Data>>(
-    undefined as unknown as QueryStateData<Data>
-  );
 
-  params = this.urlState.params as DataParams;
-  queryParams = this.urlState.queryParams as DataParams;
+  private paramsSubject = new BehaviorSubject<{ params: Params, queryParams: Params }>({queryParams: {}, params: {}});
+  private params$ = this.paramsSubject.asObservable().pipe(
+    distinctUntilChanged(
+      (previous, current) =>
+        previous === current ||
+        JSON.stringify(previous) === JSON.stringify(current)
+    ),
+  )
 
-  data?: QueryStateData<Data>;
-  data$ = this.dataSubject.asObservable();
+  data: QueryStateData<Result> | undefined;
+  queryParams: Params = {};
+  params: Params = {};
 
-  get service(): Service {
-    return this.dataService as Service;
-  }
-
-  private get triggerConfig(): TriggerConfig {
-    if (this.config.revalidateTriggers === false) {
-      return {
-        focusTrigger: false,
-        onlineTrigger: false,
-        timerTrigger: false,
-        triggers: (_data): Subject<'revalidate'>[] => [this.revalidateTrigger],
-      };
-    }
-
-    const triggers = this.config.revalidateTriggers;
-    return {
-      ...(triggers || {}),
-      triggers: (data): Observable<string>[] =>
-        triggers?.triggers
-          ? triggers
-              .triggers(data)
-              .map((trigger) => trigger.pipe(mapTo('custom')))
-              .concat(this.revalidateTrigger)
-          : [this.revalidateTrigger],
-    };
-  }
-
-  constructor(
-    private readonly urlState: UrlState,
-    private readonly cache: QueryStateCache,
-    @Inject(QUERY_SERVICE)
-    private readonly dataService: Service & QueryService,
-    @Inject(QUERY_STATE_CONFIG)
-    private readonly config: QueryStateConfig<QueryService>
-  ) {
-    const query = config.query || 'query';
-
-    const retryCondition =
-      typeof config.retryCondition === 'number'
-        ? (retries: number): boolean =>
-            retries < (config.retryCondition as number)
-        : config.retryCondition ??
-          function retry(retries): boolean {
-            return retries < 3;
-          };
-
-    const retryDelay =
-      config.retryDelay ??
-      ((retries): number => Math.pow(2, retries - 1) * 1000);
-
-    const cacheTime = config.cacheTime ?? 60_000 * 10;
-
-    this.subscriptions.add(
-      combineLatest([this.urlState.params$, this.urlState.queryParams$])
-        .pipe(
-          debounceTime(0),
-          echo(this.triggerConfig),
-          switchMap(
-            ([params, queryParams]): Observable<QueryStateData<Data>> => {
-              // not a RxJS filter because we want to emit a value when query params reset
-              if (this.config.ignore?.({ params, queryParams })) {
-                return of({ state: 'idle', meta: {} } as QueryStateData<Data>);
+  data$ = this.params$.pipe(
+    switchMap((params) => {
+      return of(params).pipe(
+        repeat({
+          delay: () => {
+            const triggers: Observable<unknown>[] = [this.revalideSubject];
+            if (this.config.triggers !== false) {
+              if (this.config.triggers?.customTriggers) {
+                triggers.push(...this.config.triggers.customTriggers);
               }
 
-              const paramsKey =
-                this.config.cacheKey?.({ params, queryParams }) ??
-                JSON.stringify({ params, queryParams });
+              if (this.config.triggers?.focusTrigger ?? true) {
+                triggers.push(fromEvent(window, 'focus'));
+              }
 
-              const cachedEntry = this.cache.getCacheEntry(
-                this.config.name,
-                paramsKey
-              );
+              if (this.config.triggers?.onlineTrigger ?? true) {
+                triggers.push(fromEvent(window, 'online'));
+              }
 
-              const invokeQuery = (
-                retries: number
-              ): Observable<QueryStateData<Data>> => {
-                return this.dataService[query]({
-                  params,
-                  queryParams,
-                }).pipe(
-                  map((data): QueryStateData<Data> => {
-                    const timestamp = Date.now();
-                    return {
-                      state: 'success',
-                      data: data as Data,
-                      meta: {
-                        timestamp: timestamp,
-                        cacheExpiration: cacheTime
-                          ? timestamp + cacheTime
-                          : undefined,
-                      },
-                    };
-                  }),
-                  catchError(
-                    (error: unknown): Observable<QueryStateData<Data>> => {
-                      return of({
-                        state: 'error',
-                        error,
-                        retries: retries === 0 ? undefined : retries,
-                        meta: {},
-                      });
-                    }
-                  )
-                );
-              };
+              if (this.config.triggers?.timerTrigger === true) {
+                triggers.push(timer(60_000));
+              } else if (this.config.triggers?.timerTrigger) {
+                triggers.push(timer(this.config.triggers.timerTrigger));
+              }
+            }
 
-              return invokeQuery(0).pipe(
-                expand((result) => {
-                  if (
-                    result.state === 'error' &&
-                    retryCondition(result.retries || 1)
-                  ) {
-                    return timer(retryDelay(result.retries || 1)).pipe(
-                      concatMap(() => {
-                        return invokeQuery((result.retries || 0) + 1);
-                      })
-                    );
-                  }
+            return merge(...triggers).pipe(takeUntil(this.removedSubject));
+          },
+        })
+      )
+    }),
+    switchMap(
+      ({params, queryParams}): Observable<QueryStateData<Result>> => {
+        const cacheKey = this.config.cacheKey(params, queryParams);
+        const cacheItem = this.cache.get<Result>(cacheKey);
 
-                  return EMPTY;
-                }),
-                tap((result) => {
-                  if (cacheTime !== 0) {
-                    if (result.state === 'success') {
-                      this.cache.setCacheEntry(this.config.name, paramsKey, {
-                        data: result.data,
-                        meta: {
-                          timestamp: result.meta.timestamp as number,
-                          cacheExpiration: result.meta.cacheExpiration,
-                        },
-                      });
-                    }
-                  }
-                }),
-                map((result) => {
-                  if (
-                    result.state === 'error' &&
-                    retryCondition(result.retries || 1)
-                  ) {
-                    if (cachedEntry) {
-                      return {
-                        ...result,
-                        state: 'revalidate',
-                        meta: cachedEntry.meta,
-                      } as QueryStateData<Data>;
-                    }
+        const retryCondition =
+          this.config.retryCondition ?? ((retries): boolean => retries < 3);
+        const retryDelay =
+          this.config.retryDelay ??
+          ((retries): number => Math.pow(2, retries - 1) * 1000);
 
-                    return {
-                      ...result,
-                      state: 'loading',
-                      meta: {},
-                    } as QueryStateData<Data>;
-                  }
-
-                  return result;
-                }),
-                startWith(
-                  (cachedEntry
-                    ? {
-                        state: 'revalidate',
-                        data: cachedEntry.data,
-                        meta: cachedEntry.meta,
-                      }
-                    : {
-                        state: 'loading',
-                        meta: {},
-                      }) as QueryStateData<Data>
-                )
+        return this.invokeQuery({params, queryParams}).pipe(
+          expand((result) => {
+            if (
+              result.state === 'error' &&
+              retryCondition(result.meta.retries ?? 0, result.error)
+            ) {
+              return timer(
+                retryDelay(result.meta.retries ?? 0, result.error)
+              ).pipe(
+                concatMap(() => {
+                  return this.invokeQuery(
+                    {params, queryParams},
+                    (result.meta.retries || 0) + 1
+                  );
+                })
               );
             }
-          ),
-          startWith({ state: 'idle', meta: {} } as QueryStateData<Data>),
-          distinctByJson()
-        )
-        .subscribe((data) => {
-          this.data = data;
-          this.dataSubject.next(data);
-          this.cache.clean();
-        })
-    );
+            return EMPTY;
+          }),
+          tap((result) => {
+            if (result.state === 'success') {
+              this.cache.set(cacheKey, result);
+            }
+          }),
+          startWith<QueryStateData<Result>>({
+            state: cacheItem ? 'revalidate' : 'loading',
+            result: cacheItem?.result,
+            meta: {timestamp: Date.now()},
+          }),
+        );
+      }
+    ),
+    tap(data => {
+      this.data = data
+    }),
+    share()
+  )
+
+  private invokeQuery = (
+    params: QueryStateParams,
+    retries = 0
+  ): Observable<QueryStateData<Result>> => {
+    return this.queryInvoker(params.params, params.queryParams).pipe(
+      map((result): QueryStateData<Result> => {
+        return {
+          state: 'success',
+          result,
+          meta: {
+            timestamp: Date.now(),
+            cacheExpiration:
+              Date.now() + (this.config.cacheExpiration || 1000 * 60 * 10),
+          },
+        };
+      }),
+      catchError((error: unknown): Observable<QueryStateData<Result>> => {
+        return of({
+          state: 'error',
+          result: undefined,
+          error,
+          meta: {
+            retries: retries,
+            timestamp: Date.now(),
+          },
+        });
+      }),
+    )
+  };
+
+  private listenToRemoval(route: ActivatedRoute): void {
+    this.subscriptions.add(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          let existsInTree = false;
+          let comp = this.rootRoute.firstChild
+          while (comp) {
+            if (comp.component === route.component) {
+              existsInTree = true
+              break
+            }
+            comp = comp.firstChild
+          }
+          if (!existsInTree) {
+            this.cleanUp();
+          }
+        }
+      })
+    )
   }
 
-  update(queryParamsOrObservable: DataParams | Observable<DataParams>): void {
+  private listenToParams(route: ActivatedRoute): void {
+    this.subscriptions.add(
+      combineLatest([
+        route.params,
+        route.queryParams,
+      ]).subscribe(([params, queryParams]) => {
+        this.paramsSubject.next({params, queryParams})
+      }));
+  }
+
+  private cleanUp(): void {
+    this.removedSubject.next()
+    this.removedSubject.complete();
+    this.subscriptions.unsubscribe();
+  }
+
+  listenToRoute(route: ActivatedRoute): void {
+    this.myActivatedRoute = route;
+    this.subscriptions.unsubscribe()
+    this.subscriptions = new Subscription()
+
+    this.listenToRemoval(route)
+    this.listenToParams(route)
+    this.subscriptions.add(this.data$.subscribe())
+  }
+
+  preload(route: ActivatedRouteSnapshot): void {
+    this.paramsSubject.next({
+      params: route.params,
+      queryParams: route.queryParams,
+    })
+    this.data$.pipe(
+      takeWhile(
+        (result) =>
+          result.state !== 'success' && (result.meta.retries || 0) < 3,
+        true
+      ),
+    ).subscribe();
+
+  }
+
+  updateQueryParams(queryParamsOrObservable: Params | Observable<Params>): void {
     if (isObservable(queryParamsOrObservable)) {
-      this.subscriptions.add(
-        queryParamsOrObservable.subscribe((queryParams) => {
-          this.urlState.navigate(queryParams);
-        })
-      );
+      this.subscriptions.add(queryParamsOrObservable.subscribe((queryParams) => {
+        this.router.navigate([], {
+          relativeTo: this.myActivatedRoute,
+          queryParamsHandling: 'merge',
+          queryParams: queryParams as Params,
+        });
+      }));
     } else {
-      this.urlState.navigate(queryParamsOrObservable);
+      this.router.navigate([], {
+        relativeTo: this.myActivatedRoute,
+        queryParamsHandling: 'merge',
+        queryParams: queryParamsOrObservable,
+      });
     }
   }
 
   revalidate(trigger$?: Observable<unknown>): void {
     if (isObservable(trigger$)) {
-      this.subscriptions.add(
-        trigger$.subscribe(() => {
-          this.revalidateTrigger.next('revalidate');
-        })
-      );
+      this.subscriptions.add(trigger$.subscribe(() => {
+        this.revalideSubject.next();
+      }));
     } else {
-      this.revalidateTrigger.next('revalidate');
+      this.revalideSubject.next();
     }
   }
 
   effect(
     sourceOrSourceFactory:
       | Observable<unknown>
-      | ((data: Observable<QueryStateData<Data>>) => Observable<unknown>),
+      | ((data: Observable<QueryStateData<Result>>) => Observable<unknown>),
     observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void)
   ): void {
     if (typeof sourceOrSourceFactory === 'function') {
@@ -274,10 +304,39 @@ export class QueryState<Data, Service = unknown> implements OnDestroy {
       );
     }
   }
+}
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-    this.dataSubject.complete();
-    this.revalidateTrigger.complete();
-  }
+export function provideQueryState<Result = unknown>(
+  config: QueryStateConfig<Result>
+): Provider[] {
+  return [
+    {
+      provide: QUERY_STATE_CONFIG,
+      useValue: config,
+    },
+    {
+      provide: QueryState,
+      useClass: QueryState,
+    },
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      multi: true,
+      useValue(): void {
+        //
+      },
+    },
+  ];
+}
+
+export function resolveQueryState(route: ActivatedRouteSnapshot): boolean {
+  const queryState = inject(QueryState);
+  queryState.preload(route);
+  return true;
+}
+
+export function injectQueryState<Result = unknown>(): QueryState<Result> {
+  const route = inject(ActivatedRoute);
+  const queryState = inject(QueryState)
+  queryState.listenToRoute(route);
+  return queryState;
 }

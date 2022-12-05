@@ -4,7 +4,6 @@
   "mainEntryPointFilePath": "../../dist/libs/query-state/index.d.ts",
 
   "projectFolder": ".",
-  "bundledPackages": ["query-state-contracts"],
 
   "apiReport": {
     "enabled": true,

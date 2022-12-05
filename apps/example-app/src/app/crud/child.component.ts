@@ -1,18 +1,26 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
-  QueryState,
-  provideQueryState,
+  IdleQueryStateTemplateDirective,
+  injectQueryState,
+  QueryStateTemplateComponent,
   tapState,
-  QueryStateTemplateModule,
 } from 'query-state';
-import { DataService } from './data.service';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Person } from './models';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'query-state-child',
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    QueryStateTemplateComponent,
+    IdleQueryStateTemplateDirective,
+    FormsModule,
+    NgIf,
+  ],
   template: `
     <query-state-template [queryState]="queryState.data$">
       <ng-template
@@ -42,30 +50,24 @@ import { Person } from './models';
 
     <a routerLink="/parent">Back</a>
   `,
-  providers: provideQueryState(DataService, {
-    name: ChildComponent.name,
-    query: 'queryOne',
-    cacheTime: 0,
-    revalidateTriggers: false,
-  }),
 })
 export class ChildComponent implements OnInit {
+  service = inject(DataService);
+  queryState = injectQueryState<Person>();
+
   model = {
     id: '',
     firstname: '',
     lastname: '',
   };
 
-  constructor(
-    public readonly queryState: QueryState<Person, DataService>,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.queryState.effect(
       this.queryState.data$.pipe(
         tapState({
-          onSuccess: (person) => {
+          onSuccess: (person: any) => {
             this.model.id = person.id;
             this.model.firstname = person.firstname;
             this.model.lastname = person.lastname;
@@ -77,7 +79,7 @@ export class ChildComponent implements OnInit {
 
   submit(): void {
     this.queryState.effect(
-      this.queryState.service.update({
+      this.service.update({
         firstname: this.model.firstname,
         id: this.model.id,
         lastname: this.model.lastname,
@@ -86,9 +88,3 @@ export class ChildComponent implements OnInit {
     );
   }
 }
-
-@NgModule({
-  declarations: [ChildComponent],
-  imports: [CommonModule, FormsModule, RouterModule, QueryStateTemplateModule],
-})
-export class ChildComponentModule {}

@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Directive, NgModule, TemplateRef } from '@angular/core';
+import { Directive,  TemplateRef } from '@angular/core';
 
 @Directive({
   selector: 'ng-template[qsLoading]',
+  standalone: true
 })
 export class LoadingQueryStateTemplateDirective {
   static ngTemplateContextGuard(
@@ -18,10 +18,3 @@ export class LoadingQueryStateTemplateDirective {
 
   constructor(public templateRef: TemplateRef<unknown>) {}
 }
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [LoadingQueryStateTemplateDirective],
-  exports: [LoadingQueryStateTemplateDirective],
-})
-export class LoadingQueryStateTemplateDirectiveModule {}

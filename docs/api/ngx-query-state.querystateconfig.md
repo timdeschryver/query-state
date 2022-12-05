@@ -7,19 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export interface QueryStateConfig<Service> 
+export interface QueryStateConfig<Result = unknown> 
 ```
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [cacheKey?](./ngx-query-state.querystateconfig.cachekey.md) | (params: { params: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; queryParams: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; }) =&gt; string | <i>(Optional)</i> Creates a key based on params to check the cache. |
-|  [cacheTime?](./ngx-query-state.querystateconfig.cachetime.md) | number | <i>(Optional)</i> Set the duration of the cache. Defaults to 10 minutes. Set to 0 to disable cache. |
-|  [ignore?](./ngx-query-state.querystateconfig.ignore.md) | (params: { params: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; queryParams: [DataParams](./ngx-query-state.dataparams.md)<!-- -->; }) =&gt; boolean | <i>(Optional)</i> A decider function that decides whether to invoke the query By default all changes are sent to the query If the function returns <code>true</code>, the changes are ignored and the query isn't invoked |
-|  [name](./ngx-query-state.querystateconfig.name.md) | string | The name of the component This is used to build up a cache |
-|  [query?](./ngx-query-state.querystateconfig.query.md) | keyof Service | <i>(Optional)</i> The query method that is invoked. Defaults to <code>query</code>. |
-|  [retryCondition?](./ngx-query-state.querystateconfig.retrycondition.md) | number \| ((retries: number) =&gt; boolean) | <i>(Optional)</i> Decide when to retry a failed query. Defaults to 3 times. |
-|  [retryDelay?](./ngx-query-state.querystateconfig.retrydelay.md) | (retries: number) =&gt; number \| Date | <i>(Optional)</i> Set the delay between the retries. Defaults to an exponential retry with a starting delay of 1 second. |
-|  [revalidateTriggers?](./ngx-query-state.querystateconfig.revalidatetriggers.md) | false \| [TriggerConfig](./ngx-query-state.triggerconfig.md) | <i>(Optional)</i> Triggers to refresh the current data |
+|  [cacheExpiration?](./ngx-query-state.querystateconfig.cacheexpiration.md) | number | <i>(Optional)</i> |
+|  [cacheKey](./ngx-query-state.querystateconfig.cachekey.md) | (params: Params, queryParams: Params) =&gt; string |  |
+|  [query](./ngx-query-state.querystateconfig.query.md) | () =&gt; (params: Params, queryParams: Params) =&gt; Observable&lt;Result&gt; |  |
+|  [retryCondition?](./ngx-query-state.querystateconfig.retrycondition.md) | (retries: number, error: unknown) =&gt; boolean | <i>(Optional)</i> |
+|  [retryDelay?](./ngx-query-state.querystateconfig.retrydelay.md) | (retries: number, error: unknown) =&gt; number \| Date | <i>(Optional)</i> |
+|  [triggers?](./ngx-query-state.querystateconfig.triggers.md) | false \| { focusTrigger?: boolean; onlineTrigger?: boolean; timerTrigger?: boolean \| number; customTriggers?: Observable&lt;unknown&gt;\[\]; } | <i>(Optional)</i> |
 

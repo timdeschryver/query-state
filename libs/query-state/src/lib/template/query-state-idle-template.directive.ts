@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Directive, Input, NgModule, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryStateData } from '../contracts';
 
 @Directive({
   selector: 'ng-template[qsIdle]',
+  standalone: true
 })
 export class IdleQueryStateTemplateDirective<T> {
   @Input() qsIdle:
@@ -28,10 +28,3 @@ export class IdleQueryStateTemplateDirective<T> {
 
   constructor(public templateRef: TemplateRef<unknown>) {}
 }
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [IdleQueryStateTemplateDirective],
-  exports: [IdleQueryStateTemplateDirective],
-})
-export class IdleQueryStateTemplateDirectiveModule {}

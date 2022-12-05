@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-data$: Observable<QueryStateData<Data>>;
+data$: Observable<QueryStateData<Result>>;
 ```

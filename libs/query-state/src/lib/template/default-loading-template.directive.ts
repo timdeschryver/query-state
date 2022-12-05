@@ -4,7 +4,6 @@ import {
   Inject,
   InjectionToken,
   Input,
-  NgModule,
   OnInit,
   Optional,
   Type,
@@ -14,6 +13,7 @@ import { QueryStateData } from '../contracts';
 
 @Directive({
   selector: '[qsDefaultLoading]',
+  standalone: true
 })
 export class DefaultLoadingTemplateDirective implements OnInit {
   ref?: ComponentRef<LoadingTemplateComponent>;
@@ -22,7 +22,7 @@ export class DefaultLoadingTemplateDirective implements OnInit {
     this._qsDefaultLoading = value;
     if (this.ref) {
       this.ref.instance.error = this.qsDefaultLoading.error;
-      this.ref.instance.retries = this.qsDefaultLoading.retries;
+      this.ref.instance.retries = this.qsDefaultLoading.meta.retries;
       this.ref.changeDetectorRef.markForCheck();
     }
   }
@@ -44,7 +44,7 @@ export class DefaultLoadingTemplateDirective implements OnInit {
       this.viewContainerRef.clear();
       this.ref = this.viewContainerRef.createComponent(this.loadingComponent);
       this.ref.instance.error = this.qsDefaultLoading.error;
-      this.ref.instance.retries = this.qsDefaultLoading.retries;
+      this.ref.instance.retries = this.qsDefaultLoading.meta.retries;
     }
   }
 }
@@ -53,12 +53,6 @@ export interface LoadingTemplateComponent {
   retries?: number;
   error?: unknown;
 }
-
-@NgModule({
-  declarations: [DefaultLoadingTemplateDirective],
-  exports: [DefaultLoadingTemplateDirective],
-})
-export class DefaultLoadingDirectiveModule {}
 
 export const QUERY_STATE_LOADING_COMPONENT = new InjectionToken<
   Type<LoadingTemplateComponent>

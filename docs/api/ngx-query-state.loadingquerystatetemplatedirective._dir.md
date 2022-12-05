@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoading]", never, {}, {}, never>;
+static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingQueryStateTemplateDirective, "ng-template[qsLoading]", never, {}, {}, never, never, true, never>;
 ```

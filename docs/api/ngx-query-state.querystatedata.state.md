@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-state: State;
+state: 'idle' | 'loading' | 'error' | 'success' | 'revalidate';
 ```

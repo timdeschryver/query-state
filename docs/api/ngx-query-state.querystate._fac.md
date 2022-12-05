@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵfac: i0.ɵɵFactoryDeclaration<QueryState<any, any>, never>;
+static ɵfac: i0.ɵɵFactoryDeclaration<QueryState<any>, never>;
 ```

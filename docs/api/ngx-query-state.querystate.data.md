@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-data?: QueryStateData<Data>;
+data: QueryStateData<Result> | undefined;
 ```

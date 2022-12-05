@@ -21,7 +21,7 @@ export declare class DefaultLoadingTemplateDirective implements OnInit
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./ngx-query-state.defaultloadingtemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[DefaultLoadingTemplateDirective](./ngx-query-state.defaultloadingtemplatedirective.md)<!-- -->, "\[qsDefaultLoading\]", never, { "qsDefaultLoading": "qsDefaultLoading"; }, {}, never&gt; |  |
+|  [ɵdir](./ngx-query-state.defaultloadingtemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[DefaultLoadingTemplateDirective](./ngx-query-state.defaultloadingtemplatedirective.md)<!-- -->, "\[qsDefaultLoading\]", never, { "qsDefaultLoading": "qsDefaultLoading"; }, {}, never, never, true, never&gt; |  |
 |  [ɵfac](./ngx-query-state.defaultloadingtemplatedirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[DefaultLoadingTemplateDirective](./ngx-query-state.defaultloadingtemplatedirective.md)<!-- -->, \[null, { optional: true; }\]&gt; |  |
 |  [qsDefaultLoading](./ngx-query-state.defaultloadingtemplatedirective.qsdefaultloading.md) |  | [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;unknown&gt; |  |
 |  [ref?](./ngx-query-state.defaultloadingtemplatedirective.ref.md) |  | ComponentRef&lt;[LoadingTemplateComponent](./ngx-query-state.loadingtemplatecomponent.md)<!-- -->&gt; | <i>(Optional)</i> |

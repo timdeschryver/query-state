@@ -1,7 +1,4 @@
-export {
-  QueryStateTemplateComponent,
-  QueryStateTemplateModule,
-} from './query-state-template.component';
+export {  QueryStateTemplateComponent } from './query-state-template.component';
 export { IdleQueryStateTemplateDirective } from './query-state-idle-template.directive';
 export { LoadingQueryStateTemplateDirective } from './query-state-loading-template.directive';
 export { ErrorQueryStateTemplateDirective } from './query-state-error-template.directive';

@@ -7,34 +7,27 @@
 <b>Signature:</b>
 
 ```typescript
-export declare class QueryState<Data, Service = unknown> implements OnDestroy 
+export declare class QueryState<Result = unknown> 
 ```
-<b>Implements:</b> OnDestroy
-
-## Constructors
-
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(urlState, cache, dataService, config)](./ngx-query-state.querystate._constructor_.md) |  | Constructs a new instance of the <code>QueryState</code> class |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [data?](./ngx-query-state.querystate.data.md) |  | [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Data&gt; | <i>(Optional)</i> |
-|  [data$](./ngx-query-state.querystate.data_.md) |  | Observable&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Data&gt;&gt; |  |
-|  [ɵfac](./ngx-query-state.querystate._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[QueryState](./ngx-query-state.querystate.md)<!-- -->&lt;any, any&gt;, never&gt; |  |
-|  [ɵprov](./ngx-query-state.querystate._prov.md) | <code>static</code> | i0.ɵɵInjectableDeclaration&lt;[QueryState](./ngx-query-state.querystate.md)<!-- -->&lt;any, any&gt;&gt; |  |
-|  [params](./ngx-query-state.querystate.params.md) |  | [DataParams](./ngx-query-state.dataparams.md) |  |
-|  [queryParams](./ngx-query-state.querystate.queryparams.md) |  | [DataParams](./ngx-query-state.dataparams.md) |  |
-|  [service](./ngx-query-state.querystate.service.md) |  | Service |  |
+|  [data](./ngx-query-state.querystate.data.md) |  | [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Result&gt; \| undefined |  |
+|  [data$](./ngx-query-state.querystate.data_.md) |  | Observable&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Result&gt;&gt; |  |
+|  [ɵfac](./ngx-query-state.querystate._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[QueryState](./ngx-query-state.querystate.md)<!-- -->&lt;any&gt;, never&gt; |  |
+|  [ɵprov](./ngx-query-state.querystate._prov.md) | <code>static</code> | i0.ɵɵInjectableDeclaration&lt;[QueryState](./ngx-query-state.querystate.md)<!-- -->&lt;any&gt;&gt; |  |
+|  [params](./ngx-query-state.querystate.params.md) |  | Params |  |
+|  [queryParams](./ngx-query-state.querystate.queryparams.md) |  | Params |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [effect(sourceOrSourceFactory, observerOrNext)](./ngx-query-state.querystate.effect.md) |  |  |
-|  [ngOnDestroy()](./ngx-query-state.querystate.ngondestroy.md) |  |  |
+|  [listenToRoute(route)](./ngx-query-state.querystate.listentoroute.md) |  |  |
+|  [preload(route)](./ngx-query-state.querystate.preload.md) |  |  |
 |  [revalidate(trigger$)](./ngx-query-state.querystate.revalidate.md) |  |  |
-|  [update(queryParamsOrObservable)](./ngx-query-state.querystate.update.md) |  |  |
+|  [updateQueryParams(queryParamsOrObservable)](./ngx-query-state.querystate.updatequeryparams.md) |  |  |
 

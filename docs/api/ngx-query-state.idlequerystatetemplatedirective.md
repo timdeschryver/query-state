@@ -20,7 +20,7 @@ export declare class IdleQueryStateTemplateDirective<T>
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./ngx-query-state.idlequerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[IdleQueryStateTemplateDirective](./ngx-query-state.idlequerystatetemplatedirective.md)<!-- -->&lt;any&gt;, "ng-template\[qsIdle\]", never, { "qsIdle": "qsIdle"; }, {}, never&gt; |  |
+|  [ɵdir](./ngx-query-state.idlequerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[IdleQueryStateTemplateDirective](./ngx-query-state.idlequerystatetemplatedirective.md)<!-- -->&lt;any&gt;, "ng-template\[qsIdle\]", never, { "qsIdle": "qsIdle"; }, {}, never, never, true, never&gt; |  |
 |  [ɵfac](./ngx-query-state.idlequerystatetemplatedirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[IdleQueryStateTemplateDirective](./ngx-query-state.idlequerystatetemplatedirective.md)<!-- -->&lt;any&gt;, never&gt; |  |
 |  [qsIdle](./ngx-query-state.idlequerystatetemplatedirective.qsidle.md) |  | [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;T&gt; \| Observable&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;T&gt;&gt; \| undefined \| '' |  |
 |  [templateRef](./ngx-query-state.idlequerystatetemplatedirective.templateref.md) |  | TemplateRef&lt;unknown&gt; |  |

@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable } from 'rxjs';
-import { QueryService, QueryParams } from 'query-state';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PokemonService implements QueryService {
+export class PokemonService  {
   constructor(private http: HttpClient) {}
-  query({ params }: QueryParams): Observable<any> {
+  getPokemon(pokemonId: number): Observable<any> {
     return this.http
-      .get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
+      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
       .pipe(delay(800));
   }
 }

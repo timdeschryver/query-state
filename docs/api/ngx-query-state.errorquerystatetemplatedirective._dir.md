@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsError]", never, {}, {}, never>;
+static ɵdir: i0.ɵɵDirectiveDeclaration<ErrorQueryStateTemplateDirective, "ng-template[qsError]", never, {}, {}, never, never, true, never>;
 ```

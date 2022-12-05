@@ -8,7 +8,8 @@
 
 ```typescript
 meta: {
-        timestamp?: number;
+        retries?: number;
+        timestamp: number;
         cacheExpiration?: number;
     };
 ```

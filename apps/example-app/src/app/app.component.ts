@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { PokemonService } from './detail/pokemon.service';
 
 @Component({
   selector: 'query-state-root',
@@ -15,5 +19,8 @@ import { Component } from '@angular/core';
 
     <router-outlet></router-outlet>
   `,
+  standalone: true,
+  providers: [PokemonService],
+  imports: [RouterModule, JsonPipe, AsyncPipe, HttpClientModule],
 })
 export class AppComponent {}

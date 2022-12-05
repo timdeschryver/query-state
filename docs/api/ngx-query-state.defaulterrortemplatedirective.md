@@ -21,7 +21,7 @@ export declare class DefaultErrorTemplateDirective implements OnInit
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./ngx-query-state.defaulterrortemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[DefaultErrorTemplateDirective](./ngx-query-state.defaulterrortemplatedirective.md)<!-- -->, "\[qsDefaultError\]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never&gt; |  |
+|  [ɵdir](./ngx-query-state.defaulterrortemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[DefaultErrorTemplateDirective](./ngx-query-state.defaulterrortemplatedirective.md)<!-- -->, "\[qsDefaultError\]", never, { "qsDefaultError": "qsDefaultError"; }, {}, never, never, true, never&gt; |  |
 |  [ɵfac](./ngx-query-state.defaulterrortemplatedirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[DefaultErrorTemplateDirective](./ngx-query-state.defaulterrortemplatedirective.md)<!-- -->, \[null, { optional: true; }\]&gt; |  |
 |  [qsDefaultError](./ngx-query-state.defaulterrortemplatedirective.qsdefaulterror.md) |  | [QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;unknown&gt; |  |
 |  [ref?](./ngx-query-state.defaulterrortemplatedirective.ref.md) |  | ComponentRef&lt;[ErrorTemplateComponent](./ngx-query-state.errortemplatecomponent.md)<!-- -->&gt; | <i>(Optional)</i> |

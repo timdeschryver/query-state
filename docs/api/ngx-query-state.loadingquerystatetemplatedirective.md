@@ -20,7 +20,7 @@ export declare class LoadingQueryStateTemplateDirective
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [ɵdir](./ngx-query-state.loadingquerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[LoadingQueryStateTemplateDirective](./ngx-query-state.loadingquerystatetemplatedirective.md)<!-- -->, "ng-template\[qsLoading\]", never, {}, {}, never&gt; |  |
+|  [ɵdir](./ngx-query-state.loadingquerystatetemplatedirective._dir.md) | <code>static</code> | i0.ɵɵDirectiveDeclaration&lt;[LoadingQueryStateTemplateDirective](./ngx-query-state.loadingquerystatetemplatedirective.md)<!-- -->, "ng-template\[qsLoading\]", never, {}, {}, never, never, true, never&gt; |  |
 |  [ɵfac](./ngx-query-state.loadingquerystatetemplatedirective._fac.md) | <code>static</code> | i0.ɵɵFactoryDeclaration&lt;[LoadingQueryStateTemplateDirective](./ngx-query-state.loadingquerystatetemplatedirective.md)<!-- -->, never&gt; |  |
 |  [templateRef](./ngx-query-state.loadingquerystatetemplatedirective.templateref.md) |  | TemplateRef&lt;unknown&gt; |  |
 

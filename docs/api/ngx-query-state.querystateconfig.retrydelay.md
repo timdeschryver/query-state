@@ -4,10 +4,8 @@
 
 ## QueryStateConfig.retryDelay property
 
-Set the delay between the retries. Defaults to an exponential retry with a starting delay of 1 second.
-
 <b>Signature:</b>
 
 ```typescript
-retryDelay?: (retries: number) => number | Date;
+retryDelay?: (retries: number, error: unknown) => number | Date;
 ```

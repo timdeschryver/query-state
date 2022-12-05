@@ -7,22 +7,22 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function tapState<QueryData>(callbacks: {
+export declare function tapState<Result>(callbacks: {
     onError?: (error: unknown) => void;
     onIdle?: () => void;
     onLoading?: () => void;
     onRevalidate?: () => void;
-    onSuccess?: (data: QueryData) => void;
-}): MonoTypeOperatorFunction<QueryStateData<QueryData>>;
+    onSuccess?: (data: Result) => void;
+}): MonoTypeOperatorFunction<QueryStateData<Result>>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  callbacks | { onError?: (error: unknown) =&gt; void; onIdle?: () =&gt; void; onLoading?: () =&gt; void; onRevalidate?: () =&gt; void; onSuccess?: (data: QueryData) =&gt; void; } |  |
+|  callbacks | { onError?: (error: unknown) =&gt; void; onIdle?: () =&gt; void; onLoading?: () =&gt; void; onRevalidate?: () =&gt; void; onSuccess?: (data: Result) =&gt; void; } |  |
 
 <b>Returns:</b>
 
-MonoTypeOperatorFunction&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;QueryData&gt;&gt;
+MonoTypeOperatorFunction&lt;[QueryStateData](./ngx-query-state.querystatedata.md)<!-- -->&lt;Result&gt;&gt;
 
